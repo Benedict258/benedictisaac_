@@ -1,10 +1,24 @@
 
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Code, Globe, Smartphone, Database, ExternalLink, Github, Linkedin, Mail, Download, Zap, Wallet, TrendingUp } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Code, Globe, Smartphone, Database, ExternalLink, Github, Linkedin, Mail, Download, Zap, Wallet, TrendingUp, Menu, X, Moon, Sun, Rocket } from "lucide-react";
 
 const Index = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   const skills = [
     { name: "React", level: 90 },
     { name: "TypeScript", level: 85 },
@@ -62,45 +76,105 @@ const Index = () => {
     }
   ];
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-sky-50">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-space-bg transition-colors duration-500">
       {/* Navigation */}
-      <nav className="border-b border-border/40 bg-background/80 backdrop-blur-sm sticky top-0 z-50">
+      <nav className="border-b border-border/40 bg-background/80 backdrop-blur-lg sticky top-0 z-50 glass-effect">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-sky-600 rounded-lg flex items-center justify-center">
-              <Code className="w-5 h-5 text-white" />
+            <div className="w-8 h-8 bg-gradient-to-r from-sky-400 to-sky-600 rounded-lg flex items-center justify-center space-glow">
+              <Rocket className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-xl">Alex Developer</span>
+            <span className="font-bold text-xl gradient-text">Alex Cosmos</span>
           </div>
+          
+          {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <a href="#about" className="text-muted-foreground hover:text-sky-600 transition-colors">About</a>
-            <a href="#projects" className="text-muted-foreground hover:text-sky-600 transition-colors">Projects</a>
-            <a href="#experience" className="text-muted-foreground hover:text-sky-600 transition-colors">Experience</a>
-            <a href="#contact" className="text-muted-foreground hover:text-sky-600 transition-colors">Contact</a>
+            <a href="#about" className="text-muted-foreground hover:text-sky-400 transition-colors hover-glow">About</a>
+            <a href="#projects" className="text-muted-foreground hover:text-sky-400 transition-colors hover-glow">Projects</a>
+            <a href="#experience" className="text-muted-foreground hover:text-sky-400 transition-colors hover-glow">Experience</a>
+            <a href="#contact" className="text-muted-foreground hover:text-sky-400 transition-colors hover-glow">Contact</a>
+            <div className="flex items-center space-x-2 ml-4">
+              <Sun className="w-4 h-4" />
+              <Switch
+                checked={isDarkMode}
+                onCheckedChange={setIsDarkMode}
+                className="data-[state=checked]:bg-sky-600"
+              />
+              <Moon className="w-4 h-4" />
+            </div>
+          </div>
+
+          {/* Mobile Menu Button */}
+          <div className="md:hidden flex items-center space-x-2">
+            <div className="flex items-center space-x-2">
+              <Sun className="w-4 h-4" />
+              <Switch
+                checked={isDarkMode}
+                onCheckedChange={setIsDarkMode}
+                className="data-[state=checked]:bg-sky-600"
+              />
+              <Moon className="w-4 h-4" />
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleMobileMenu}
+              className="text-foreground hover:bg-sky-400/20"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
           </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-lg glass-effect">
+            <div className="container mx-auto px-4 py-4 space-y-2">
+              <a href="#about" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>About</a>
+              <a href="#projects" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>Projects</a>
+              <a href="#experience" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>Experience</a>
+              <a href="#contact" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>Contact</a>
+            </div>
+          </div>
+        )}
       </nav>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20 text-center">
+      {/* Hero Section with Avatar */}
+      <section className="container mx-auto px-4 py-20 text-center space-bg">
         <div className="max-w-4xl mx-auto">
-          <Badge variant="outline" className="mb-4 border-sky-300 text-sky-600 bg-sky-50">
+          <div className="mb-8 flex justify-center">
+            <Avatar className="w-32 h-32 md:w-40 md:h-40 ring-4 ring-sky-400/50 ring-offset-4 ring-offset-background space-glow">
+              <AvatarImage src="/placeholder.svg" alt="Profile" />
+              <AvatarFallback className="bg-gradient-to-r from-sky-400 to-sky-600 text-white text-2xl md:text-3xl font-bold">
+                AC
+              </AvatarFallback>
+            </Avatar>
+          </div>
+          
+          <Badge variant="outline" className="mb-4 border-sky-300 text-sky-400 bg-sky-50/50 dark:bg-sky-950/50 backdrop-blur-sm">
             <Wallet className="w-3 h-3 mr-1" />
             Blockchain Developer
           </Badge>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-sky-600 via-sky-500 to-primary bg-clip-text text-transparent">
+          
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 gradient-text space-text">
             Building the Future
           </h1>
+          
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
             Full-stack developer specializing in blockchain technology, SUI ecosystem, and modern web applications
           </p>
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-sky-600 hover:bg-sky-700 group">
+            <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 group space-glow">
               <Download className="w-4 h-4 mr-2" />
               Download Resume
             </Button>
-            <Button variant="outline" size="lg" className="border-sky-300 text-sky-600 hover:bg-sky-50">
+            <Button variant="outline" size="lg" className="border-sky-300 text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50 glass-button">
               <Mail className="w-4 h-4 mr-2" />
               Get In Touch
             </Button>
@@ -111,9 +185,9 @@ const Index = () => {
       {/* About Section */}
       <section id="about" className="container mx-auto px-4 py-20">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">About Me</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center gradient-text">About Me</h2>
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="glass-card p-6 rounded-xl">
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
                 I'm a passionate blockchain developer with 3+ years of experience building decentralized applications. 
                 I specialize in the SUI ecosystem, creating innovative DeFi solutions and smart contracts.
@@ -124,27 +198,27 @@ const Index = () => {
                 user-friendly interfaces.
               </p>
               <div className="flex gap-4">
-                <Button variant="outline" size="sm" className="border-sky-300 text-sky-600 hover:bg-sky-50">
+                <Button variant="outline" size="sm" className="border-sky-300 text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50 glass-button">
                   <Github className="w-4 h-4 mr-2" />
                   GitHub
                 </Button>
-                <Button variant="outline" size="sm" className="border-sky-300 text-sky-600 hover:bg-sky-50">
+                <Button variant="outline" size="sm" className="border-sky-300 text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50 glass-button">
                   <Linkedin className="w-4 h-4 mr-2" />
                   LinkedIn
                 </Button>
               </div>
             </div>
             <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-4">Skills</h3>
+              <h3 className="text-xl font-semibold mb-4 gradient-text">Skills</h3>
               {skills.map((skill, index) => (
                 <div key={index} className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-sm font-medium">{skill.name}</span>
                     <span className="text-sm text-muted-foreground">{skill.level}%</span>
                   </div>
-                  <div className="w-full bg-secondary rounded-full h-2">
+                  <div className="w-full bg-secondary/50 rounded-full h-2 backdrop-blur-sm">
                     <div 
-                      className="bg-gradient-to-r from-sky-400 to-sky-600 h-2 rounded-full transition-all duration-1000"
+                      className="bg-gradient-to-r from-sky-400 to-sky-600 h-2 rounded-full transition-all duration-1000 space-glow"
                       style={{ width: `${skill.level}%` }}
                     />
                   </div>
@@ -156,20 +230,20 @@ const Index = () => {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="container mx-auto px-4 py-20 bg-muted/30">
+      <section id="projects" className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Featured Projects</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Featured Projects</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             Showcasing my latest work in blockchain development and web applications
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {projects.map((project, index) => (
-            <Card key={index} className="border-border/50 hover:shadow-lg hover:border-sky-200 transition-all duration-300">
+            <Card key={index} className="glass-card border-border/50 hover:border-sky-200/50 transition-all duration-300 space-glow-hover">
               <CardHeader>
                 <div className="flex items-center justify-between mb-2">
                   <CardTitle className="text-lg">{project.title}</CardTitle>
-                  <Badge variant={project.status === "Live" ? "default" : "secondary"} className={project.status === "Live" ? "bg-sky-600" : ""}>
+                  <Badge variant={project.status === "Live" ? "default" : "secondary"} className={project.status === "Live" ? "bg-gradient-to-r from-sky-500 to-sky-600" : ""}>
                     {project.status}
                   </Badge>
                 </div>
@@ -178,17 +252,17 @@ const Index = () => {
               <CardContent>
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tech.map((tech, techIndex) => (
-                    <Badge key={techIndex} variant="outline" className="text-xs border-sky-200 text-sky-700">
+                    <Badge key={techIndex} variant="outline" className="text-xs border-sky-200/50 text-sky-400 bg-sky-50/20 dark:bg-sky-950/30">
                       {tech}
                     </Badge>
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="flex-1 border-sky-300 text-sky-600 hover:bg-sky-50">
+                  <Button variant="outline" size="sm" className="flex-1 border-sky-300/50 text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50 glass-button">
                     <Github className="w-3 h-3 mr-2" />
                     Code
                   </Button>
-                  <Button variant="outline" size="sm" className="flex-1 border-sky-300 text-sky-600 hover:bg-sky-50">
+                  <Button variant="outline" size="sm" className="flex-1 border-sky-300/50 text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50 glass-button">
                     <ExternalLink className="w-3 h-3 mr-2" />
                     Live
                   </Button>
@@ -202,21 +276,21 @@ const Index = () => {
       {/* Experience Section */}
       <section id="experience" className="container mx-auto px-4 py-20">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Experience</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Experience</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
             My journey in blockchain and web development
           </p>
         </div>
         <div className="max-w-3xl mx-auto space-y-6">
           {experience.map((exp, index) => (
-            <Card key={index} className="border-border/50 hover:border-sky-200 transition-colors">
+            <Card key={index} className="glass-card border-border/50 hover:border-sky-200/50 transition-colors">
               <CardHeader>
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                   <div>
-                    <CardTitle className="text-lg text-sky-700">{exp.role}</CardTitle>
+                    <CardTitle className="text-lg text-sky-400">{exp.role}</CardTitle>
                     <CardDescription className="text-base font-medium">{exp.company}</CardDescription>
                   </div>
-                  <Badge variant="outline" className="mt-2 md:mt-0 border-sky-200 text-sky-600">
+                  <Badge variant="outline" className="mt-2 md:mt-0 border-sky-200/50 text-sky-400 bg-sky-50/20 dark:bg-sky-950/30">
                     {exp.period}
                   </Badge>
                 </div>
@@ -230,18 +304,18 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="container mx-auto px-4 py-20 text-center bg-gradient-to-r from-sky-50 via-background to-sky-50">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Let's Build Together</h2>
+      <section id="contact" className="container mx-auto px-4 py-20 text-center">
+        <div className="max-w-3xl mx-auto glass-card p-8 rounded-xl">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 gradient-text">Let's Build the Future Together</h2>
           <p className="text-muted-foreground text-lg mb-8">
             Ready to bring your blockchain project to life? Let's discuss how we can work together.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-sky-600 hover:bg-sky-700">
+            <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 space-glow">
               <Mail className="w-4 h-4 mr-2" />
               Email Me
             </Button>
-            <Button variant="outline" size="lg" className="border-sky-300 text-sky-600 hover:bg-sky-50">
+            <Button variant="outline" size="lg" className="border-sky-300/50 text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50 glass-button">
               <TrendingUp className="w-4 h-4 mr-2" />
               Schedule Call
             </Button>
@@ -250,24 +324,24 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-border/40 bg-background/80 backdrop-blur-sm">
+      <footer className="border-t border-border/40 bg-background/80 backdrop-blur-lg glass-effect">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="w-6 h-6 bg-gradient-to-r from-sky-400 to-sky-600 rounded flex items-center justify-center">
-                <Code className="w-4 h-4 text-white" />
+              <div className="w-6 h-6 bg-gradient-to-r from-sky-400 to-sky-600 rounded flex items-center justify-center space-glow">
+                <Rocket className="w-4 h-4 text-white" />
               </div>
-              <span className="font-semibold">Alex Developer</span>
+              <span className="font-semibold gradient-text">Alex Cosmos</span>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" className="text-sky-600 hover:bg-sky-50">
+              <Button variant="ghost" size="sm" className="text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50">
                 <Github className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="sm" className="text-sky-600 hover:bg-sky-50">
+              <Button variant="ghost" size="sm" className="text-sky-400 hover:bg-sky-50/50 dark:hover:bg-sky-950/50">
                 <Linkedin className="w-4 h-4" />
               </Button>
               <span className="text-sm text-muted-foreground">
-                © 2024 Alex Developer. Built with passion for blockchain.
+                © 2024 Alex Cosmos. Built with passion for the future.
               </span>
             </div>
           </div>
