@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -37,20 +38,25 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* SUI-inspired sky blue colors */
+    --sky-50: 240 100% 98%;
+    --sky-100: 224 100% 95%;
+    --sky-200: 213 94% 88%;
+    --sky-300: 204 94% 78%;
+    --sky-400: 199 89% 64%;
+    --sky-500: 195 100% 50%;
+    --sky-600: 201 96% 45%;
+    --sky-700: 201 90% 37%;
+    --sky-800: 201 83% 31%;
+    --sky-900: 202 80% 24%;
   }
 
   .dark {
@@ -89,6 +95,18 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Dark mode sky blue colors */
+    --sky-50: 240 23% 9%;
+    --sky-100: 237 32% 12%;
+    --sky-200: 235 45% 18%;
+    --sky-300: 233 54% 25%;
+    --sky-400: 230 58% 34%;
+    --sky-500: 224 64% 44%;
+    --sky-600: 213 94% 68%;
+    --sky-700: 204 94% 78%;
+    --sky-800: 213 94% 88%;
+    --sky-900: 224 100% 95%;
   }
 }
 
@@ -100,4 +118,36 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom animations for crypto/blockchain theme */
+@keyframes crypto-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.crypto-pulse {
+  animation: crypto-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Gradient text animation */
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animated-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
 }
