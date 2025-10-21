@@ -19,36 +19,83 @@ const Index = () => {
     }
   }, [isDarkMode]);
 
-  const skills = [
-    { name: "React", level: 90 },
-    { name: "TypeScript", level: 85 },
-    { name: "SUI Move", level: 80 },
-    { name: "Solidity", level: 75 },
-    { name: "Node.js", level: 85 },
-    { name: "Python", level: 70 }
-  ];
+  const skillCategories = {
+    "Core Technical Skills": [
+      "Frontend Development",
+      "Backend Development",
+      "RESTful API Integration",
+      "Responsive UI Design",
+      "Database Management (MongoDB)",
+      "Embedded Programming (C/C++)",
+      "Python Development",
+      "Blockchain & Web3 Development",
+      "IoT Systems & Automation"
+    ],
+    "Tools & Frameworks": [
+      "React.js",
+      "Next.js",
+      "HTML5 & CSS3",
+      "Node.js",
+      "Express.js",
+      "Tailwind CSS",
+      "Git & GitHub",
+      "MATLAB",
+      "VS Code"
+    ],
+    "Core Competencies": [
+      "Problem Solving & Debugging",
+      "Software Architecture & Optimization",
+      "Innovation & System Design",
+      "Cross-Functional Collaboration",
+      "Technical Documentation",
+      "Open-Source Contribution"
+    ],
+    "Emerging Focus Areas": [
+      "Artificial Intelligence (AI)",
+      "Machine Learning (ML)",
+      "Blockchain Integration",
+      "Internet of Things (IoT)",
+      "Mechatronics-Driven Software"
+    ]
+  };
 
   const projects = [
     {
-      title: "SUI DeFi Dashboard",
-      description: "Real-time portfolio tracker for SUI blockchain assets with advanced analytics",
-      tech: ["React", "SUI SDK", "TypeScript", "Chart.js"],
+      title: "Scynk.io",
+      description: "Email scraping and automation platform that streamlines data collection and outreach for marketing operations, improving workflow efficiency.",
+      tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
       github: "#",
       live: "#",
       status: "Live"
     },
     {
-      title: "NFT Marketplace",
-      description: "Decentralized marketplace for trading digital assets on SUI network",
-      tech: ["Next.js", "SUI Move", "Tailwind", "IPFS"],
+      title: "Flux",
+      description: "Intelligent product launch operating system helping startups and creators manage, schedule, and track product rollouts with real-time collaboration.",
+      tech: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS"],
       github: "#",
       live: "#",
       status: "Development"
     },
     {
-      title: "Crypto Wallet Interface",
-      description: "Modern wallet UI with seamless SUI integration and multi-chain support",
-      tech: ["React", "Web3", "Ethers.js", "Material-UI"],
+      title: "Blacksite",
+      description: "Anonymous chat platform enabling users to create secure rooms and interact without identity exposure, enhancing online privacy through decentralized communication.",
+      tech: ["React.js", "WebSocket", "Node.js", "Express.js"],
+      github: "#",
+      live: "#",
+      status: "Live"
+    },
+    {
+      title: "SUIrify",
+      description: "Zero-knowledge sovereign identity protocol on Sui blockchain, allowing users to prove identity without exposing personal data using reusable digital credentials.",
+      tech: ["Rust", "TypeScript", "Sui Blockchain", "zk-Proofs"],
+      github: "#",
+      live: "#",
+      status: "Development"
+    },
+    {
+      title: "TendX",
+      description: "Intelligent attendance management system using automation and analytics for event and institutional tracking, improving record accuracy and engagement.",
+      tech: ["Node.js", "Express.js", "React.js", "MongoDB"],
       github: "#",
       live: "#",
       status: "Live"
@@ -57,22 +104,25 @@ const Index = () => {
 
   const experience = [
     {
-      role: "Blockchain Developer",
-      company: "SUI Ecosystem",
-      period: "2023 - Present",
-      description: "Building DeFi applications and smart contracts on SUI blockchain"
+      role: "Frontend Developer",
+      company: "SuiOnCampus Team",
+      location: "Minna, NG",
+      period: "Jul 2025 - Present",
+      description: "Designed highly interactive user interfaces using modern frameworks, achieving 30% increase in user engagement. Led design and content strategy for multiple web pages, collaborating cross-functionally to deliver features 20% faster while continually upskilling in emerging technologies."
+    },
+    {
+      role: "Volunteer",
+      company: "Next-Gen Innovators",
+      location: "Minna, NG",
+      period: "Aug 2025",
+      description: "Organized and led interactive programs introducing 50+ students to IoT, embedded systems, and coding fundamentals. Facilitated hands-on workshops fostering innovation and problem-solving confidence, contributing to a community of young tech innovators."
     },
     {
       role: "Frontend Developer",
-      company: "Crypto Startup",
-      period: "2022 - 2023",
-      description: "Developed trading interfaces and wallet integrations"
-    },
-    {
-      role: "Full Stack Developer",
-      company: "Tech Company",
-      period: "2021 - 2022",
-      description: "Built web applications with modern JavaScript frameworks"
+      company: "Pathway Scholars",
+      location: "Remote",
+      period: "Nov 2024 - Feb 2025",
+      description: "Developed responsive web applications enhancing mobile engagement by 35%. Integrated RESTful APIs improving system reliability by 25% and optimized performance reducing page load time by 40%, collaborating with UI/UX designers to boost user satisfaction."
     }
   ];
 
@@ -89,7 +139,7 @@ const Index = () => {
             <div className="w-8 h-8 bg-gradient-to-r from-sky-500 to-sky-600 rounded-lg flex items-center justify-center">
               <Rocket className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-xl text-foreground">Alex Cosmos</span>
+            <span className="font-bold text-xl text-foreground">Benedict Isaac</span>
           </div>
           
           {/* Desktop Navigation */}
@@ -151,22 +201,22 @@ const Index = () => {
             <Avatar className="w-32 h-32 md:w-40 md:h-40 ring-2 ring-sky-500/30 ring-offset-4 ring-offset-background">
               <AvatarImage src="/placeholder.svg" alt="Profile" />
               <AvatarFallback className="bg-gradient-to-br from-sky-500 to-sky-600 text-white text-2xl md:text-3xl font-bold">
-                AC
+                BI
               </AvatarFallback>
             </Avatar>
           </div>
           
           <Badge variant="outline" className="mb-6 border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/50 dark:bg-sky-950/30">
-            <Wallet className="w-3 h-3 mr-1" />
-            Blockchain Developer
+            <Code className="w-3 h-3 mr-1" />
+            Frontend Developer | Full Stack Journey
           </Badge>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-sky-600 to-foreground bg-clip-text text-transparent">
-            Building the Future
+            Turning Ideas into Scalable Systems
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-            Full-stack developer specializing in blockchain technology, SUI ecosystem, and modern web applications
+            Mechatronics Engineering student passionate about building digital solutions that merge hardware innovation with software excellence
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -189,13 +239,10 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="glass-card p-6 rounded-xl">
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                I'm a passionate blockchain developer with 3+ years of experience building decentralized applications. 
-                I specialize in the SUI ecosystem, creating innovative DeFi solutions and smart contracts.
+                I'm a Frontend Developer on a Full Stack Journey and Mechatronics Engineering student passionate about building scalable digital solutions that merge engineering principles with software innovation. Skilled in JavaScript, React, Node.js, and Python, I create responsive, efficient, and user-centered applications.
               </p>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                My expertise spans from frontend development with React and TypeScript to smart contract development 
-                with SUI Move and Solidity. I love bridging the gap between complex blockchain technology and 
-                user-friendly interfaces.
+                My work bridges hardware and software through IoT, AI, and blockchain explorations, driven by curiosity and a commitment to real-world impact. I thrive in collaborative environments where problem-solving, creativity, and continuous learning shape meaningful products. With a growing portfolio of projects, I bring technical depth, innovation, and a mission to build technology that empowers and transforms communities.
               </p>
               <div className="flex gap-4">
                 <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
@@ -208,19 +255,21 @@ const Index = () => {
                 </Button>
               </div>
             </div>
-            <div className="space-y-4">
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Skills</h3>
-              {skills.map((skill, index) => (
-                <div key={index} className="space-y-2">
-                  <div className="flex justify-between">
-                    <span className="text-sm font-medium">{skill.name}</span>
-                    <span className="text-sm text-muted-foreground">{skill.level}%</span>
-                  </div>
-                  <div className="w-full bg-secondary/50 rounded-full h-2">
-                    <div 
-                      className="bg-gradient-to-r from-sky-500 to-sky-600 h-2 rounded-full transition-all duration-1000"
-                      style={{ width: `${skill.level}%` }}
-                    />
+            <div className="space-y-6">
+              <h3 className="text-xl font-semibold mb-4 text-foreground">Technical Expertise</h3>
+              {Object.entries(skillCategories).map(([category, skills], index) => (
+                <div key={index} className="space-y-3">
+                  <h4 className="text-sm font-semibold text-sky-600 dark:text-sky-400 uppercase tracking-wide">{category}</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {skills.map((skill, skillIndex) => (
+                      <Badge 
+                        key={skillIndex} 
+                        variant="outline" 
+                        className="text-xs border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/30 dark:bg-sky-950/20"
+                      >
+                        {skill}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -288,7 +337,9 @@ const Index = () => {
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between">
                   <div>
                     <CardTitle className="text-lg text-sky-600 dark:text-sky-400">{exp.role}</CardTitle>
-                    <CardDescription className="text-base font-medium">{exp.company}</CardDescription>
+                    <CardDescription className="text-base font-medium">
+                      {exp.company} • {exp.location}
+                    </CardDescription>
                   </div>
                   <Badge variant="outline" className="mt-2 md:mt-0 border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/30 dark:bg-sky-950/20">
                     {exp.period}
@@ -306,9 +357,9 @@ const Index = () => {
       {/* Contact Section */}
       <section id="contact" className="container mx-auto px-4 py-20 text-center">
         <div className="max-w-3xl mx-auto glass-card p-8 rounded-xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Let's Build the Future Together</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Let's Build Something Great Together</h2>
           <p className="text-muted-foreground text-lg mb-8">
-            Ready to bring your blockchain project to life? Let's discuss how we can work together.
+            Ready to collaborate on innovative software solutions? Let's connect and bring your vision to life.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-lg hover:shadow-sky-500/20 transition-all">
@@ -331,7 +382,7 @@ const Index = () => {
               <div className="w-6 h-6 bg-gradient-to-r from-sky-500 to-sky-600 rounded flex items-center justify-center">
                 <Rocket className="w-4 h-4 text-white" />
               </div>
-              <span className="font-semibold text-foreground">Alex Cosmos</span>
+              <span className="font-semibold text-foreground">Benedict Isaac</span>
             </div>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" className="text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
@@ -341,7 +392,7 @@ const Index = () => {
                 <Linkedin className="w-4 h-4" />
               </Button>
               <span className="text-sm text-muted-foreground">
-                © 2024 Alex Cosmos. Built with passion for the future.
+                © 2025 Benedict Isaac. Built with passion and innovation.
               </span>
             </div>
           </div>
