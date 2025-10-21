@@ -8,8 +8,9 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Code, Globe, Smartphone, Database, ExternalLink, Github, Linkedin, Mail, Download, Zap, Wallet, TrendingUp, Menu, X, Moon, Sun, Rocket } from "lucide-react";
 
 const Index = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeAvatar, setActiveAvatar] = useState<'ben' | 'pic1'>('pic1');
 
   useEffect(() => {
     if (isDarkMode) {
@@ -18,6 +19,15 @@ const Index = () => {
       document.documentElement.classList.remove('dark');
     }
   }, [isDarkMode]);
+
+  // no avatar swapping - using single ben.png
+  // swap between ben.png and pic1.jpg every 20 seconds
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActiveAvatar(prev => (prev === 'ben' ? 'pic1' : 'ben'));
+    }, 20000);
+    return () => clearInterval(id);
+  }, []);
 
   const skillCategories = {
     "Core Technical Skills": [
@@ -64,8 +74,8 @@ const Index = () => {
       title: "Scynk.io",
       description: "Email scraping and automation platform that streamlines data collection and outreach for marketing operations, improving workflow efficiency.",
       tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
-      github: "#",
-      live: "#",
+      github: "https://github.com/Benedict258/scrynk-io",
+      live: "https://scrnk-io-5wyj.onrender.com/",
       status: "Live"
     },
     {
@@ -80,8 +90,8 @@ const Index = () => {
       title: "Blacksite",
       description: "Anonymous chat platform enabling users to create secure rooms and interact without identity exposure, enhancing online privacy through decentralized communication.",
       tech: ["React.js", "WebSocket", "Node.js", "Express.js"],
-      github: "#",
-      live: "#",
+      github: "https://github.com/Benedict258/-BLACKSITE",
+      live: "https://blacksite-l3ii.onrender.com/",
       status: "Live"
     },
     {
@@ -89,15 +99,15 @@ const Index = () => {
       description: "Zero-knowledge sovereign identity protocol on Sui blockchain, allowing users to prove identity without exposing personal data using reusable digital credentials.",
       tech: ["Rust", "TypeScript", "Sui Blockchain", "zk-Proofs"],
       github: "#",
-      live: "#",
+      live: "https://suirify.onrender.com/",
       status: "Development"
     },
     {
       title: "TendX",
       description: "Intelligent attendance management system using automation and analytics for event and institutional tracking, improving record accuracy and engagement.",
       tech: ["Node.js", "Express.js", "React.js", "MongoDB"],
-      github: "#",
-      live: "#",
+      github: "https://github.com/Benedict258/tendx",
+      live: "https://tendx.onrender.com/",
       status: "Live"
     }
   ];
@@ -136,7 +146,7 @@ const Index = () => {
       <nav className="border-b border-border/40 bg-background/80 backdrop-blur-lg sticky top-0 z-50 glass-effect">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-sky-500 to-sky-600 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center logo-pulse">
               <Rocket className="w-5 h-5 text-white" />
             </div>
             <span className="font-bold text-xl text-foreground">Benedict Isaac</span>
@@ -198,8 +208,8 @@ const Index = () => {
       <section className="container mx-auto px-4 py-20 text-center space-bg">
         <div className="max-w-4xl mx-auto">
           <div className="mb-8 flex justify-center">
-            <Avatar className="w-32 h-32 md:w-40 md:h-40 ring-2 ring-sky-500/30 ring-offset-4 ring-offset-background">
-              <AvatarImage src="/placeholder.svg" alt="Profile" />
+            <Avatar className="w-32 h-32 md:w-40 md:h-40 ring-2 ring-sky-500/30 ring-offset-4 ring-offset-background overflow-hidden">
+              <AvatarImage className="object-cover w-full h-full" src={activeAvatar === 'ben' ? '/ben.png' : '/pic1.jpg'} alt="Profile" />
               <AvatarFallback className="bg-gradient-to-br from-sky-500 to-sky-600 text-white text-2xl md:text-3xl font-bold">
                 BI
               </AvatarFallback>
@@ -220,10 +230,12 @@ const Index = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-lg hover:shadow-sky-500/20 transition-all">
-              <Download className="w-4 h-4 mr-2" />
-              Download Resume
-            </Button>
+            <a href="/benedictResume.pdf" download className="inline-block">
+              <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-lg hover:shadow-sky-500/20 transition-all">
+                <Download className="w-4 h-4 mr-2" />
+                Download Resume
+              </Button>
+            </a>
             <Button variant="outline" size="lg" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
               <Mail className="w-4 h-4 mr-2" />
               Get In Touch
@@ -245,14 +257,24 @@ const Index = () => {
                 My work bridges hardware and software through IoT, AI, and blockchain explorations, driven by curiosity and a commitment to real-world impact. I thrive in collaborative environments where problem-solving, creativity, and continuous learning shape meaningful products. With a growing portfolio of projects, I bring technical depth, innovation, and a mission to build technology that empowers and transforms communities.
               </p>
               <div className="flex gap-4">
-                <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                  <Github className="w-4 h-4 mr-2" />
-                  GitHub
-                </Button>
-                <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                  <Linkedin className="w-4 h-4 mr-2" />
-                  LinkedIn
-                </Button>
+                <a href="https://github.com/Benedict258/" target="_blank" rel="noreferrer">
+                  <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
+                    <Github className="w-4 h-4 mr-2" />
+                    GitHub
+                  </Button>
+                </a>
+                <a href="https://www.linkedin.com/in/benedict-isaac-0b60a732b/" target="_blank" rel="noreferrer">
+                  <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
+                    <Linkedin className="w-4 h-4 mr-2" />
+                    LinkedIn
+                  </Button>
+                </a>
+                <a href="https://x.com/DevChronicles_" target="_blank" rel="noreferrer">
+                  <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
+                    <X className="w-4 h-4 mr-2" />
+                    X
+                  </Button>
+                </a>
               </div>
             </div>
             <div className="space-y-6">
@@ -307,14 +329,18 @@ const Index = () => {
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" className="flex-1 border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                    <Github className="w-3 h-3 mr-2" />
-                    Code
-                  </Button>
-                  <Button variant="outline" size="sm" className="flex-1 border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                    <ExternalLink className="w-3 h-3 mr-2" />
-                    Live
-                  </Button>
+                  <a href={project.github} target="_blank" rel="noreferrer" className="flex-1">
+                    <Button variant="outline" size="sm" className="w-full flex-1 border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
+                      <Github className="w-3 h-3 mr-2" />
+                      Code
+                    </Button>
+                  </a>
+                  <a href={project.live} target="_blank" rel="noreferrer" className="flex-1">
+                    <Button variant="outline" size="sm" className="w-full flex-1 border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
+                      <ExternalLink className="w-3 h-3 mr-2" />
+                      Live
+                    </Button>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -362,14 +388,18 @@ const Index = () => {
             Ready to collaborate on innovative software solutions? Let's connect and bring your vision to life.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-lg hover:shadow-sky-500/20 transition-all">
-              <Mail className="w-4 h-4 mr-2" />
-              Email Me
-            </Button>
-            <Button variant="outline" size="lg" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-              <TrendingUp className="w-4 h-4 mr-2" />
-              Schedule Call
-            </Button>
+            <a href="mailto:benedictisaac258@gmail.com" className="inline-block">
+              <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-lg hover:shadow-sky-500/20 transition-all">
+                <Mail className="w-4 h-4 mr-2" />
+                Email Me
+              </Button>
+            </a>
+            <a href="tel:+2348130664138" className="inline-block">
+              <Button variant="outline" size="lg" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
+                <TrendingUp className="w-4 h-4 mr-2" />
+                Schedule Call
+              </Button>
+            </a>
           </div>
         </div>
       </section>
@@ -379,7 +409,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="w-6 h-6 bg-gradient-to-r from-sky-500 to-sky-600 rounded flex items-center justify-center">
+              <div className="w-6 h-6 bg-gradient-to-r from-sky-500 to-sky-600 rounded flex items-center justify-center logo-pulse">
                 <Rocket className="w-4 h-4 text-white" />
               </div>
               <span className="font-semibold text-foreground">Benedict Isaac</span>

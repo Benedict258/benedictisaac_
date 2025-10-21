@@ -18,6 +18,24 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.logo-pulse {
+  width: 2rem;
+  height: 2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  box-shadow: 0 0 0 rgba(59,130,246,0.0);
+  animation: pulse 2.6s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.0); filter: brightness(0.9); }
+  40% { box-shadow: 0 0 20px 6px rgba(59,130,246,0.18); filter: brightness(1.12); }
+  70% { box-shadow: 0 0 8px 3px rgba(59,130,246,0.12); filter: brightness(1.02); }
+  100% { box-shadow: 0 0 0 0 rgba(59,130,246,0.0); filter: brightness(0.94); }
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
