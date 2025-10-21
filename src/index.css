@@ -149,17 +149,17 @@
   }
 
   .glass-card {
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   }
 
   .dark .glass-card {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   }
 
   .glass-button {
@@ -168,16 +168,10 @@
   }
 
   .gradient-text {
-    background: linear-gradient(135deg, hsl(var(--sky-400)), hsl(var(--sky-600)), hsl(var(--space-accent)));
+    background: linear-gradient(135deg, hsl(var(--sky-400)), hsl(var(--sky-600)));
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
-    background-size: 200% 200%;
-    animation: gradient-shift 3s ease infinite;
-  }
-
-  .space-text {
-    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
   }
 
   .space-bg {
@@ -188,30 +182,6 @@
     background: radial-gradient(ellipse at top, hsl(var(--sky-50)) 0%, hsl(var(--space-bg)) 50%);
   }
 
-  .space-glow {
-    box-shadow: 
-      0 0 20px rgba(59, 130, 246, 0.3),
-      0 0 40px rgba(59, 130, 246, 0.1);
-  }
-
-  .space-glow-hover {
-    transition: all 0.3s ease;
-  }
-
-  .space-glow-hover:hover {
-    box-shadow: 
-      0 0 30px rgba(59, 130, 246, 0.4),
-      0 0 60px rgba(59, 130, 246, 0.2);
-    transform: translateY(-2px);
-  }
-
-  .hover-glow {
-    transition: all 0.3s ease;
-  }
-
-  .hover-glow:hover {
-    text-shadow: 0 0 10px currentColor;
-  }
 }
 
 /* Custom animations for crypto/blockchain theme */
@@ -228,23 +198,6 @@
   animation: crypto-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-/* Gradient text animation */
-@keyframes gradient-shift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-.animated-gradient {
-  background-size: 200% 200%;
-  animation: gradient-shift 3s ease infinite;
-}
 
 /* Floating particles animation */
 @keyframes float {
@@ -260,19 +213,6 @@
   animation: float 3s ease-in-out infinite;
 }
 
-/* Neon glow effects */
-@keyframes neon-glow {
-  0%, 100% {
-    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor, 0 0 15px currentColor;
-  }
-  50% {
-    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
-  }
-}
-
-.neon-glow {
-  animation: neon-glow 2s ease-in-out infinite alternate;
-}
 
 /* Responsive design improvements */
 @media (max-width: 768px) {
