@@ -71,6 +71,22 @@ const Index = () => {
 
   const projects = [
     {
+      title: "HaloAI Agent",
+      description: "AI-powered WhatsApp copilot for MSMEs, enabling conversational order management, CRM automation, and customer support with human-like interactions and privacy-first data handling.",
+      tech: ["FastAPI", "Python", "OpenAI/LLMs", "Twilio", "PostgreSQL"],
+      github: "#",
+      live: "#",
+      status: "Live"
+    },
+    {
+      title: "Suirify",
+      description: "Zero-knowledge sovereign identity protocol on Sui blockchain, allowing users to prove identity without exposing personal data using reusable digital credentials for compliant DeFi.",
+      tech: ["Rust", "TypeScript", "Sui Blockchain", "zk-Proofs"],
+      github: "#",
+      live: "https://suirify.onrender.com/",
+      status: "Development"
+    },
+    {
       title: "Scynk.io",
       description: "Email scraping and automation platform that streamlines data collection and outreach for marketing operations, improving workflow efficiency.",
       tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
@@ -80,7 +96,7 @@ const Index = () => {
     },
     {
       title: "Flux",
-      description: "Intelligent product launch operating system helping startups and creators manage, schedule, and track product rollouts with real-time collaboration.",
+      description: "Intelligent product launch operating system helping startups and creators manage, schedule, and track product rollouts with real-time collaboration and analytics.",
       tech: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS"],
       github: "#",
       live: "#",
@@ -95,14 +111,6 @@ const Index = () => {
       status: "Live"
     },
     {
-      title: "SUIrify",
-      description: "Zero-knowledge sovereign identity protocol on Sui blockchain, allowing users to prove identity without exposing personal data using reusable digital credentials.",
-      tech: ["Rust", "TypeScript", "Sui Blockchain", "zk-Proofs"],
-      github: "#",
-      live: "https://suirify.onrender.com/",
-      status: "Development"
-    },
-    {
       title: "TendX",
       description: "Intelligent attendance management system using automation and analytics for event and institutional tracking, improving record accuracy and engagement.",
       tech: ["Node.js", "Express.js", "React.js", "MongoDB"],
@@ -113,6 +121,13 @@ const Index = () => {
   ];
 
   const experience = [
+    {
+      role: "Frontend Developer & Protocol Team",
+      company: "GDG Minna DevFest",
+      location: "Minna, NG",
+      period: "Nov 2025",
+      description: "Built responsive DevFest event website consolidating registration, agenda, and speaker details. Developed interactive schedule and speaker components improving attendee engagement. Optimized frontend performance and accessibility for cross-device experience while supporting event protocols and on-site execution."
+    },
     {
       role: "Frontend Developer",
       company: "SuiOnCampus Team",
@@ -218,7 +233,7 @@ const Index = () => {
           
           <Badge variant="outline" className="mb-6 border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/50 dark:bg-sky-950/30">
             <Code className="w-3 h-3 mr-1" />
-            Frontend Developer | Full Stack Journey
+            Full Stack & AI Developer | Mechatronics Engineer
           </Badge>
           
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-sky-600 to-foreground bg-clip-text text-transparent">
@@ -226,7 +241,7 @@ const Index = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-            Mechatronics Engineering student passionate about building digital solutions that merge hardware innovation with software excellence
+            Full Stack & AI Developer passionate about building scalable digital solutions that merge engineering principles with software innovation
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -251,7 +266,7 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="glass-card p-6 rounded-xl">
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                I'm a Frontend Developer on a Full Stack Journey and Mechatronics Engineering student passionate about building scalable digital solutions that merge engineering principles with software innovation. Skilled in JavaScript, React, Node.js, and Python, I create responsive, efficient, and user-centered applications.
+                I'm a Full Stack & AI Developer and Mechatronics Engineering student passionate about building scalable digital solutions that merge engineering principles with software innovation. Skilled in JavaScript, React, Node.js, Python, and AI-driven technologies, I create responsive, efficient, and user-centered applications.
               </p>
               <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
                 My work bridges hardware and software through IoT, AI, and blockchain explorations, driven by curiosity and a commitment to real-world impact. I thrive in collaborative environments where problem-solving, creativity, and continuous learning shape meaningful products. With a growing portfolio of projects, I bring technical depth, innovation, and a mission to build technology that empowers and transforms communities.
@@ -305,7 +320,7 @@ const Index = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Featured Projects</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Showcasing my latest work in blockchain development and web applications
+            Showcasing my latest work in AI, blockchain, and web applications
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -353,7 +368,7 @@ const Index = () => {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Experience</h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            My journey in blockchain and web development
+            My journey in full stack, AI, and web development
           </p>
         </div>
         <div className="max-w-3xl mx-auto space-y-6">
@@ -394,7 +409,7 @@ const Index = () => {
                 Email Me
               </Button>
             </a>
-            <a href="tel:+2348130664138" className="inline-block">
+            <a href="tel:+2349048377499" className="inline-block">
               <Button variant="outline" size="lg" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
                 <TrendingUp className="w-4 h-4 mr-2" />
                 Schedule Call
