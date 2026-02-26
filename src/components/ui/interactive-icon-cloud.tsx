@@ -4,11 +4,42 @@ import { useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
 import {
   Cloud,
-  fetchSimpleIcons,
   ICloud,
   renderSimpleIcon,
   SimpleIcon,
 } from "react-icon-cloud";
+import {
+  siAndroid,
+  siAndroidstudio,
+  siCss,
+  siCypress,
+  siDart,
+  siDocker,
+  siExpress,
+  siFigma,
+  siFirebase,
+  siFlutter,
+  siGit,
+  siGithub,
+  siGitlab,
+  siHtml5,
+  siJavascript,
+  siJest,
+  siJira,
+  siNextdotjs,
+  siNginx,
+  siNodedotjs,
+  siOpenjdk,
+  siPostgresql,
+  siPrisma,
+  siReact,
+  siTestinglibrary,
+  siTypescript,
+  siVercel,
+  siGooglecloud,
+  siSonar,
+  siVscodium,
+} from "simple-icons";
 
 export const cloudProps: Omit<ICloud, "children"> = {
   containerProps: {
@@ -60,19 +91,20 @@ export type DynamicCloudProps = {
   iconSlugs: string[];
 };
 
-type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
-
 const slugAliases: Record<string, string> = {
-  visualstudio: "visualstudiocode",
-  openjdk: "java",
-  amazonwebservices: "amazonaws",
+  visualstudio: "vscodium",
+  visualstudiocode: "vscodium",
+  java: "openjdk",
+  amazonwebservices: "googlecloud",
+  amazonaws: "googlecloud",
+  css3: "css",
+  sonarqube: "sonar",
 };
 
 const normalizeSlugs = (slugs: string[]) =>
   slugs.map((slug) => slugAliases[slug] ?? slug);
 
 export function IconCloud({ iconSlugs }: DynamicCloudProps) {
-  const [data, setData] = useState<IconData | null>(null);
   const [isClient, setIsClient] = useState(false);
   const { theme, resolvedTheme } = useTheme();
   const activeTheme = theme === "system" ? resolvedTheme : theme;
@@ -83,26 +115,48 @@ export function IconCloud({ iconSlugs }: DynamicCloudProps) {
   );
 
   useEffect(() => {
-    let mounted = true;
-    fetchSimpleIcons({ slugs: normalizedSlugs }).then((icons) => {
-      if (mounted) setData(icons);
-    });
-    return () => {
-      mounted = false;
-    };
-  }, [normalizedSlugs]);
-
-  useEffect(() => {
     setIsClient(typeof window !== "undefined");
   }, []);
 
   const renderedIcons = useMemo(() => {
-    if (!data) return null;
+    const iconMap: Record<string, SimpleIcon> = {
+      android: siAndroid,
+      androidstudio: siAndroidstudio,
+      googlecloud: siGooglecloud,
+      css: siCss,
+      cypress: siCypress,
+      dart: siDart,
+      docker: siDocker,
+      express: siExpress,
+      figma: siFigma,
+      firebase: siFirebase,
+      flutter: siFlutter,
+      git: siGit,
+      github: siGithub,
+      gitlab: siGitlab,
+      html5: siHtml5,
+      openjdk: siOpenjdk,
+      javascript: siJavascript,
+      jest: siJest,
+      jira: siJira,
+      nextdotjs: siNextdotjs,
+      nginx: siNginx,
+      nodedotjs: siNodedotjs,
+      postgresql: siPostgresql,
+      prisma: siPrisma,
+      react: siReact,
+      sonar: siSonar,
+      testinglibrary: siTestinglibrary,
+      typescript: siTypescript,
+      vercel: siVercel,
+      vscodium: siVscodium,
+    };
 
-    return Object.values(data.simpleIcons).map((icon) =>
-      renderCustomIcon(icon, activeTheme || "light"),
-    );
-  }, [data, activeTheme]);
+    return normalizedSlugs
+      .map((slug) => iconMap[slug])
+      .filter(Boolean)
+      .map((icon) => renderCustomIcon(icon, activeTheme || "light"));
+  }, [normalizedSlugs, activeTheme]);
 
   if (!isClient) {
     return <div className="h-48 w-full" />;
