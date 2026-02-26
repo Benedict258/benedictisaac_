@@ -62,12 +62,23 @@ type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
 export function IconCloud({ iconSlugs }: DynamicCloudProps) {
   const [data, setData] = useState<IconData | null>(null);
+  const [isClient, setIsClient] = useState(false);
   const { theme, resolvedTheme } = useTheme();
   const activeTheme = theme === "system" ? resolvedTheme : theme;
 
   useEffect(() => {
-    fetchSimpleIcons({ slugs: iconSlugs }).then(setData);
+    let mounted = true;
+    fetchSimpleIcons({ slugs: iconSlugs }).then((icons) => {
+      if (mounted) setData(icons);
+    });
+    return () => {
+      mounted = false;
+    };
   }, [iconSlugs]);
+
+  useEffect(() => {
+    setIsClient(typeof window !== "undefined");
+  }, []);
 
   const renderedIcons = useMemo(() => {
     if (!data) return null;
@@ -76,6 +87,10 @@ export function IconCloud({ iconSlugs }: DynamicCloudProps) {
       renderCustomIcon(icon, activeTheme || "light"),
     );
   }, [data, activeTheme]);
+
+  if (!isClient) {
+    return <div className="h-48 w-full" />;
+  }
 
   return (
     // @ts-ignore
