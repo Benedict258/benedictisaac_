@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { CallToAction } from "@/components/ui/cta-3";
-import { IconCloud } from "@/components/ui/interactive-icon-cloud";
+import { ToolsMarquee } from "@/components/ui/integration-hero";
 import { Footer } from "@/components/ui/footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -692,22 +692,21 @@ const Index = () => {
       </section>
 
       <section id="tech" className="py-24">
-        <div className="container grid gap-10 lg:grid-cols-2 items-center">
-          <div className="space-y-4">
-            <Badge variant="outline" className="w-fit">
-              Tech Stack
-            </Badge>
-            <h2 className="text-3xl md:text-4xl font-bold">
-              Tools I trust for modern delivery.
-            </h2>
-            <p className="text-muted-foreground text-lg">
-              From frontend craft to backend reliability, these tools help me
-              ship fast and maintain quality.
-            </p>
-          </div>
-          <div className="relative rounded-2xl border bg-background/70 p-8 shadow-xl">
-            <IconCloud iconSlugs={techSlugs} />
-          </div>
+        <div className="container space-y-4">
+          <Badge variant="outline" className="w-fit">
+            Tech Stack
+          </Badge>
+          <h2 className="flex flex-wrap items-center gap-3 text-3xl font-bold md:text-4xl">
+            <span>Tools I trust for modern delivery.</span>
+            <ToolsMarquee
+              slugs={techSlugs}
+              className="min-w-[220px]"
+            />
+          </h2>
+          <p className="text-muted-foreground text-lg">
+            From frontend craft to backend reliability, these tools help me
+            ship fast and maintain quality.
+          </p>
         </div>
       </section>
 
