@@ -1,448 +1,834 @@
-
-import { useState, useEffect } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
+import { Timeline } from "@/components/ui/timeline";
+import { CallToAction } from "@/components/ui/cta-3";
+import { IconCloud } from "@/components/ui/interactive-icon-cloud";
+import { LogoCloud as PartnerLogoCloud } from "@/components/ui/logo-cloud-4";
+import { LogoCloud as CommunitiesLogoCloud } from "@/components/ui/logo-cloud-2";
+import { WorldMap, type WorldMapRoute } from "@/components/ui/world-map";
+import { DataHero } from "@/components/ui/data-hero";
+import { Feature197 } from "@/components/ui/accordion-feature-section";
+import { Footer } from "@/components/ui/footer";
+import { Testimonials } from "@/components/ui/testimonials";
 import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { HomePricingPreview } from "@/components/sections/home-pricing-preview";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Code, Globe, Smartphone, Database, ExternalLink, Github, Linkedin, Mail, Download, Zap, Wallet, TrendingUp, Menu, X, Moon, Sun, Rocket } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+import {
+  ArrowUpRight,
+  BarChart3,
+  Brain,
+  Code2,
+  FileDown,
+  Github,
+  Globe2,
+  Layers,
+  Linkedin,
+  Mail,
+  Phone,
+  ServerCog,
+  Sparkles,
+  Twitter,
+} from "lucide-react";
 
 const Index = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeAvatar, setActiveAvatar] = useState<'ben' | 'pic1'>('pic1');
-
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
-  // no avatar swapping - using single ben.png
-  // swap between ben.png and pic1.jpg every 20 seconds
-  useEffect(() => {
-    const id = setInterval(() => {
-      setActiveAvatar(prev => (prev === 'ben' ? 'pic1' : 'ben'));
-    }, 20000);
-    return () => clearInterval(id);
-  }, []);
-
-  const skillCategories = {
-    "Core Technical Skills": [
-      "Frontend Development",
-      "Backend Development",
-      "RESTful API Integration",
-      "Responsive UI Design",
-      "Database Management (MongoDB)",
-      "Embedded Programming (C/C++)",
-      "Python Development",
-      "Blockchain & Web3 Development",
-      "IoT Systems & Automation"
-    ],
-    "Tools & Frameworks": [
-      "React.js",
-      "Next.js",
-      "HTML5 & CSS3",
-      "Node.js",
-      "Express.js",
-      "Tailwind CSS",
-      "Git & GitHub",
-      "MATLAB",
-      "VS Code"
-    ],
-    "Core Competencies": [
-      "Problem Solving & Debugging",
-      "Software Architecture & Optimization",
-      "Innovation & System Design",
-      "Cross-Functional Collaboration",
-      "Technical Documentation",
-      "Open-Source Contribution"
-    ],
-    "Emerging Focus Areas": [
-      "Artificial Intelligence (AI)",
-      "Machine Learning (ML)",
-      "Blockchain Integration",
-      "Internet of Things (IoT)",
-      "Mechatronics-Driven Software"
-    ]
-  };
-
   const projects = [
     {
-      title: "HaloAI Agent",
-      description: "AI-powered WhatsApp copilot for MSMEs, enabling conversational order management, CRM automation, and customer support with human-like interactions and privacy-first data handling.",
-      tech: ["FastAPI", "Python", "OpenAI/LLMs", "Twilio", "PostgreSQL"],
+      title: "Suirify",
+      description:
+        "Sovereign identity protocol on Sui that enables users to verify identity attributes without exposing sensitive personal data.",
+      tech: ["Sui Move", "TypeScript", "Zero-Knowledge Proofs", "Nautilus Key"],
+      github: "#",
+      live: "https://testnet.suirify.com/",
+      status: "Active",
+    },
+    {
+      title: "SuiSense (In Development)",
+      description:
+        "AI interpretation layer for Sui that translates raw transaction and smart contract execution data into clear, human-readable explanations.",
+      tech: ["Sui Blockchain", "Sui Move", "Python", "LLMs", "Execution Data"],
       github: "#",
       live: "#",
-      status: "Live"
+      status: "In Development",
     },
     {
-      title: "Suirify",
-      description: "Zero-knowledge sovereign identity protocol on Sui blockchain, allowing users to prove identity without exposing personal data using reusable digital credentials for compliant DeFi.",
-      tech: ["Rust", "TypeScript", "Sui Blockchain", "zk-Proofs"],
+      title: "HaloAI Agent",
+      description:
+        "AI-driven WhatsApp copilot for MSMEs enabling conversational order management, automated customer support, and CRM workflows across messaging platforms.",
+      tech: [
+        "FastAPI",
+        "Python",
+        "LLMs (Llama 3)",
+        "Twilio WhatsApp",
+        "PostgreSQL",
+      ],
       github: "#",
-      live: "https://suirify.onrender.com/",
-      status: "Development"
+      live: "https://halo-agent.onrender.com/",
+      status: "Prototype",
     },
     {
-      title: "Scynk.io",
-      description: "Email scraping and automation platform that streamlines data collection and outreach for marketing operations, improving workflow efficiency.",
-      tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
-      github: "https://github.com/Benedict258/scrynk-io",
-      live: "https://scrnk-io-5wyj.onrender.com/",
-      status: "Live"
+      title: "Tenax",
+      description:
+        "AI execution and accountability agent that converts goals into measurable daily actions through behavioral tracking and feedback loops.",
+      tech: [
+        "Python",
+        "LLMs (Llama 3, Gemini, OpenAI)",
+        "Opik",
+        "React",
+        "Supabase",
+      ],
+      github: "#",
+      live: "#",
+      status: "Prototype",
     },
     {
-      title: "Flux",
-      description: "Intelligent product launch operating system helping startups and creators manage, schedule, and track product rollouts with real-time collaboration and analytics.",
+      title: "Solar Charger Controller (Simulation)",
+      description:
+        "Simulation of a solar charge controller focused on efficient battery charging and power regulation using control logic principles.",
+      tech: ["MATLAB", "Simulink", "C++"],
+      github: "#",
+      live: "#",
+      status: "Simulation",
+    },
+    {
+      title: "Flux (In Development)",
+      description:
+        "Product launch operating system that helps startups and creators plan, schedule, and track rollouts from pre-launch to execution.",
       tech: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS"],
       github: "#",
-      live: "#",
-      status: "Development"
+      live: "https://flux.base44.app/",
+      status: "Live",
     },
-    {
-      title: "Blacksite",
-      description: "Anonymous chat platform enabling users to create secure rooms and interact without identity exposure, enhancing online privacy through decentralized communication.",
-      tech: ["React.js", "WebSocket", "Node.js", "Express.js"],
-      github: "https://github.com/Benedict258/-BLACKSITE",
-      live: "https://blacksite-l3ii.onrender.com/",
-      status: "Live"
-    },
-    {
-      title: "TendX",
-      description: "Intelligent attendance management system using automation and analytics for event and institutional tracking, improving record accuracy and engagement.",
-      tech: ["Node.js", "Express.js", "React.js", "MongoDB"],
-      github: "https://github.com/Benedict258/tendx",
-      live: "https://tendx.onrender.com/",
-      status: "Live"
-    }
   ];
 
   const experience = [
+    {
+      role: "Frontend Engineer",
+      company: "Talenxify (ATC Africa)",
+      location: "Remote",
+      period: "Nov 2025 - Present",
+      description:
+        "Contributed to core platform infrastructure as part of the full-stack engineering team. Built and maintained React and Next.js front-end features, integrated backend APIs for real-time data flow, and improved performance, onboarding, and overall UX while aligning with fast startup timelines.",
+    },
+    {
+      role: "Team Lead & Full-Stack Developer",
+      company: "Sui On Campus (Team Suirify)",
+      location: "Minna, NG",
+      period: "Oct 2025 - Present",
+      description:
+        "Designed and implemented highly interactive web interfaces, increasing engagement by 30%. Led UI structure and content presentation, improved scalability with reusable components, and collaborated cross-functionally to accelerate delivery by 20%.",
+    },
     {
       role: "Frontend Developer & Protocol Team",
       company: "GDG Minna DevFest",
       location: "Minna, NG",
       period: "Nov 2025",
-      description: "Built responsive DevFest event website consolidating registration, agenda, and speaker details. Developed interactive schedule and speaker components improving attendee engagement. Optimized frontend performance and accessibility for cross-device experience while supporting event protocols and on-site execution."
+      description:
+        "Built and deployed a responsive DevFest website with registration, agenda, and speaker profiles. Developed interactive schedule components, optimized accessibility and performance, and supported event operations and post-event reviews.",
     },
     {
-      role: "Frontend Developer",
-      company: "SuiOnCampus Team",
-      location: "Minna, NG",
-      period: "Jul 2025 - Present",
-      description: "Designed highly interactive user interfaces using modern frameworks, achieving 30% increase in user engagement. Led design and content strategy for multiple web pages, collaborating cross-functionally to deliver features 20% faster while continually upskilling in emerging technologies."
-    },
-    {
-      role: "Volunteer",
+      role: "Volunteer (Technology & STEM Programs)",
       company: "Next-Gen Innovators",
       location: "Minna, NG",
-      period: "Aug 2025",
-      description: "Organized and led interactive programs introducing 50+ students to IoT, embedded systems, and coding fundamentals. Facilitated hands-on workshops fostering innovation and problem-solving confidence, contributing to a community of young tech innovators."
+      period: "Jul 2018",
+      description:
+        "Delivered hands-on STEM programs introducing IoT, embedded systems, and coding fundamentals to 50+ students. Guided project-based learning and helped build a youth-focused innovation community.",
     },
-    {
-      role: "Frontend Developer",
-      company: "Pathway Scholars",
-      location: "Remote",
-      period: "Nov 2024 - Feb 2025",
-      description: "Developed responsive web applications enhancing mobile engagement by 35%. Integrated RESTful APIs improving system reliability by 25% and optimized performance reducing page load time by 40%, collaborating with UI/UX designers to boost user satisfaction."
-    }
   ];
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  const expertiseGroups: { title: string; icon: LucideIcon; items: string[] }[] = [
+    {
+      title: "Programming & Systems",
+      icon: Code2,
+      items: [
+        "Python",
+        "Sui Move",
+        "JavaScript (ES6+)",
+        "TypeScript",
+        "HTML5",
+        "CSS3",
+        "C/C++",
+        "Blockchain & Web3",
+      ],
+    },
+    {
+      title: "Full-Stack Delivery",
+      icon: Layers,
+      items: [
+        "React.js",
+        "Next.js",
+        "Node.js",
+        "Express.js",
+        "FastAPI",
+        "Tailwind CSS",
+        "Responsive UI Design",
+        "RESTful API Integration",
+      ],
+    },
+    {
+      title: "DevOps & Automation",
+      icon: ServerCog,
+      items: [
+        "System Integration",
+        "Performance Optimization",
+        "Database Mgmt (MongoDB)",
+        "Database Mgmt (PostgreSQL)",
+        "Supabase",
+        "Git",
+        "GitHub",
+        "CI/CD Tooling",
+        "Agile Delivery",
+      ],
+    },
+    {
+      title: "Intelligence & Emerging Tech",
+      icon: Brain,
+      items: [
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Large Language Models",
+        "Conversational AI Systems",
+        "Agentic AI Workflows",
+        "Blockchain Integration",
+        "Execution Agents",
+        "Mechatronics Software",
+      ],
+    },
+    {
+      title: "Product Systems",
+      icon: Sparkles,
+      items: [
+        "Problem Solving",
+        "Software Architecture",
+        "System Design Thinking",
+        "Cross-Functional Collaboration",
+        "Technical Documentation",
+        "Embedded Programming",
+      ],
+    },
+    {
+      title: "Simulation & Engineering",
+      icon: BarChart3,
+      items: [
+        "MATLAB",
+        "Simulink",
+        "IoT Systems & Automation",
+        "Embedded Programming (C/C++)",
+        "Performance Optimization",
+      ],
+    },
+  ];
+
+  const certifications = [
+    "Sui Nigeria Developers Workshop (Certificate)",
+    "Certificate in Full-Stack Development, Frontend Masters",
+    "Meta AI Developer Academy Graduate",
+    "RAIN MATLAB & Simulink Certified",
+    "MathWorks IoT & Embedded Systems Training",
+    "ESIRG DeepTech Computer Vision Program",
+    "3MTT #HRJ #158c906a-8d53-4dbc-904c-3a7d4e9cf4a8",
+  ];
+
+  const education = {
+    degree: "Bachelor of Engineering (BEng), Mechatronics Engineering",
+    institution: "Federal University of Technology Minna",
+    location: "Minna, NG",
+    expected: "Expected Dec 2027",
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-space-bg transition-colors duration-500">
-      {/* Navigation */}
-      <nav className="border-b border-border/40 bg-background/80 backdrop-blur-lg sticky top-0 z-50 glass-effect">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center logo-pulse">
-              <Rocket className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-xl text-foreground">Benedict Isaac</span>
-          </div>
-          
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <a href="#about" className="text-muted-foreground hover:text-sky-500 transition-colors font-medium">About</a>
-            <a href="#projects" className="text-muted-foreground hover:text-sky-500 transition-colors font-medium">Projects</a>
-            <a href="#experience" className="text-muted-foreground hover:text-sky-500 transition-colors font-medium">Experience</a>
-            <a href="#contact" className="text-muted-foreground hover:text-sky-500 transition-colors font-medium">Contact</a>
-            <div className="flex items-center space-x-2 ml-4">
-              <Sun className="w-4 h-4" />
-              <Switch
-                checked={isDarkMode}
-                onCheckedChange={setIsDarkMode}
-                className="data-[state=checked]:bg-sky-600"
-              />
-              <Moon className="w-4 h-4" />
-            </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-2">
-            <div className="flex items-center space-x-2">
-              <Sun className="w-4 h-4" />
-              <Switch
-                checked={isDarkMode}
-                onCheckedChange={setIsDarkMode}
-                className="data-[state=checked]:bg-sky-600"
-              />
-              <Moon className="w-4 h-4" />
-            </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleMobileMenu}
-              className="text-foreground hover:bg-sky-400/20"
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </Button>
-          </div>
-        </div>
-
-        {/* Mobile Navigation Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-border/40 bg-background/95 backdrop-blur-lg glass-effect">
-            <div className="container mx-auto px-4 py-4 space-y-2">
-              <a href="#about" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>About</a>
-              <a href="#projects" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>Projects</a>
-              <a href="#experience" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>Experience</a>
-              <a href="#contact" className="block py-2 text-muted-foreground hover:text-sky-400 transition-colors" onClick={toggleMobileMenu}>Contact</a>
-            </div>
-          </div>
-        )}
-      </nav>
-
-      {/* Hero Section with Avatar */}
-      <section className="container mx-auto px-4 py-20 text-center space-bg">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-8 flex justify-center">
-            <Avatar className="w-32 h-32 md:w-40 md:h-40 ring-2 ring-sky-500/30 ring-offset-4 ring-offset-background overflow-hidden">
-              <AvatarImage className="object-cover w-full h-full" src={activeAvatar === 'ben' ? '/ben.png' : '/pic1.jpg'} alt="Profile" />
-              <AvatarFallback className="bg-gradient-to-br from-sky-500 to-sky-600 text-white text-2xl md:text-3xl font-bold">
-                BI
-              </AvatarFallback>
-            </Avatar>
-          </div>
-          
-          <Badge variant="outline" className="mb-6 border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/50 dark:bg-sky-950/30">
-            <Code className="w-3 h-3 mr-1" />
-            Full Stack & AI Developer | Mechatronics Engineer
+  const projectTimeline = projects.map((project) => ({
+    title: project.title,
+    content: (
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <Badge variant={project.status === "Live" ? "default" : "secondary"}>
+            {project.status}
           </Badge>
-          
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-foreground via-sky-600 to-foreground bg-clip-text text-transparent">
-            Turning Ideas into Scalable Systems
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-            Full Stack & AI Developer passionate about building scalable digital solutions that merge engineering principles with software innovation
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="/benedictResume.pdf" download className="inline-block">
-              <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-lg hover:shadow-sky-500/20 transition-all">
-                <Download className="w-4 h-4 mr-2" />
-                Download Resume
-              </Button>
-            </a>
-            <Button variant="outline" size="lg" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-              <Mail className="w-4 h-4 mr-2" />
-              Get In Touch
+          <span className="text-xs text-muted-foreground">
+            {project.tech.join(" - ")}
+          </span>
+        </div>
+        <p className="text-sm text-muted-foreground max-w-2xl">
+          {project.description}
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {project.tech.map((tech) => (
+            <Badge key={tech} variant="outline" className="text-xs">
+              {tech}
+            </Badge>
+          ))}
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {project.github !== "#" && (
+            <Button asChild variant="outline" size="sm">
+              <a href={project.github} target="_blank" rel="noreferrer">
+                Code <ArrowUpRight className="ml-1 h-4 w-4" />
+              </a>
             </Button>
+          )}
+          {project.live !== "#" && (
+            <Button asChild variant="outline" size="sm">
+              <a href={project.live} target="_blank" rel="noreferrer">
+                Live <ArrowUpRight className="ml-1 h-4 w-4" />
+              </a>
+            </Button>
+          )}
+        </div>
+      </div>
+    ),
+  }));
+
+  const experienceTimeline = experience.map((item) => ({
+    title: item.period,
+    content: (
+      <div className="space-y-3">
+        <div>
+          <h4 className="text-xl font-semibold text-foreground">
+            {item.role}
+          </h4>
+          <p className="text-sm text-muted-foreground">
+            {item.company} - {item.location}
+          </p>
+        </div>
+        <p className="text-sm text-muted-foreground max-w-2xl">
+          {item.description}
+        </p>
+      </div>
+    ),
+  }));
+
+  const techSlugs = [
+    "typescript",
+    "javascript",
+    "dart",
+    "java",
+    "react",
+    "flutter",
+    "android",
+    "html5",
+    "css3",
+    "nodedotjs",
+    "express",
+    "nextdotjs",
+    "prisma",
+    "amazonaws",
+    "postgresql",
+    "firebase",
+    "nginx",
+    "vercel",
+    "testinglibrary",
+    "jest",
+    "cypress",
+    "docker",
+    "git",
+    "jira",
+    "github",
+    "gitlab",
+    "visualstudiocode",
+    "androidstudio",
+    "sonarqube",
+    "figma",
+  ];
+
+  const logos = [
+    {
+      src: "https://svgl.app/library/nvidia-wordmark-light.svg",
+      alt: "Nvidia",
+    },
+    {
+      src: "https://svgl.app/library/supabase_wordmark_light.svg",
+      alt: "Supabase",
+    },
+    {
+      src: "https://svgl.app/library/openai_wordmark_light.svg",
+      alt: "OpenAI",
+    },
+    {
+      src: "https://svgl.app/library/vercel_wordmark.svg",
+      alt: "Vercel",
+    },
+    {
+      src: "https://svgl.app/library/github_wordmark_light.svg",
+      alt: "GitHub",
+    },
+    {
+      src: "https://svgl.app/library/claude-ai-wordmark-icon_light.svg",
+      alt: "Claude AI",
+    },
+    {
+      src: "/aws-light.png",
+      darkSrc: "/awsdark.png",
+      alt: "AWS",
+      height: 26,
+      mdHeight: 32,
+    },
+    {
+      src: "/opiklight.png",
+      darkSrc: "/darkopik.png",
+      alt: "Opik",
+      height: 26,
+      mdHeight: 32,
+    },
+    {
+      src: "/suidark.png",
+      darkSrc: "/sui.png",
+      alt: "Sui",
+      height: 24,
+      mdHeight: 30,
+    },
+    {
+      src: "/metadark.svg",
+      darkSrc: "/meta.png",
+      alt: "Meta",
+      height: 22,
+      mdHeight: 28,
+    },
+    {
+      src: "/gemini dark.svg",
+      darkSrc: "/gemini dark.png",
+      alt: "Gemini",
+      height: 24,
+      mdHeight: 30,
+    },
+    {
+      src: "/mongo.png",
+      darkSrc: "/mongodark.png",
+      alt: "MongoDB",
+      height: 24,
+      mdHeight: 30,
+    },
+    {
+      src: "/matlab.png",
+      darkSrc: "/darkmatlab.png",
+      alt: "MATLAB",
+      height: 24,
+      mdHeight: 30,
+    },
+    {
+      src: "/vscode.png",
+      darkSrc: "/darkvscode.png",
+      alt: "VS Code",
+      height: 24,
+      mdHeight: 30,
+    },
+    {
+      src: "/yornwin.png",
+      alt: "Yornwins Tech",
+      height: 24,
+      mdHeight: 30,
+    },
+  ];
+
+  const worldMapRoutes: WorldMapRoute[] = [
+    {
+      start: { lat: 9.6152, lng: 6.5478 }, // Minna
+      end: { lat: 51.5072, lng: -0.1276 }, // London
+    },
+    {
+      start: { lat: 9.6152, lng: 6.5478 },
+      end: { lat: 37.7749, lng: -122.4194 }, // San Francisco
+    },
+    {
+      start: { lat: 9.6152, lng: 6.5478 },
+      end: { lat: 1.3521, lng: 103.8198 }, // Singapore
+    },
+    {
+      start: { lat: 6.5244, lng: 3.3792 }, // Lagos
+      end: { lat: 48.8566, lng: 2.3522 }, // Paris
+    },
+    {
+      start: { lat: 33.738, lng: -84.3826 }, // Atlanta
+      end: { lat: 28.6139, lng: 77.209 }, // New Delhi
+    },
+  ];
+
+  const faqItems = [
+    {
+      id: 1,
+      title: "What kinds of problems do you enjoy working on the most?",
+      image:
+        "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80",
+      description:
+        "I love building products and systems where automation reduces friction and tightens execution. Anything that requires thinking about how pieces connect, how users feel it, and how it scales over time keeps me motivated.",
+    },
+    {
+      id: 2,
+      title: "How do you approach building a project from idea to execution?",
+      image:
+        "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+      description:
+        "I ground every build in the problem and constraints, then break the idea into testable components. Ship something usable early, validate assumptions, and keep iterating to balance correctness, learning, and momentum.",
+    },
+    {
+      id: 3,
+      title: "What technologies do you work with, and how do you choose them?",
+      image:
+        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+      description:
+        "Stacks depend on the problem. I lean on proven tools for reliability but reach for new tech when it offers clear advantages. Maintainability, performance, and alignment with the goal always guide the choice.",
+    },
+    {
+      id: 4,
+      title: "What is it like to collaborate with you?",
+      image:
+        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
+      description:
+        "I'm adaptable—productive solo but energized by collaboration. Expect clear communication, shared ownership, and thoughtful contributions to design and build discussions while executing reliably.",
+    },
+    {
+      id: 5,
+      title: "What opportunities are you currently open to?",
+      image:
+        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80",
+      description:
+        "I'm open to internships, freelance or contract work, startup collaborations, and full-time roles—anywhere I can build real systems, keep learning, and add meaningful value.",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <DataHero />
+
+      <section
+        id="about"
+        className="relative overflow-hidden py-24 sm:py-28"
+      >
+        <AnimatedGridPattern
+          numSquares={30}
+          maxOpacity={0.08}
+          duration={3}
+          repeatDelay={1}
+          className="[mask-image:radial-gradient(500px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
+        />
+        <div className="container relative z-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center">
+          <div className="space-y-6">
+            <Badge variant="outline" className="w-fit">
+              Full Stack and AI Developer
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Building scalable systems with engineering rigor.
+            </h2>
+            <p className="text-muted-foreground text-lg leading-relaxed">
+              I am a full-stack and AI developer with a Mechatronics engineering
+              foundation, shipping production-ready systems across web, AI, and
+              blockchain environments. From Sui Move protocols to React/Next.js,
+              Node.js, and Python platforms, I integrate APIs, optimize
+              performance, and deploy intelligent workflows that keep teams
+              moving fast with trustworthy software.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild size="sm">
+                <a href="/benedictResume.pdf" download>
+                  <FileDown className="mr-2 h-4 w-4" />
+                  Download Resume
+                </a>
+              </Button>
+              <Button asChild variant="outline" size="sm">
+                <a href="mailto:benedictisaac258@gmail.com">
+                  <Mail className="mr-2 h-4 w-4" />
+                  Email
+                </a>
+              </Button>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button asChild variant="ghost" size="sm">
+                <a href="https://github.com/Benedict258/" target="_blank" rel="noreferrer">
+                  <Github className="mr-2 h-4 w-4" />
+                  GitHub
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <a href="https://medium.com/@benedictisaac258" target="_blank" rel="noreferrer">
+                  <span className="mr-2 flex h-4 w-4 items-center justify-center">
+                    <img src="/medium.png" alt="Medium logo" className="h-4 w-4" />
+                  </span>
+                  Medium
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <a href="https://www.linkedin.com/in/benedict-isaac-0b60a732b/" target="_blank" rel="noreferrer">
+                  <Linkedin className="mr-2 h-4 w-4" />
+                  LinkedIn
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <a href="https://x.com/DevChronicles_" target="_blank" rel="noreferrer">
+                  <Twitter className="mr-2 h-4 w-4" />
+                  X
+                </a>
+              </Button>
+            </div>
+          </div>
+          <div className="rounded-2xl border bg-background/70 backdrop-blur-xl p-8 shadow-xl">
+            <div className="flex items-center gap-4">
+              <Avatar className="h-20 w-20">
+                <AvatarImage src="/pic1.jfif" alt="Benedict Isaac" />
+                <AvatarFallback>BI</AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="text-xl font-semibold">Benedict Isaac</p>
+                <p className="text-sm text-muted-foreground">
+                  Minna, NG and Remote
+                </p>
+              </div>
+            </div>
+            <div className="mt-6 grid grid-cols-2 gap-4">
+              <div className="rounded-xl border px-4 py-3">
+                <p className="text-2xl font-semibold">8+</p>
+                <p className="text-xs text-muted-foreground">
+                  Tools mastered
+                </p>
+              </div>
+              <div className="rounded-xl border px-4 py-3">
+                <p className="text-2xl font-semibold">20+</p>
+                <p className="text-xs text-muted-foreground">
+                  Projects shipped
+                </p>
+              </div>
+              <div className="rounded-xl border px-4 py-3">
+                <p className="text-2xl font-semibold">5+</p>
+                <p className="text-xs text-muted-foreground">Teams</p>
+              </div>
+              <div className="rounded-xl border px-4 py-3">
+                <p className="text-2xl font-semibold">100%</p>
+                <p className="text-xs text-muted-foreground">Focus</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* About Section */}
-      <section id="about" className="container mx-auto px-4 py-20">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-foreground">About Me</h2>
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="glass-card p-6 rounded-xl">
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                I'm a Full Stack & AI Developer and Mechatronics Engineering student passionate about building scalable digital solutions that merge engineering principles with software innovation. Skilled in JavaScript, React, Node.js, Python, and AI-driven technologies, I create responsive, efficient, and user-centered applications.
-              </p>
-              <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-                My work bridges hardware and software through IoT, AI, and blockchain explorations, driven by curiosity and a commitment to real-world impact. I thrive in collaborative environments where problem-solving, creativity, and continuous learning shape meaningful products. With a growing portfolio of projects, I bring technical depth, innovation, and a mission to build technology that empowers and transforms communities.
-              </p>
-              <div className="flex gap-4">
-                <a href="https://github.com/Benedict258/" target="_blank" rel="noreferrer">
-                  <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                    <Github className="w-4 h-4 mr-2" />
-                    GitHub
-                  </Button>
-                </a>
-                <a href="https://www.linkedin.com/in/benedict-isaac-0b60a732b/" target="_blank" rel="noreferrer">
-                  <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                    <Linkedin className="w-4 h-4 mr-2" />
-                    LinkedIn
-                  </Button>
-                </a>
-                <a href="https://x.com/DevChronicles_" target="_blank" rel="noreferrer">
-                  <Button variant="outline" size="sm" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                    <X className="w-4 h-4 mr-2" />
-                    X
-                  </Button>
-                </a>
-              </div>
-            </div>
-            <div className="space-y-6">
-              <h3 className="text-xl font-semibold mb-4 text-foreground">Technical Expertise</h3>
-              {Object.entries(skillCategories).map(([category, skills], index) => (
-                <div key={index} className="space-y-3">
-                  <h4 className="text-sm font-semibold text-sky-600 dark:text-sky-400 uppercase tracking-wide">{category}</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {skills.map((skill, skillIndex) => (
-                      <Badge 
-                        key={skillIndex} 
-                        variant="outline" 
-                        className="text-xs border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/30 dark:bg-sky-950/20"
+      <section id="skills" className="relative overflow-hidden py-24 sm:py-28">
+        <AnimatedGridPattern
+          numSquares={30}
+          maxOpacity={0.08}
+          duration={3}
+          repeatDelay={1}
+          className="[mask-image:radial-gradient(600px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
+        />
+        <div className="container relative z-10 space-y-10">
+          <div className="space-y-3 text-center">
+            <Badge variant="outline" className="mx-auto w-fit">
+              Expertise
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Skills that power my builds.
+            </h2>
+            <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
+              The stacks, methodologies, and focus areas I rely on to ship
+              reliable products across web, AI, blockchain, and mechatronics
+              environments.
+            </p>
+          </div>
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {expertiseGroups.map((group) => {
+              const Icon = group.icon;
+              return (
+                <div
+                  key={group.title}
+                  className="rounded-2xl border bg-background/85 p-6 shadow-xl backdrop-blur"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="rounded-full bg-primary/10 p-3 text-primary">
+                      <Icon className="h-6 w-6" />
+                    </div>
+                    <h3 className="text-lg font-semibold">{group.title}</h3>
+                  </div>
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {group.items.map((skill) => (
+                      <span
+                        key={skill}
+                        className="rounded-full border border-border/60 bg-background/60 px-3 py-1 text-sm font-medium text-foreground/80"
                       >
                         {skill}
-                      </Badge>
+                      </span>
                     ))}
                   </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* Projects Section */}
-      <section id="projects" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Featured Projects</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Showcasing my latest work in AI, blockchain, and web applications
-          </p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project, index) => (
-            <Card key={index} className="glass-card border-border/50 hover:border-sky-400/30 hover:shadow-lg transition-all duration-300">
-              <CardHeader>
-                <div className="flex items-center justify-between mb-2">
-                  <CardTitle className="text-lg">{project.title}</CardTitle>
-                  <Badge variant={project.status === "Live" ? "default" : "secondary"} className={project.status === "Live" ? "bg-gradient-to-r from-sky-500 to-sky-600" : ""}>
-                    {project.status}
-                  </Badge>
-                </div>
-                <CardDescription>{project.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tech.map((tech, techIndex) => (
-                    <Badge key={techIndex} variant="outline" className="text-xs border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/30 dark:bg-sky-950/20">
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-                <div className="flex gap-2">
-                  <a href={project.github} target="_blank" rel="noreferrer" className="flex-1">
-                    <Button variant="outline" size="sm" className="w-full flex-1 border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                      <Github className="w-3 h-3 mr-2" />
-                      Code
-                    </Button>
-                  </a>
-                  <a href={project.live} target="_blank" rel="noreferrer" className="flex-1">
-                    <Button variant="outline" size="sm" className="w-full flex-1 border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                      <ExternalLink className="w-3 h-3 mr-2" />
-                      Live
-                    </Button>
-                  </a>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+      <HomePricingPreview />
 
-      {/* Experience Section */}
-      <section id="experience" className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Experience</h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            My journey in full stack, AI, and web development
-          </p>
-        </div>
-        <div className="max-w-3xl mx-auto space-y-6">
-          {experience.map((exp, index) => (
-            <Card key={index} className="glass-card border-border/50 hover:border-sky-400/30 transition-colors">
-              <CardHeader>
-                <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <CardTitle className="text-lg text-sky-600 dark:text-sky-400">{exp.role}</CardTitle>
-                    <CardDescription className="text-base font-medium">
-                      {exp.company} • {exp.location}
-                    </CardDescription>
-                  </div>
-                  <Badge variant="outline" className="mt-2 md:mt-0 border-sky-400/30 text-sky-600 dark:text-sky-400 bg-sky-50/30 dark:bg-sky-950/20">
-                    {exp.period}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground">{exp.description}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="container mx-auto px-4 py-20 text-center">
-        <div className="max-w-3xl mx-auto glass-card p-8 rounded-xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">Let's Build Something Great Together</h2>
-          <p className="text-muted-foreground text-lg mb-8">
-            Ready to collaborate on innovative software solutions? Let's connect and bring your vision to life.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="mailto:benedictisaac258@gmail.com" className="inline-block">
-              <Button size="lg" className="bg-gradient-to-r from-sky-500 to-sky-600 hover:from-sky-600 hover:to-sky-700 shadow-lg hover:shadow-sky-500/20 transition-all">
-                <Mail className="w-4 h-4 mr-2" />
-                Email Me
-              </Button>
-            </a>
-            <a href="tel:+2349048377499" className="inline-block">
-              <Button variant="outline" size="lg" className="border-sky-400/30 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                <TrendingUp className="w-4 h-4 mr-2" />
-                Schedule Call
-              </Button>
-            </a>
+      <section id="tech" className="py-24">
+        <div className="container grid gap-10 lg:grid-cols-2 items-center">
+          <div className="space-y-4">
+            <Badge variant="outline" className="w-fit">
+              Tech Stack
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Tools I trust for modern delivery.
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              From frontend craft to backend reliability, these tools help me
+              ship fast and maintain quality.
+            </p>
+          </div>
+          <div className="relative rounded-2xl border bg-background/70 p-8 shadow-xl">
+            <IconCloud iconSlugs={techSlugs} />
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/40 bg-background/80 backdrop-blur-lg glass-effect">
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <div className="w-6 h-6 bg-gradient-to-r from-sky-500 to-sky-600 rounded flex items-center justify-center logo-pulse">
-                <Rocket className="w-4 h-4 text-white" />
-              </div>
-              <span className="font-semibold text-foreground">Benedict Isaac</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <Button variant="ghost" size="sm" className="text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                <Github className="w-4 h-4" />
+      <section id="technologies" className="py-20">
+        <div className="container">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold">
+              Technologies I ship with
+            </h2>
+            <p className="text-muted-foreground">
+              Trusted platforms and services I build on.
+            </p>
+          </div>
+          <PartnerLogoCloud logos={logos} />
+        </div>
+      </section>
+
+      <section id="expertise" className="py-24 bg-muted/20">
+        <div className="container grid gap-10 lg:grid-cols-2 items-center">
+          <div className="space-y-4">
+            <Badge variant="outline" className="w-fit">
+              Global Expertise
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Building with a global perspective.
+            </h2>
+            <p className="text-muted-foreground text-lg">
+              I collaborate across time zones, delivering products that scale and
+              perform globally.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button asChild variant="outline" size="sm">
+                <a href="mailto:benedictisaac258@gmail.com">
+                  <Mail className="mr-2 h-4 w-4" />
+                  Get in touch
+                </a>
               </Button>
-              <Button variant="ghost" size="sm" className="text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-950/30">
-                <Linkedin className="w-4 h-4" />
+              <Button asChild variant="outline" size="sm">
+                <a href="https://wa.link/z9yfhb" target="_blank" rel="noreferrer">
+                  <Phone className="mr-2 h-4 w-4" />
+                  Schedule call
+                </a>
               </Button>
-              <span className="text-sm text-muted-foreground">
-                © 2025 Benedict Isaac. Built with passion and innovation.
-              </span>
             </div>
           </div>
+          <WorldMap
+            dots={worldMapRoutes}
+            lineColor="#34d399"
+            className="shadow-xl"
+          />
         </div>
-      </footer>
+      </section>
+
+      <section id="projects" className="bg-background">
+        <Timeline
+          title="Projects"
+          subtitle="Selected work across AI, blockchain, and web platforms."
+          data={projectTimeline}
+        />
+      </section>
+
+      <section id="communities" className="py-24">
+        <div className="container space-y-6 text-center">
+          <Badge variant="outline" className="mx-auto w-fit">
+            Communities & Clubs
+          </Badge>
+          <h2 className="text-3xl font-bold md:text-4xl">
+            Collaborating across learning clubs and builders communities.
+          </h2>
+          <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
+            Active member of programs that keep me close to emerging tooling,
+            hackathons, mentorship, and student founders across Africa and beyond.
+          </p>
+        </div>
+        <div className="container mt-10">
+          <CommunitiesLogoCloud className="rounded-3xl border border-border/60" />
+        </div>
+      </section>
+
+      <section id="experience" className="bg-background">
+        <Timeline
+          title="Experience"
+          subtitle="Roles and collaborations that shaped my delivery style."
+          data={experienceTimeline}
+        />
+      </section>
+
+      <Testimonials />
+
+      <section id="contact" className="py-24">
+        <div className="container space-y-10">
+          <CallToAction />
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4">
+            <Button asChild variant="outline" size="sm">
+              <a href="mailto:benedictisaac258@gmail.com">
+                <Mail className="mr-2 h-4 w-4" />
+                Email
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="sm">
+              <a href="https://wa.link/z9yfhb" target="_blank" rel="noreferrer">
+                <Phone className="mr-2 h-4 w-4" />
+                Call
+              </a>
+            </Button>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="bg-background">
+        <div className="container text-center mb-6">
+          <Badge variant="outline" className="w-fit mx-auto">
+            FAQs
+          </Badge>
+          <h2 className="text-3xl md:text-4xl font-bold mt-4">
+            Answers to common questions
+          </h2>
+        </div>
+        <Feature197 features={faqItems} />
+      </section>
+      <Footer
+        logo={
+          <div className="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+            <Globe2 className="h-5 w-5" />
+          </div>
+        }
+        brandName="Benedict Isaac"
+        socialLinks={[
+          {
+            icon: <Twitter className="h-5 w-5" />,
+            href: "https://x.com/DevChronicles_",
+            label: "X",
+          },
+          {
+            icon: <Github className="h-5 w-5" />,
+            href: "https://github.com/Benedict258/",
+            label: "GitHub",
+          },
+          {
+            icon: <Linkedin className="h-5 w-5" />,
+            href: "https://www.linkedin.com/in/benedict-isaac-0b60a732b/",
+            label: "LinkedIn",
+          },
+        ]}
+        mainLinks={[
+          { href: "#about", label: "About" },
+          { href: "#projects", label: "Projects" },
+          { href: "#experience", label: "Experience" },
+          { href: "#contact", label: "Contact" },
+        ]}
+        legalLinks={[
+          { href: "#", label: "Privacy" },
+          { href: "#", label: "Terms" },
+        ]}
+        copyright={{
+          text: "Copyright 2026 Benedict Isaac",
+          license: "All rights reserved",
+        }}
+      />
     </div>
   );
 };
