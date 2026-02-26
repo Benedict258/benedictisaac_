@@ -11,7 +11,6 @@ import { Footer } from "@/components/ui/footer";
 import { Testimonials } from "@/components/ui/testimonials";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { HomePricingPreview } from "@/components/sections/home-pricing-preview";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -650,8 +649,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-
-      <HomePricingPreview />
 
       <section id="tech" className="py-24">
         <div className="container grid gap-10 lg:grid-cols-2 items-center">
