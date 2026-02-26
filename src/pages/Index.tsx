@@ -1,17 +1,11 @@
-import { AnimatedGridPattern } from "@/components/ui/animated-grid-pattern";
-import { Timeline } from "@/components/ui/timeline";
+import { lazy, Suspense } from "react";
 import { CallToAction } from "@/components/ui/cta-3";
 import { IconCloud } from "@/components/ui/interactive-icon-cloud";
-import { LogoCloud as PartnerLogoCloud } from "@/components/ui/logo-cloud-4";
-import { LogoCloud as CommunitiesLogoCloud } from "@/components/ui/logo-cloud-2";
-import { WorldMap, type WorldMapRoute } from "@/components/ui/world-map";
-import { DataHero } from "@/components/ui/data-hero";
-import { Feature197 } from "@/components/ui/accordion-feature-section";
 import { Footer } from "@/components/ui/footer";
-import { Testimonials } from "@/components/ui/testimonials";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import type { WorldMapRoute } from "@/components/ui/world-map";
 import type { LucideIcon } from "lucide-react";
 import {
   ArrowUpRight,
@@ -29,6 +23,47 @@ import {
   Sparkles,
   Twitter,
 } from "lucide-react";
+
+const AnimatedGridPattern = lazy(() =>
+  import("@/components/ui/animated-grid-pattern").then((module) => ({
+    default: module.AnimatedGridPattern,
+  })),
+);
+const Timeline = lazy(() =>
+  import("@/components/ui/timeline").then((module) => ({
+    default: module.Timeline,
+  })),
+);
+const PartnerLogoCloud = lazy(() =>
+  import("@/components/ui/logo-cloud-4").then((module) => ({
+    default: module.LogoCloud,
+  })),
+);
+const CommunitiesLogoCloud = lazy(() =>
+  import("@/components/ui/logo-cloud-2").then((module) => ({
+    default: module.LogoCloud,
+  })),
+);
+const WorldMap = lazy(() =>
+  import("@/components/ui/world-map").then((module) => ({
+    default: module.WorldMap,
+  })),
+);
+const DataHero = lazy(() =>
+  import("@/components/ui/data-hero").then((module) => ({
+    default: module.DataHero,
+  })),
+);
+const Feature197 = lazy(() =>
+  import("@/components/ui/accordion-feature-section").then((module) => ({
+    default: module.Feature197,
+  })),
+);
+const Testimonials = lazy(() =>
+  import("@/components/ui/testimonials").then((module) => ({
+    default: module.Testimonials,
+  })),
+);
 
 const Index = () => {
   const projects = [
@@ -486,19 +521,23 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <DataHero />
+      <Suspense fallback={<div className="min-h-[70vh] bg-background" />}>
+        <DataHero />
+      </Suspense>
 
       <section
         id="about"
         className="relative overflow-hidden py-24 sm:py-28"
       >
-        <AnimatedGridPattern
-          numSquares={30}
-          maxOpacity={0.08}
-          duration={3}
-          repeatDelay={1}
-          className="[mask-image:radial-gradient(500px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
-        />
+        <Suspense fallback={null}>
+          <AnimatedGridPattern
+            numSquares={30}
+            maxOpacity={0.08}
+            duration={3}
+            repeatDelay={1}
+            className="[mask-image:radial-gradient(500px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
+          />
+        </Suspense>
         <div className="container relative z-10 grid gap-10 lg:grid-cols-[1.1fr_0.9fr] items-center">
           <div className="space-y-6">
             <Badge variant="outline" className="w-fit">
@@ -598,13 +637,15 @@ const Index = () => {
       </section>
 
       <section id="skills" className="relative overflow-hidden py-24 sm:py-28">
-        <AnimatedGridPattern
-          numSquares={30}
-          maxOpacity={0.08}
-          duration={3}
-          repeatDelay={1}
-          className="[mask-image:radial-gradient(600px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
-        />
+        <Suspense fallback={null}>
+          <AnimatedGridPattern
+            numSquares={30}
+            maxOpacity={0.08}
+            duration={3}
+            repeatDelay={1}
+            className="[mask-image:radial-gradient(600px_circle_at_center,white,transparent)] inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
+          />
+        </Suspense>
         <div className="container relative z-10 space-y-10">
           <div className="space-y-3 text-center">
             <Badge variant="outline" className="mx-auto w-fit">
@@ -680,7 +721,13 @@ const Index = () => {
               Trusted platforms and services I build on.
             </p>
           </div>
-          <PartnerLogoCloud logos={logos} />
+          <Suspense
+            fallback={
+              <div className="h-32 rounded-3xl border border-dashed border-border/60" />
+            }
+          >
+            <PartnerLogoCloud logos={logos} />
+          </Suspense>
         </div>
       </section>
 
@@ -712,20 +759,34 @@ const Index = () => {
               </Button>
             </div>
           </div>
-          <WorldMap
-            dots={worldMapRoutes}
-            lineColor="#34d399"
-            className="shadow-xl"
-          />
+          <Suspense
+            fallback={
+              <div className="h-[320px] rounded-3xl border border-dashed border-border/60" />
+            }
+          >
+            <WorldMap
+              dots={worldMapRoutes}
+              lineColor="#34d399"
+              className="shadow-xl"
+            />
+          </Suspense>
         </div>
       </section>
 
       <section id="projects" className="bg-background">
-        <Timeline
-          title="Projects"
-          subtitle="Selected work across AI, blockchain, and web platforms."
-          data={projectTimeline}
-        />
+        <Suspense
+          fallback={
+            <div className="container py-16 text-center text-muted-foreground">
+              Loading projects...
+            </div>
+          }
+        >
+          <Timeline
+            title="Projects"
+            subtitle="Selected work across AI, blockchain, and web platforms."
+            data={projectTimeline}
+          />
+        </Suspense>
       </section>
 
       <section id="communities" className="py-24">
@@ -742,19 +803,41 @@ const Index = () => {
           </p>
         </div>
         <div className="container mt-10">
-          <CommunitiesLogoCloud className="rounded-3xl border border-border/60" />
+          <Suspense
+            fallback={
+              <div className="h-24 rounded-3xl border border-dashed border-border/60" />
+            }
+          >
+            <CommunitiesLogoCloud className="rounded-3xl border border-border/60" />
+          </Suspense>
         </div>
       </section>
 
       <section id="experience" className="bg-background">
-        <Timeline
-          title="Experience"
-          subtitle="Roles and collaborations that shaped my delivery style."
-          data={experienceTimeline}
-        />
+        <Suspense
+          fallback={
+            <div className="container py-16 text-center text-muted-foreground">
+              Loading experience...
+            </div>
+          }
+        >
+          <Timeline
+            title="Experience"
+            subtitle="Roles and collaborations that shaped my delivery style."
+            data={experienceTimeline}
+          />
+        </Suspense>
       </section>
 
-      <Testimonials />
+      <Suspense
+        fallback={
+          <div className="container py-16 text-center text-muted-foreground">
+            Loading testimonials...
+          </div>
+        }
+      >
+        <Testimonials />
+      </Suspense>
 
       <section id="contact" className="py-24">
         <div className="container space-y-10">
@@ -785,7 +868,15 @@ const Index = () => {
             Answers to common questions
           </h2>
         </div>
-        <Feature197 features={faqItems} />
+        <Suspense
+          fallback={
+            <div className="container py-10 text-center text-muted-foreground">
+              Loading FAQs...
+            </div>
+          }
+        >
+          <Feature197 features={faqItems} />
+        </Suspense>
       </section>
       <Footer
         logo={
