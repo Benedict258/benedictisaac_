@@ -4,42 +4,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
 import {
   Cloud,
+  fetchSimpleIcons,
   ICloud,
   renderSimpleIcon,
   SimpleIcon,
 } from "react-icon-cloud";
-import {
-  siAndroid,
-  siAndroidstudio,
-  siCss,
-  siCypress,
-  siDart,
-  siDocker,
-  siExpress,
-  siFigma,
-  siFirebase,
-  siFlutter,
-  siGit,
-  siGithub,
-  siGitlab,
-  siHtml5,
-  siJavascript,
-  siJest,
-  siJira,
-  siNextdotjs,
-  siNginx,
-  siNodedotjs,
-  siOpenjdk,
-  siPostgresql,
-  siPrisma,
-  siReact,
-  siTestinglibrary,
-  siTypescript,
-  siVercel,
-  siGooglecloud,
-  siSonar,
-  siVscodium,
-} from "simple-icons";
 
 export const cloudProps: Omit<ICloud, "children"> = {
   containerProps: {
@@ -91,76 +60,23 @@ export type DynamicCloudProps = {
   iconSlugs: string[];
 };
 
-const slugAliases: Record<string, string> = {
-  visualstudio: "vscodium",
-  visualstudiocode: "vscodium",
-  java: "openjdk",
-  amazonwebservices: "googlecloud",
-  amazonaws: "googlecloud",
-  css3: "css",
-  sonarqube: "sonar",
-};
-
-const normalizeSlugs = (slugs: string[]) =>
-  slugs.map((slug) => slugAliases[slug] ?? slug);
+type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
 export function IconCloud({ iconSlugs }: DynamicCloudProps) {
-  const [isClient, setIsClient] = useState(false);
-  const { theme, resolvedTheme } = useTheme();
-  const activeTheme = theme === "system" ? resolvedTheme : theme;
-  const slugKey = useMemo(() => iconSlugs.join("|"), [iconSlugs]);
-  const normalizedSlugs = useMemo(
-    () => normalizeSlugs(iconSlugs),
-    [slugKey],
-  );
+  const [data, setData] = useState<IconData | null>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
-    setIsClient(typeof window !== "undefined");
-  }, []);
+    fetchSimpleIcons({ slugs: iconSlugs }).then(setData);
+  }, [iconSlugs]);
 
   const renderedIcons = useMemo(() => {
-    const iconMap: Record<string, SimpleIcon> = {
-      android: siAndroid,
-      androidstudio: siAndroidstudio,
-      googlecloud: siGooglecloud,
-      css: siCss,
-      cypress: siCypress,
-      dart: siDart,
-      docker: siDocker,
-      express: siExpress,
-      figma: siFigma,
-      firebase: siFirebase,
-      flutter: siFlutter,
-      git: siGit,
-      github: siGithub,
-      gitlab: siGitlab,
-      html5: siHtml5,
-      openjdk: siOpenjdk,
-      javascript: siJavascript,
-      jest: siJest,
-      jira: siJira,
-      nextdotjs: siNextdotjs,
-      nginx: siNginx,
-      nodedotjs: siNodedotjs,
-      postgresql: siPostgresql,
-      prisma: siPrisma,
-      react: siReact,
-      sonar: siSonar,
-      testinglibrary: siTestinglibrary,
-      typescript: siTypescript,
-      vercel: siVercel,
-      vscodium: siVscodium,
-    };
+    if (!data) return null;
 
-    return normalizedSlugs
-      .map((slug) => iconMap[slug])
-      .filter(Boolean)
-      .map((icon) => renderCustomIcon(icon, activeTheme || "light"));
-  }, [normalizedSlugs, activeTheme]);
-
-  if (!isClient) {
-    return <div className="h-48 w-full" />;
-  }
+    return Object.values(data.simpleIcons).map((icon) =>
+      renderCustomIcon(icon, theme || "light"),
+    );
+  }, [data, theme]);
 
   return (
     // @ts-ignore
