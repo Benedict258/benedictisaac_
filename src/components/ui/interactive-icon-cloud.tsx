@@ -62,21 +62,35 @@ export type DynamicCloudProps = {
 
 type IconData = Awaited<ReturnType<typeof fetchSimpleIcons>>;
 
+const slugAliases: Record<string, string> = {
+  visualstudio: "visualstudiocode",
+  openjdk: "java",
+  amazonwebservices: "amazonaws",
+};
+
+const normalizeSlugs = (slugs: string[]) =>
+  slugs.map((slug) => slugAliases[slug] ?? slug);
+
 export function IconCloud({ iconSlugs }: DynamicCloudProps) {
   const [data, setData] = useState<IconData | null>(null);
   const [isClient, setIsClient] = useState(false);
   const { theme, resolvedTheme } = useTheme();
   const activeTheme = theme === "system" ? resolvedTheme : theme;
+  const slugKey = useMemo(() => iconSlugs.join("|"), [iconSlugs]);
+  const normalizedSlugs = useMemo(
+    () => normalizeSlugs(iconSlugs),
+    [slugKey],
+  );
 
   useEffect(() => {
     let mounted = true;
-    fetchSimpleIcons({ slugs: iconSlugs }).then((icons) => {
+    fetchSimpleIcons({ slugs: normalizedSlugs }).then((icons) => {
       if (mounted) setData(icons);
     });
     return () => {
       mounted = false;
     };
-  }, [iconSlugs]);
+  }, [normalizedSlugs]);
 
   useEffect(() => {
     setIsClient(typeof window !== "undefined");
