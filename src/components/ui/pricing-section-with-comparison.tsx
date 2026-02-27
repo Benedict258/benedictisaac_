@@ -1,11 +1,45 @@
+import { Component, type ReactNode } from "react";
 import { PRICING_PLANS, FEATURE_MATRIX } from "@/data/pricing";
 import { useLeadCapture } from "@/context/lead-capture-context";
 import { Button } from "@/components/ui/button";
 
-export function Pricing() {
+class PricingErrorBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex min-h-[200px] items-center justify-center py-16 text-center text-muted-foreground">
+          <p>Unable to load pricing information. Please refresh the page.</p>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
+function PricingInner() {
   const { openLeadForm } = useLeadCapture();
   const primaryPlans = PRICING_PLANS.filter((plan) => plan.slug !== "custom");
   const customPlan = PRICING_PLANS.find((plan) => plan.slug === "custom");
+
+  if (!PRICING_PLANS.length || !FEATURE_MATRIX.length) {
+    return (
+      <div className="flex min-h-[200px] items-center justify-center py-16 text-center text-muted-foreground">
+        <p>No pricing information available.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full py-16 lg:py-24">
@@ -113,6 +147,14 @@ export function Pricing() {
         </div>
       </div>
     </div>
+  );
+}
+
+export function Pricing() {
+  return (
+    <PricingErrorBoundary>
+      <PricingInner />
+    </PricingErrorBoundary>
   );
 }
 
