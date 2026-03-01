@@ -1,4 +1,5 @@
 import { ArrowRightIcon, PlusIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 export function CallToAction() {
@@ -37,9 +38,9 @@ export function CallToAction() {
 
       <div className="flex items-center justify-center gap-2">
         <Button asChild>
-          <a href="/pricing" className="inline-flex items-center">
+          <Link to="/pricing" className="inline-flex items-center">
             Get Started <ArrowRightIcon className="size-4 ml-1" />
-          </a>
+          </Link>
         </Button>
       </div>
     </div>
