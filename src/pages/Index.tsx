@@ -669,7 +669,7 @@ const Index = () => {
                   className="rounded-2xl border bg-background/85 p-6 shadow-xl backdrop-blur"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="rounded-full bg-emerald-700/10 p-3 text-emerald-700 dark:bg-primary/10 dark:text-primary">
+                    <div className="rounded-full bg-primary/10 p-3 text-primary">
                       <Icon className="h-6 w-6" />
                     </div>
                     <h3 className="text-lg font-semibold">{group.title}</h3>
@@ -765,7 +765,7 @@ const Index = () => {
           >
             <WorldMap
               dots={worldMapRoutes}
-              lineColor="#34d399"
+              lineColor="hsl(var(--primary))"
               className="shadow-xl"
             />
           </Suspense>

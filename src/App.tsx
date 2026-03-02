@@ -8,6 +8,8 @@ import { LeadCaptureProvider } from "@/context/lead-capture-context";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PricingPage from "./pages/Pricing";
+import Admin from "./pages/Admin";
+import InvoicePublic from "./pages/InvoicePublic";
 
 const queryClient = new QueryClient();
 
@@ -22,6 +24,8 @@ const App = () => (
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/pricing" element={<PricingPage />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route path="/invoice/:publicId" element={<InvoicePublic />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
