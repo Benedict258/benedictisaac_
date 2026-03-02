@@ -5,6 +5,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+const apiUrl = (path: string) => `${API_BASE}${path}`;
+
 type InvoiceItem = {
   item_name: string;
   quantity: number;
@@ -94,7 +97,7 @@ const Admin = () => {
 
   const checkAuth = async () => {
     try {
-      const res = await fetch("/api/auth/me", { credentials: "include" });
+      const res = await fetch(apiUrl("/api/auth/me"), { credentials: "include" });
       setAuthenticated(res.ok);
     } catch {
       setAuthenticated(false);
@@ -105,7 +108,7 @@ const Admin = () => {
 
   const loadBranding = async () => {
     try {
-      const res = await fetch("/api/admin/branding", { credentials: "include" });
+      const res = await fetch(apiUrl("/api/admin/branding"), { credentials: "include" });
       if (res.ok) {
         const data = await res.json();
         setBranding(data);
@@ -119,7 +122,7 @@ const Admin = () => {
     const params = new URLSearchParams();
     if (filters.status) params.append("status", filters.status);
     if (filters.client) params.append("client", filters.client);
-    const res = await fetch(`/api/admin/invoices?${params.toString()}`, { credentials: "include" });
+    const res = await fetch(apiUrl(`/api/admin/invoices?${params.toString()}`), { credentials: "include" });
     if (res.ok) {
       const data = await res.json();
       setInvoices(data.invoices || []);
@@ -139,7 +142,7 @@ const Admin = () => {
 
   const handleLogin = async () => {
     setAuthError("");
-    const res = await fetch("/api/auth/login", {
+    const res = await fetch(apiUrl("/api/auth/login"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -154,7 +157,7 @@ const Admin = () => {
   };
 
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST", credentials: "include" });
+    await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" });
     setAuthenticated(false);
   };
 
@@ -180,7 +183,7 @@ const Admin = () => {
         public_base_url: window.location.origin,
       };
 
-      const res = await fetch("/api/admin/invoices", {
+      const res = await fetch(apiUrl("/api/admin/invoices"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -201,7 +204,7 @@ const Admin = () => {
   };
 
   const handleSelectInvoice = async (invoiceId: string) => {
-    const res = await fetch(`/api/admin/invoices/${invoiceId}`, { credentials: "include" });
+    const res = await fetch(apiUrl(`/api/admin/invoices/${invoiceId}`), { credentials: "include" });
     const data = await res.json();
     if (res.ok) {
       setSelectedInvoice(data.invoice);
@@ -215,7 +218,7 @@ const Admin = () => {
 
   const handleStatusUpdate = async (status: string) => {
     if (!selectedInvoice) return;
-    const res = await fetch(`/api/admin/invoices/${selectedInvoice.id}/status`, {
+    const res = await fetch(apiUrl(`/api/admin/invoices/${selectedInvoice.id}/status`), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -233,7 +236,7 @@ const Admin = () => {
     const confirmed = window.confirm("Delete this invoice? This cannot be undone.");
     if (!confirmed) return;
 
-    const res = await fetch(`/api/admin/invoices/${selectedInvoice.id}`, {
+    const res = await fetch(apiUrl(`/api/admin/invoices/${selectedInvoice.id}`), {
       method: "DELETE",
       credentials: "include",
     });
@@ -258,7 +261,7 @@ const Admin = () => {
     setBrandingUploading(true);
     try {
       const formData = new FormData(event.currentTarget);
-      const res = await fetch("/api/admin/branding", {
+      const res = await fetch(apiUrl("/api/admin/branding"), {
         method: "POST",
         credentials: "include",
         body: formData,

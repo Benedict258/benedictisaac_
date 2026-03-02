@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 
+const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
+const apiUrl = (path: string) => `${API_BASE}${path}`;
+
 const formatCurrency = (value: number, currency: string) => {
   try {
     return new Intl.NumberFormat("en-US", {
@@ -30,7 +33,7 @@ const InvoicePublic = () => {
 
   const fetchInvoice = async () => {
     setLoading(true);
-    const res = await fetch(`/api/public/invoices/${publicId}`);
+    const res = await fetch(apiUrl(`/api/public/invoices/${publicId}`));
     const data = await res.json();
     if (res.ok) {
       setInvoice(data.invoice);
@@ -50,7 +53,7 @@ const InvoicePublic = () => {
     const formData = new FormData();
     formData.append("receipt", receipt);
     formData.append("description", description);
-    const res = await fetch(`/api/public/invoices/${publicId}/payment`, {
+    const res = await fetch(apiUrl(`/api/public/invoices/${publicId}/payment`), {
       method: "POST",
       body: formData,
     });
@@ -97,7 +100,7 @@ const InvoicePublic = () => {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => window.open(`/api/public/invoices/${publicId}/pdf`, "_blank")}
+                onClick={() => window.open(apiUrl(`/api/public/invoices/${publicId}/pdf`), "_blank")}
               >
                 Download PDF
               </Button>
