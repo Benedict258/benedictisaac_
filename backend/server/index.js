@@ -4,8 +4,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import multer from "multer";
 import crypto from "crypto";
-import path from "path";
-import { fileURLToPath } from "url";
 
 import { issueSessionCookie, clearSessionCookie, requireAdmin } from "./auth.js";
 import { supabase, SIGNATURE_BUCKET, RECEIPTS_BUCKET } from "./supabase.js";
@@ -17,10 +15,6 @@ import {
   sendPaymentRejectedEmail,
 } from "./email.js";
 import PDFDocument from "pdfkit";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, "..");
 
 const app = express();
 const upload = multer({
@@ -684,13 +678,6 @@ app.post(
     }
   }
 );
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(rootDir, "dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(rootDir, "dist", "index.html"));
-  });
-}
 
 const PORT = process.env.PORT || 8787;
 app.listen(PORT, () => {
