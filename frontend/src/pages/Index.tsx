@@ -64,6 +64,11 @@ const Testimonials = lazy(() =>
     default: module.Testimonials,
   })),
 );
+const AnimatedTestimonials = lazy(() =>
+  import("@/components/ui/animated-testimonials").then((module) => ({
+    default: module.AnimatedTestimonials,
+  })),
+);
 
 const Index = () => {
   const projects = [
@@ -261,6 +266,45 @@ const Index = () => {
     "MathWorks IoT & Embedded Systems Training",
     "ESIRG DeepTech Computer Vision Program",
     "3MTT #HRJ #158c906a-8d53-4dbc-904c-3a7d4e9cf4a8",
+  ];
+
+  const certificateHighlights = [
+    {
+      quote: "Issued Oct 2025",
+      name: "SUI DEVELOPMENT WORKSHOP",
+      designation: "Sui Nigeria",
+      src: "/suiminna.png",
+    },
+    {
+      quote: "Issued Nov 2025",
+      name: "DEVFEST",
+      designation: "GDG Minna",
+      src: "/devfest.png",
+    },
+    {
+      quote: "Issued Aug 2025",
+      name: "MATLAB Onramp",
+      designation: "MathWorks",
+      src: "/matlabonramp.png",
+    },
+    {
+      quote: "Issued Aug 2025",
+      name: "CERTIFICATE OF SERVICE",
+      designation: "Next-Gen Innovators",
+      src: "/nextgen.png",
+    },
+    {
+      quote: "Issued Dec 2025 • Credential ID CN:0295",
+      name: "AI Agents and Agentic AI Systems Development",
+      designation: "Meta",
+      src: "/metaai.png",
+    },
+    {
+      quote: "Issued Nov 2025 • Credential ID f2e5a82a-ff35-44f7-99d3-1dd1c70ed2dc",
+      name: "Full-Stack Development (MERN Stack)",
+      designation: "Power Learn Project",
+      src: "/plpcert.png",
+    },
   ];
 
   const education = {
@@ -826,6 +870,29 @@ const Index = () => {
             data={experienceTimeline}
           />
         </Suspense>
+      </section>
+
+      <section id="certificates" className="py-24 bg-muted/20">
+        <div className="container space-y-8">
+          <div className="space-y-3 text-center">
+            <Badge variant="outline" className="mx-auto w-fit">
+              Certificates
+            </Badge>
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Verified milestones and training.
+            </h2>
+            <p className="mx-auto max-w-3xl text-lg text-muted-foreground">
+              A quick look at recent credentials and programs I have completed.
+            </p>
+          </div>
+          <Suspense
+            fallback={
+              <div className="h-[360px] rounded-3xl border border-dashed border-border/60" />
+            }
+          >
+            <AnimatedTestimonials testimonials={certificateHighlights} />
+          </Suspense>
+        </div>
       </section>
 
       <Suspense
