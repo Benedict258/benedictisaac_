@@ -23,6 +23,8 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
+      // Work around a runtime crash in this project's current ESLint/typescript-eslint combination.
+      "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/no-unused-vars": "off",
     },
   }
