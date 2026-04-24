@@ -8,8 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
 
-const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "https://api.benedictisaac.dev").replace(/\/$/, "");
-const apiUrl = (path: string) => `${API_BASE}${path}`;
+import { apiUrl } from "@/lib/api";
 
 const formatCurrency = (value: number, currency: string) => {
   try {

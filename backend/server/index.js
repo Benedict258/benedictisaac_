@@ -5,7 +5,12 @@ import cookieParser from "cookie-parser";
 import multer from "multer";
 import crypto from "crypto";
 
-import { issueSessionCookie, clearSessionCookie, requireAdmin } from "./auth.js";
+import {
+  issueSessionCookie,
+  clearSessionCookie,
+  requireAdmin,
+  isAdminAuthenticated,
+} from "./auth.js";
 import { supabase, SIGNATURE_BUCKET, RECEIPTS_BUCKET } from "./supabase.js";
 import {
   sendInvoiceCreatedEmail,
@@ -65,6 +70,16 @@ const ensureStatus = (value) => {
     return normalized;
   }
   return "unpaid";
+};
+
+const sendUpstreamError = (res, error, fallbackMessage) => {
+  const message = error?.message || fallbackMessage;
+  if (message.includes("fetch failed")) {
+    return res.status(503).json({
+      error: "Supabase is unreachable. Check SUPABASE_URL and DNS/network connectivity.",
+    });
+  }
+  return res.status(500).json({ error: message });
 };
 
 const formatCurrency = (amount, currency) => {
@@ -274,8 +289,8 @@ app.post("/api/auth/logout", (req, res) => {
   return res.json({ ok: true });
 });
 
-app.get("/api/auth/me", requireAdmin, (req, res) => {
-  res.json({ authenticated: true });
+app.get("/api/auth/me", (req, res) => {
+  res.json({ authenticated: isAdminAuthenticated(req) });
 });
 
 app.get("/api/admin/branding", requireAdmin, async (req, res) => {
@@ -428,30 +443,34 @@ app.post("/api/admin/invoices", requireAdmin, async (req, res) => {
 
     res.json({ invoice, publicUrl: invoiceUrl });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    return sendUpstreamError(res, error, "Failed to create invoice.");
   }
 });
 
 app.get("/api/admin/invoices", requireAdmin, async (req, res) => {
-  const { status, client, from, to } = req.query;
-  let query = supabase
-    .from("invoices")
-    .select("*, invoice_items(*)")
-    .order("created_at", { ascending: false });
+  try {
+    const { status, client, from, to } = req.query;
+    let query = supabase
+      .from("invoices")
+      .select("*, invoice_items(*)")
+      .order("created_at", { ascending: false });
 
-  if (status) query = query.eq("status", status);
-  if (client) {
-    query = query.or(
-      `client_name.ilike.%${client}%,client_email.ilike.%${client}%`
-    );
+    if (status) query = query.eq("status", status);
+    if (client) {
+      query = query.or(
+        `client_name.ilike.%${client}%,client_email.ilike.%${client}%`
+      );
+    }
+    if (from) query = query.gte("issue_date", from);
+    if (to) query = query.lte("issue_date", to);
+
+    const { data, error } = await query;
+    if (error) throw new Error(error.message);
+
+    res.json({ invoices: data });
+  } catch (error) {
+    return sendUpstreamError(res, error, "Failed to load invoices.");
   }
-  if (from) query = query.gte("issue_date", from);
-  if (to) query = query.lte("issue_date", to);
-
-  const { data, error } = await query;
-  if (error) return res.status(500).json({ error: error.message });
-
-  res.json({ invoices: data });
 });
 
 app.get("/api/admin/invoices/:id", requireAdmin, async (req, res) => {

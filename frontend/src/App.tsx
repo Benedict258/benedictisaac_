@@ -20,7 +20,12 @@ const App = () => (
         <Toaster />
         <Sonner />
         <LeadCaptureProvider>
-          <BrowserRouter>
+          <BrowserRouter
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/pricing" element={<PricingPage />} />

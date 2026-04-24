@@ -69,3 +69,10 @@ export const requireAdmin = (req, res, next) => {
   }
   next();
 };
+
+export const isAdminAuthenticated = (req) => {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret) return false;
+  const token = req.cookies?.[SESSION_COOKIE];
+  return Boolean(verify(token, secret));
+};

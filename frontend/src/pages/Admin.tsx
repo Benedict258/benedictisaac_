@@ -4,9 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
-
-const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "https://api.benedictisaac.dev").replace(/\/$/, "");
-const apiUrl = (path: string) => `${API_BASE}${path}`;
+import { apiUrl } from "@/lib/api";
 
 type InvoiceItem = {
   item_name: string;
@@ -95,10 +93,37 @@ const Admin = () => {
     [subtotal, form.tax, form.discount],
   );
 
+  const fetchWithAuth = async (
+    path: string,
+    init?: RequestInit,
+    options: { handleUnauthorized?: boolean } = {},
+  ) => {
+    const { handleUnauthorized = true } = options;
+    const res = await fetch(apiUrl(path), {
+      credentials: "include",
+      ...init,
+    });
+
+    if (res.status === 401 && handleUnauthorized) {
+      setAuthenticated(false);
+      setAuthChecked(true);
+      setAuthError("Your session has expired. Please sign in again.");
+    }
+
+    return res;
+  };
+
   const checkAuth = async () => {
     try {
-      const res = await fetch(apiUrl("/api/auth/me"), { credentials: "include" });
-      setAuthenticated(res.ok);
+      const res = await fetchWithAuth("/api/auth/me", undefined, {
+        handleUnauthorized: false,
+      });
+      if (!res.ok) {
+        setAuthenticated(false);
+        return;
+      }
+      const data = await res.json();
+      setAuthenticated(Boolean(data?.authenticated));
     } catch {
       setAuthenticated(false);
     } finally {
@@ -108,7 +133,7 @@ const Admin = () => {
 
   const loadBranding = async () => {
     try {
-      const res = await fetch(apiUrl("/api/admin/branding"), { credentials: "include" });
+      const res = await fetchWithAuth("/api/admin/branding");
       if (res.ok) {
         const data = await res.json();
         setBranding(data);
@@ -122,7 +147,7 @@ const Admin = () => {
     const params = new URLSearchParams();
     if (filters.status) params.append("status", filters.status);
     if (filters.client) params.append("client", filters.client);
-    const res = await fetch(apiUrl(`/api/admin/invoices?${params.toString()}`), { credentials: "include" });
+    const res = await fetchWithAuth(`/api/admin/invoices?${params.toString()}`);
     if (res.ok) {
       const data = await res.json();
       setInvoices(data.invoices || []);
@@ -142,12 +167,11 @@ const Admin = () => {
 
   const handleLogin = async () => {
     setAuthError("");
-    const res = await fetch(apiUrl("/api/auth/login"), {
+    const res = await fetchWithAuth("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify({ passcode }),
-    });
+    }, { handleUnauthorized: false });
     if (!res.ok) {
       setAuthError("Authentication failed.");
       return;
@@ -157,7 +181,7 @@ const Admin = () => {
   };
 
   const handleLogout = async () => {
-    await fetch(apiUrl("/api/auth/logout"), { method: "POST", credentials: "include" });
+    await fetchWithAuth("/api/auth/logout", { method: "POST" });
     setAuthenticated(false);
   };
 
@@ -183,10 +207,9 @@ const Admin = () => {
         public_base_url: window.location.origin,
       };
 
-      const res = await fetch(apiUrl("/api/admin/invoices"), {
+      const res = await fetchWithAuth("/api/admin/invoices", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        credentials: "include",
         body: JSON.stringify(payload),
       });
 
@@ -204,7 +227,7 @@ const Admin = () => {
   };
 
   const handleSelectInvoice = async (invoiceId: string) => {
-    const res = await fetch(apiUrl(`/api/admin/invoices/${invoiceId}`), { credentials: "include" });
+    const res = await fetchWithAuth(`/api/admin/invoices/${invoiceId}`);
     const data = await res.json();
     if (res.ok) {
       setSelectedInvoice(data.invoice);
@@ -218,10 +241,9 @@ const Admin = () => {
 
   const handleStatusUpdate = async (status: string) => {
     if (!selectedInvoice) return;
-    const res = await fetch(apiUrl(`/api/admin/invoices/${selectedInvoice.id}/status`), {
+    const res = await fetchWithAuth(`/api/admin/invoices/${selectedInvoice.id}/status`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify({ status }),
     });
     if (res.ok) {
@@ -236,9 +258,8 @@ const Admin = () => {
     const confirmed = window.confirm("Delete this invoice? This cannot be undone.");
     if (!confirmed) return;
 
-    const res = await fetch(apiUrl(`/api/admin/invoices/${selectedInvoice.id}`), {
+    const res = await fetchWithAuth(`/api/admin/invoices/${selectedInvoice.id}`, {
       method: "DELETE",
-      credentials: "include",
     });
 
     if (!res.ok) {
@@ -261,9 +282,8 @@ const Admin = () => {
     setBrandingUploading(true);
     try {
       const formData = new FormData(event.currentTarget);
-      const res = await fetch(apiUrl("/api/admin/branding"), {
+      const res = await fetchWithAuth("/api/admin/branding", {
         method: "POST",
-        credentials: "include",
         body: formData,
       });
       const data = await res.json();
