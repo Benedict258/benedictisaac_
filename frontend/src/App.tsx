@@ -9,7 +9,11 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import PricingPage from "./pages/Pricing";
 import Admin from "./pages/Admin";
+import Dashboard from "./pages/Dashboard";
 import InvoicePublic from "./pages/InvoicePublic";
+import ProjectView from "./pages/ProjectView";
+import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +34,10 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/project/:slug" element={<ProjectView />} />
+              <Route path="/blog" element={<Blog />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/invoice/:publicId" element={<InvoicePublic />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />

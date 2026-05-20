@@ -18,7 +18,7 @@ export function DataHero() {
   return (
     <BackgroundPaths
       title="Benedict Isaac"
-      className="bg-gradient-to-b from-white via-slate-50 to-white dark:from-neutral-950 dark:via-neutral-950 dark:to-neutral-900"
+      className="bg-gradient-to-b from-white via-slate-50 to-white dark:from-[hsl(222,47%,4%)] dark:via-[hsl(222,47%,4%)] dark:to-[hsl(222,47%,4%)]"
     >
       <div className="relative w-full">
         <div className="fixed right-6 top-4 z-[9999]">

@@ -54,3 +54,10 @@ create table if not exists public.invoice_events (
   note text,
   created_at timestamptz default now()
 );
+
+create table if not exists public.dashboard_state (
+  id uuid primary key default gen_random_uuid(),
+  state jsonb not null default '{}'::jsonb,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);

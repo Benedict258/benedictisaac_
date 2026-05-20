@@ -256,7 +256,35 @@ const uploadToBucket = async (bucket, file, prefix) => {
   return pathValue;
 };
 
+const downloadFromBucket = async (bucket, pathValue) => {
+  try {
+    const { data, error } = await supabase.storage.from(bucket).download(pathValue);
+    if (error) {
+      return { error };
+    }
+
+    // Try common ways to read the returned data
+    if (data?.arrayBuffer) {
+      const buf = Buffer.from(await data.arrayBuffer());
+      return { buffer: buf };
+    }
+
+    // Node Readable stream
+    if (data && typeof data.pipe === "function") {
+      const chunks = [];
+      for await (const chunk of data) chunks.push(chunk);
+      return { buffer: Buffer.concat(chunks) };
+    }
+
+    // Fallback: return null
+    return { buffer: null };
+  } catch (err) {
+    return { error: err };
+  }
+};
+
 const BRANDING_ID = "00000000-0000-0000-0000-000000000001";
+const DASHBOARD_STATE_ID = "00000000-0000-0000-0000-000000000002";
 
 const fetchBranding = async () => {
   const { data } = await supabase
@@ -291,6 +319,57 @@ app.post("/api/auth/logout", (req, res) => {
 
 app.get("/api/auth/me", (req, res) => {
   res.json({ authenticated: isAdminAuthenticated(req) });
+});
+
+app.get("/api/admin/dashboard-state", requireAdmin, async (_req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from("dashboard_state")
+      .select("state, updated_at")
+      .eq("id", DASHBOARD_STATE_ID)
+      .maybeSingle();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    res.json({
+      state: data?.state || null,
+      updated_at: data?.updated_at || null,
+    });
+  } catch (error) {
+    return sendUpstreamError(res, error, "Failed to load dashboard state.");
+  }
+});
+
+app.put("/api/admin/dashboard-state", requireAdmin, async (req, res) => {
+  try {
+    const state = req.body?.state;
+    if (!state || typeof state !== "object" || Array.isArray(state)) {
+      return res.status(400).json({ error: "Invalid dashboard state payload." });
+    }
+
+    const { data, error } = await supabase
+      .from("dashboard_state")
+      .upsert({
+        id: DASHBOARD_STATE_ID,
+        state,
+        updated_at: new Date().toISOString(),
+      })
+      .select("state, updated_at")
+      .single();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    res.json({
+      state: data?.state || null,
+      updated_at: data?.updated_at || null,
+    });
+  } catch (error) {
+    return sendUpstreamError(res, error, "Failed to save dashboard state.");
+  }
 });
 
 app.get("/api/admin/branding", requireAdmin, async (req, res) => {
@@ -446,6 +525,205 @@ app.post("/api/admin/invoices", requireAdmin, async (req, res) => {
     return sendUpstreamError(res, error, "Failed to create invoice.");
   }
 });
+
+// Get project metadata and file list
+app.get("/api/admin/projects/:slug", requireAdmin, async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const metaPath = `projects/${slug}/meta.json`;
+    const { buffer, error: dlError } = await downloadFromBucket(PROJECTS_BUCKET, metaPath);
+    let meta = null;
+    if (dlError) {
+      // if not found, return empty meta
+      if (dlError?.status === 404) {
+        meta = null;
+      } else {
+        throw dlError;
+      }
+    } else if (buffer) {
+      try {
+        meta = JSON.parse(buffer.toString("utf-8"));
+      } catch (e) {
+        meta = null;
+      }
+    }
+
+    // list screenshots and other files
+    const listPrefix = `projects/${slug}/screenshots`;
+    const { data: listData, error: listError } = await supabase.storage.from(PROJECTS_BUCKET).list(listPrefix);
+    if (listError) {
+      // if folder doesn't exist, return empty files
+      if (listError?.status !== 404) throw listError;
+    }
+
+    const files = [];
+    if (Array.isArray(listData)) {
+      for (const f of listData) {
+        const signed = await getSignedUrl(PROJECTS_BUCKET, `${listPrefix}/${f.name}`);
+        files.push({ name: f.name, path: `${listPrefix}/${f.name}`, url: signed });
+      }
+    }
+
+    res.json({ meta, files });
+  } catch (error) {
+    return sendUpstreamError(res, error, "Failed to load project metadata.");
+  }
+});
+
+// Get blog metadata and files
+app.get("/api/admin/blogs/:slug", requireAdmin, async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const metaPath = `blogs/${slug}/meta.json`;
+    const { buffer, error: dlError } = await downloadFromBucket(PROJECTS_BUCKET, metaPath);
+    let meta = null;
+    if (dlError) {
+      if (dlError?.status === 404) {
+        meta = null;
+      } else {
+        throw dlError;
+      }
+    } else if (buffer) {
+      try {
+        meta = JSON.parse(buffer.toString("utf-8"));
+      } catch (e) {
+        meta = null;
+      }
+    }
+
+    const listPrefix = `blogs/${slug}`;
+    const { data: listData, error: listError } = await supabase.storage.from(PROJECTS_BUCKET).list(listPrefix);
+    if (listError) {
+      if (listError?.status !== 404) throw listError;
+    }
+
+    const files = [];
+    if (Array.isArray(listData)) {
+      for (const f of listData) {
+        const signed = await getSignedUrl(PROJECTS_BUCKET, `${listPrefix}/${f.name}`);
+        files.push({ name: f.name, path: `${listPrefix}/${f.name}`, url: signed });
+      }
+    }
+
+    res.json({ meta, files });
+  } catch (error) {
+    return sendUpstreamError(res, error, "Failed to load blog metadata.");
+  }
+});
+
+// Save blog metadata and image upload
+app.post(
+  "/api/admin/blogs/:slug",
+  requireAdmin,
+  upload.fields([{ name: "image", maxCount: 1 }]),
+  async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const metaRaw = req.body?.meta;
+      const meta = metaRaw ? JSON.parse(metaRaw) : {};
+
+      const metaPath = `blogs/${slug}/meta.json`;
+      const { error: writeMetaError } = await supabase.storage.from(PROJECTS_BUCKET).upload(
+        metaPath,
+        Buffer.from(JSON.stringify(meta)),
+        { contentType: "application/json", upsert: true },
+      );
+      if (writeMetaError) throw writeMetaError;
+
+      const uploadedFiles = [];
+      const imageFile = req.files?.image?.[0];
+      if (imageFile) {
+        const pathValue = await uploadToBucket(PROJECTS_BUCKET, imageFile, `blogs/${slug}`);
+        uploadedFiles.push(pathValue);
+      }
+
+      const fileUrls = [];
+      for (const p of uploadedFiles) {
+        const url = await getSignedUrl(PROJECTS_BUCKET, p);
+        fileUrls.push({ path: p, url });
+      }
+
+      res.json({ ok: true, meta, uploaded: fileUrls });
+    } catch (error) {
+      return sendUpstreamError(res, error, "Failed to save blog metadata.");
+    }
+  },
+);
+
+// Delete a blog file (image etc.)
+app.delete("/api/admin/blogs/:slug/files", requireAdmin, async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const pathValue = req.body?.path || req.query?.path;
+    if (!pathValue) return res.status(400).json({ error: "Missing file path." });
+
+    const { error } = await supabase.storage.from(PROJECTS_BUCKET).remove([pathValue]);
+    if (error) throw error;
+
+    res.json({ ok: true });
+  } catch (error) {
+    return sendUpstreamError(res, error, "Failed to delete blog file.");
+  }
+});
+
+// Save project metadata and accept file uploads
+app.post(
+  "/api/admin/projects/:slug",
+  requireAdmin,
+  upload.fields([{ name: "screenshots", maxCount: 20 }]),
+  async (req, res) => {
+    try {
+      const { slug } = req.params;
+
+      const metaRaw = req.body?.meta;
+      const meta = metaRaw ? JSON.parse(metaRaw) : {};
+
+      // save meta JSON to storage
+      const metaPath = `projects/${slug}/meta.json`;
+      const { error: writeMetaError } = await supabase.storage.from(PROJECTS_BUCKET).upload(
+        metaPath,
+        Buffer.from(JSON.stringify(meta)),
+        { contentType: "application/json", upsert: true },
+      );
+      if (writeMetaError) throw writeMetaError;
+
+      // handle file uploads
+      const uploadedFiles = [];
+      const screenshotFiles = req.files?.screenshots || [];
+      for (const f of screenshotFiles) {
+        const pathValue = await uploadToBucket(PROJECTS_BUCKET, f, `projects/${slug}/screenshots`);
+        uploadedFiles.push(pathValue);
+      }
+
+      // return updated meta and file URLs
+      const fileUrls = [];
+      for (const p of uploadedFiles) {
+        const url = await getSignedUrl(PROJECTS_BUCKET, p);
+        fileUrls.push({ path: p, url });
+      }
+
+      res.json({ ok: true, meta, uploaded: fileUrls });
+    } catch (error) {
+      return sendUpstreamError(res, error, "Failed to save project metadata.");
+    }
+  },
+);
+
+    // Delete a file from a project (e.g., screenshot)
+    app.delete("/api/admin/projects/:slug/files", requireAdmin, async (req, res) => {
+      try {
+        const { slug } = req.params;
+        const pathValue = req.body?.path || req.query?.path;
+        if (!pathValue) return res.status(400).json({ error: "Missing file path." });
+
+        const { error } = await supabase.storage.from(PROJECTS_BUCKET).remove([pathValue]);
+        if (error) throw error;
+
+        res.json({ ok: true });
+      } catch (error) {
+        return sendUpstreamError(res, error, "Failed to delete project file.");
+      }
+    });
 
 app.get("/api/admin/invoices", requireAdmin, async (req, res) => {
   try {

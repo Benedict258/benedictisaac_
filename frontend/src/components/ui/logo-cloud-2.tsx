@@ -24,13 +24,15 @@ const communityLogos: Logo[] = [
   { src: "/encode.png", darkSrc: "/darkencode.png", alt: "Encode Club" },
   { src: "/suioncampus.png", alt: "Sui On Campus" },
   { src: "/windows.png", alt: "Windows on America" },
+  { src: "/DSN.png", alt: "DSN" },
+  { src: "/nihuhlight.jpg", darkSrc: "/nihubdark.jpg", alt: "NiHub" },
 ];
 
 export function LogoCloud({ className, ...props }: LogoCloudProps) {
   return (
     <div
       className={cn(
-        "relative grid grid-cols-2 border-x md:grid-cols-4",
+        "relative grid grid-cols-2 border-x md:grid-cols-5",
         className,
       )}
       {...props}
@@ -47,7 +49,7 @@ export function LogoCloud({ className, ...props }: LogoCloudProps) {
         />
       </LogoCard>
 
-      <LogoCard className="border-b md:border-r" logo={communityLogos[1]} />
+      <LogoCard className="border-b border-r" logo={communityLogos[1]} />
 
       <LogoCard
         className="relative border-b border-r md:bg-secondary/60 dark:md:bg-secondary/30"
@@ -63,29 +65,19 @@ export function LogoCloud({ className, ...props }: LogoCloudProps) {
         />
       </LogoCard>
 
-      <LogoCard
-        className="border-b bg-secondary/60 md:bg-background dark:bg-secondary/30 md:dark:bg-background"
-        logo={communityLogos[3]}
-      />
+      <LogoCard className="border-b border-r" logo={communityLogos[3]} />
 
-      <LogoCard
-        className="relative border-b border-r bg-secondary/60 md:border-b-0 md:bg-background dark:bg-secondary/30 md:dark:bg-background"
-        logo={communityLogos[4]}
-      >
-        <Plus
-          className="absolute -bottom-[12.5px] -right-[12.5px] h-7 w-7 text-muted-foreground md:hidden"
-          strokeWidth={1}
-        />
-      </LogoCard>
+      <LogoCard className="border-b bg-secondary/60 dark:bg-secondary/30" logo={communityLogos[4]} />
 
-      <LogoCard
-        className="border-b bg-background md:border-b-0 md:border-r md:bg-secondary/60 dark:md:bg-secondary/30"
-        logo={communityLogos[5]}
-      />
+      <LogoCard className="border-r" logo={communityLogos[5]} />
 
       <LogoCard className="border-r" logo={communityLogos[6]} />
 
-      <LogoCard className="bg-secondary/50 dark:bg-secondary/30" logo={communityLogos[7]} />
+      <LogoCard className="border-r bg-secondary/50 dark:bg-secondary/30" logo={communityLogos[7]} />
+
+      <LogoCard className="border-r" logo={communityLogos[8]} />
+
+      <LogoCard className="" logo={communityLogos[9]} />
 
       <div className="pointer-events-none absolute left-1/2 bottom-0 -translate-x-1/2 w-screen border-b" />
     </div>

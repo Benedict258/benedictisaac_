@@ -3,6 +3,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import projectsData, { type Project } from "@/data/projects";
+import blogsData from "@/data/blogs";
 import { useToast } from "@/components/ui/use-toast";
 import { apiUrl } from "@/lib/api";
 
@@ -73,6 +76,19 @@ const Admin = () => {
 
   const [createdLink, setCreatedLink] = useState("");
   const [loading, setLoading] = useState(false);
+  const [projectSlug, setProjectSlug] = useState<string | null>(projectsData[0]?.slug ?? null);
+  const [projectMeta, setProjectMeta] = useState<any>(null);
+  const [projectFiles, setProjectFiles] = useState<Array<{ name: string; path: string; url: string }>>([]);
+  const [newScreenshots, setNewScreenshots] = useState<File[]>([]);
+  const [projLoading, setProjLoading] = useState(false);
+  const [projectForm, setProjectForm] = useState<any>(null);
+  const [projectUploading, setProjectUploading] = useState(false);
+  const [blogSlugAdmin, setBlogSlugAdmin] = useState<string | null>(blogsData[0]?.slug ?? null);
+  const [blogForm, setBlogForm] = useState<any>(null);
+  const [blogFiles, setBlogFiles] = useState<Array<{ name: string; path: string; url: string }>>([]);
+  const [blogImageFile, setBlogImageFile] = useState<File | null>(null);
+  const [blogLoading, setBlogLoading] = useState(false);
+  const [blogUploading, setBlogUploading] = useState(false);
 
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
@@ -164,6 +180,160 @@ const Admin = () => {
       loadInvoices();
     }
   }, [authenticated]);
+
+  useEffect(() => {
+    if (authenticated && projectSlug) loadProject(projectSlug);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authenticated, projectSlug]);
+
+  useEffect(() => {
+    if (authenticated && blogSlugAdmin) loadBlogAdmin(blogSlugAdmin);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authenticated, blogSlugAdmin]);
+
+  const loadProject = async (slug: string) => {
+    setProjLoading(true);
+    try {
+      const res = await fetchWithAuth(`/api/admin/projects/${slug}`);
+      if (!res.ok) throw new Error("Failed to load project");
+      const data = await res.json();
+      setProjectMeta(data.meta || {});
+      setProjectForm(data.meta || {});
+      setProjectFiles(data.files || []);
+      setNewScreenshots([]);
+    } catch (err) {
+      // ignore
+    } finally {
+      setProjLoading(false);
+    }
+  };
+
+  const handleAddScreenshots = (files: FileList | null) => {
+    if (!files) return;
+    setNewScreenshots((prev) => [...prev, ...Array.from(files)]);
+  };
+
+  const loadBlogAdmin = async (slug: string) => {
+    setBlogLoading(true);
+    try {
+      const res = await fetchWithAuth(`/api/admin/blogs/${slug}`);
+      if (!res.ok) {
+        // fallback to local data
+        const local = blogsData.find((b) => b.slug === slug) || null;
+        setBlogForm(local ? { ...local } : null);
+        setBlogFiles([]);
+        setBlogImageFile(null);
+        return;
+      }
+      const data = await res.json();
+      setBlogForm(data.meta || (blogsData.find((b) => b.slug === slug) || {}));
+      setBlogFiles(data.files || []);
+      setBlogImageFile(null);
+    } catch (err) {
+      const local = blogsData.find((b) => b.slug === slug) || null;
+      setBlogForm(local ? { ...local } : null);
+      setBlogFiles([]);
+      setBlogImageFile(null);
+    } finally {
+      setBlogLoading(false);
+    }
+  };
+
+  const handleBlogImageSelect = (files: FileList | null) => {
+    if (!files || !files.length) return;
+    setBlogImageFile(files[0]);
+  };
+
+  const handleRemoveBlogFile = async (filePath: string) => {
+    if (!blogSlugAdmin) return;
+    try {
+      const res = await fetchWithAuth(`/api/admin/blogs/${blogSlugAdmin}/files`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path: filePath }),
+      });
+      if (!res.ok) throw new Error("Delete failed");
+      setBlogFiles((prev) => prev.filter((f) => f.path !== filePath));
+      toast({ title: "Deleted", description: "Image removed." });
+    } catch (err) {
+      toast({ title: "Error", description: "Failed to remove image.", variant: "destructive" });
+    }
+  };
+
+  const handleSaveBlog = async () => {
+    if (!blogSlugAdmin || !blogForm) return;
+    setBlogUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("meta", JSON.stringify(blogForm));
+      if (blogImageFile) fd.append("image", blogImageFile, blogImageFile.name);
+      const res = await fetchWithAuth(`/api/admin/blogs/${blogSlugAdmin}`, {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Save failed");
+      if (Array.isArray(data.uploaded)) {
+        const uploaded = data.uploaded.map((u: any) => ({ name: u.path.split("/").pop(), path: u.path, url: u.url }));
+        setBlogFiles((prev) => [...prev, ...uploaded]);
+      }
+      setBlogImageFile(null);
+      toast({ title: "Saved", description: "Blog saved." });
+    } catch (err) {
+      toast({ title: "Error", description: (err as Error).message || "Failed to save.", variant: "destructive" });
+    } finally {
+      setBlogUploading(false);
+    }
+  };
+
+  const handleRemoveExistingFile = async (filePath: string) => {
+    if (!projectSlug) return;
+    try {
+      const res = await fetchWithAuth(`/api/admin/projects/${projectSlug}/files`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ path: filePath }),
+      });
+      if (!res.ok) throw new Error("Delete failed");
+      setProjectFiles((prev) => prev.filter((f) => f.path !== filePath));
+      toast({ title: "Deleted", description: "File removed." });
+    } catch (err) {
+      toast({ title: "Error", description: "Failed to remove file.", variant: "destructive" });
+    }
+  };
+
+  const handleSaveProject = async () => {
+    if (!projectSlug) return;
+    const fd = new FormData();
+    fd.append("meta", JSON.stringify(projectMeta || {}));
+    newScreenshots.forEach((f) => fd.append("screenshots", f));
+    try {
+      const res = await fetchWithAuth(`/api/admin/projects/${projectSlug}`, {
+        method: "POST",
+        body: fd,
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Save failed");
+      // merge returned uploaded files
+      if (Array.isArray(data.uploaded)) {
+        const uploaded = data.uploaded.map((u) => ({ name: u.path.split("/").pop(), path: u.path, url: u.url }));
+        setProjectFiles((prev) => [...prev, ...uploaded]);
+      }
+      setNewScreenshots([]);
+      toast({ title: "Saved", description: "Project saved." });
+    } catch (err) {
+      toast({ title: "Error", description: (err as Error).message || "Failed to save.", variant: "destructive" });
+    }
+  };
+
+  useEffect(() => {
+    if (projectSlug) {
+      const p = projectsData.find((x) => x.slug === projectSlug) || null;
+      setProjectForm(p ? { ...p } : null);
+    } else {
+      setProjectForm(null);
+    }
+  }, [projectSlug]);
 
   const handleLogin = async () => {
     setAuthError("");
@@ -335,22 +505,29 @@ const Admin = () => {
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <Badge variant="outline">Admin Dashboard</Badge>
-            <h1 className="text-3xl font-semibold mt-2">Invoice Management</h1>
-            <p className="text-muted-foreground">
-              Create invoices, track payments, and approve receipts.
-            </p>
+            <h1 className="text-3xl font-semibold mt-2">Admin</h1>
+            <p className="text-muted-foreground">Manage invoices, branding, and project content.</p>
           </div>
           <Button variant="outline" onClick={handleLogout}>
             Log out
           </Button>
         </div>
 
-        <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-          <div className="space-y-6 rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold">Create Invoice</h2>
-              <Badge variant="secondary">Draft</Badge>
-            </div>
+        <Tabs defaultValue="invoices" className="space-y-6">
+          <TabsList>
+            <TabsTrigger value="invoices">Invoices</TabsTrigger>
+            <TabsTrigger value="branding">Branding</TabsTrigger>
+            <TabsTrigger value="projects">Projects</TabsTrigger>
+            <TabsTrigger value="blog">Blog Posts</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="invoices">
+            <section className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="space-y-6 rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">Create Invoice</h2>
+                  <Badge variant="secondary">Draft</Badge>
+                </div>
 
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-1">
@@ -566,83 +743,309 @@ const Admin = () => {
             )}
           </div>
 
-          <div className="space-y-6">
-            <form
-              className="rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl space-y-4"
-              onSubmit={handleBrandingUpload}
-            >
-              <h2 className="text-xl font-semibold">Branding</h2>
-              <div className="grid gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground">Signature</p>
-                  {branding.signatureUrl && (
-                    <img src={branding.signatureUrl} alt="Signature" className="mt-2 h-16 object-contain" />
-                  )}
-                  <Input type="file" name="signature" accept="image/*" />
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground">Logo</p>
-                  {branding.logoUrl && (
-                    <img src={branding.logoUrl} alt="Logo" className="mt-2 h-16 object-contain" />
-                  )}
-                  <Input type="file" name="logo" accept="image/*" />
-                </div>
-                <Textarea name="footer_note" placeholder="Default footer note" defaultValue={branding.footer_note || ""} />
-                <Button type="submit" disabled={brandingUploading}>
-                  {brandingUploading ? "Saving..." : "Save Branding"}
-                </Button>
-              </div>
-            </form>
+          </section>
 
-            <div className="rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl space-y-4">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">Manage Invoices</h2>
-                <Button variant="outline" size="sm" onClick={loadInvoices}>
-                  Refresh
-                </Button>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <Input
-                  placeholder="Filter by client"
-                  value={filters.client}
-                  onChange={(e) => setFilters({ ...filters, client: e.target.value })}
-                />
-                <Input
-                  placeholder="Status"
-                  value={filters.status}
-                  onChange={(e) => setFilters({ ...filters, status: e.target.value })}
-                />
-                <Button variant="secondary" onClick={loadInvoices}>
-                  Apply
-                </Button>
-              </div>
+          </TabsContent>
 
-              <div className="space-y-3 max-h-[360px] overflow-y-auto">
-                {invoices.map((invoice) => (
-                  <button
-                    key={invoice.id}
-                    className="w-full rounded-xl border border-border/60 p-4 text-left hover:bg-muted/30"
-                    onClick={() => handleSelectInvoice(invoice.id)}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="font-semibold">{invoice.client_name}</p>
-                        <p className="text-xs text-muted-foreground">{invoice.invoice_id}</p>
+          <TabsContent value="branding">
+            <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
+              <form
+                className="rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl space-y-4"
+                onSubmit={handleBrandingUpload}
+              >
+                <h2 className="text-xl font-semibold">Branding</h2>
+                <div className="grid gap-4">
+                  <div>
+                    <p className="text-sm text-muted-foreground">Signature</p>
+                    {branding.signatureUrl && (
+                      <img src={branding.signatureUrl} alt="Signature" className="mt-2 h-16 object-contain" />
+                    )}
+                    <Input type="file" name="signature" accept="image/*" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Logo</p>
+                    {branding.logoUrl && (
+                      <img src={branding.logoUrl} alt="Logo" className="mt-2 h-16 object-contain" />
+                    )}
+                    <Input type="file" name="logo" accept="image/*" />
+                  </div>
+                  <Textarea
+                    name="footer_note"
+                    placeholder="Default footer note"
+                    defaultValue={branding.footer_note || ""}
+                  />
+                  <Button type="submit" disabled={brandingUploading}>
+                    {brandingUploading ? "Saving..." : "Save Branding"}
+                  </Button>
+                </div>
+              </form>
+
+              <div className="rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">Manage Invoices</h2>
+                  <Button variant="outline" size="sm" onClick={loadInvoices}>
+                    Refresh
+                  </Button>
+                </div>
+
+                <div className="flex flex-wrap gap-3">
+                  <Input
+                    placeholder="Filter by client"
+                    value={filters.client}
+                    onChange={(e) => setFilters({ ...filters, client: e.target.value })}
+                  />
+                  <Input
+                    placeholder="Status"
+                    value={filters.status}
+                    onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+                  />
+                  <Button variant="secondary" onClick={loadInvoices}>
+                    Apply
+                  </Button>
+                </div>
+
+                <div className="space-y-3 max-h-[360px] overflow-y-auto">
+                  {invoices.map((invoice) => (
+                    <button
+                      key={invoice.id}
+                      className="w-full rounded-xl border border-border/60 p-4 text-left hover:bg-muted/30"
+                      onClick={() => handleSelectInvoice(invoice.id)}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="font-semibold">{invoice.client_name}</p>
+                          <p className="text-xs text-muted-foreground">{invoice.invoice_id}</p>
+                        </div>
+                        <Badge variant="outline">{invoice.status}</Badge>
                       </div>
-                      <Badge variant="outline">{invoice.status}</Badge>
+                      <p className="text-sm text-muted-foreground mt-2">
+                        {formatCurrency(invoice.total, invoice.currency)}
+                      </p>
+                    </button>
+                  ))}
+                  {!invoices.length && (
+                    <p className="text-sm text-muted-foreground">No invoices yet.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="projects">
+            <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="space-y-6 rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">Project content manager</h2>
+                  <Badge variant="secondary">Media</Badge>
+                </div>
+
+                <div className="grid gap-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Select project</p>
+                    <select
+                      className="w-full rounded-md border border-border/60 px-3 py-2"
+                      value={projectSlug ?? ""}
+                      onChange={(e) => setProjectSlug(e.target.value || null)}
+                    >
+                      <option value="">-- choose project --</option>
+                      {projectsData.map((p) => (
+                        <option key={p.slug} value={p.slug}>{p.title}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {projectForm && (
+                    <>
+                      <div>
+                        <p className="text-xs text-muted-foreground">README / PRD</p>
+                        <Textarea
+                          value={projectForm.readme || ""}
+                          onChange={(e) => setProjectForm({ ...projectForm, readme: e.target.value })}
+                        />
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-muted-foreground">Tags (comma separated)</p>
+                        <Input
+                          value={(projectForm.tags || []).join(", ")}
+                          onChange={(e) => setProjectForm({ ...projectForm, tags: e.target.value.split(",").map(s => s.trim()).filter(Boolean) })}
+                        />
+                      </div>
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                          <p className="text-xs text-muted-foreground">Video URL (embed)</p>
+                          <Input value={projectForm.videoUrl || ""} onChange={(e) => setProjectForm({ ...projectForm, videoUrl: e.target.value })} />
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">Docs URL</p>
+                          <Input value={projectForm.docsUrl || ""} onChange={(e) => setProjectForm({ ...projectForm, docsUrl: e.target.value })} />
+                        </div>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-muted-foreground">Changelog (one per line)</p>
+                        <Textarea value={(projectForm.changelog || []).join("\n")} onChange={(e) => setProjectForm({ ...projectForm, changelog: e.target.value.split("\n").map(s=>s.trim()).filter(Boolean) })} />
+                      </div>
+
+                      <div className="grid gap-4 md:grid-cols-3">
+                        <Input placeholder="Published date" value={projectForm.publishedDate || ""} onChange={(e) => setProjectForm({ ...projectForm, publishedDate: e.target.value })} />
+                        <Input placeholder="License" value={projectForm.license || ""} onChange={(e) => setProjectForm({ ...projectForm, license: e.target.value })} />
+                        <Input placeholder="Live URL" value={projectForm.live || ""} onChange={(e) => setProjectForm({ ...projectForm, live: e.target.value })} />
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-muted-foreground">Screenshots (multiple)</p>
+                        <Input type="file" multiple accept="image/*" onChange={(e) => handleAddScreenshots(e.target.files)} />
+                        <div className="mt-2 grid grid-cols-3 gap-2">
+                          {(projectForm?.screenshots || []).map((src: string, i: number) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img key={i} src={src} alt={`screenshot-${i}`} className="h-24 w-full object-cover rounded" />
+                          ))}
+                          {newScreenshots.map((f, i) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img key={`new-${i}`} src={URL.createObjectURL(f)} alt={`new-${i}`} className="h-24 w-full object-cover rounded" />
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button disabled={projectUploading} onClick={handleSaveProject}>{projectUploading ? "Saving..." : "Save project"}</Button>
+                        <Button variant="outline" onClick={() => { if (projectSlug) { loadProject(projectSlug); } }}>Reset</Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                <div className="rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl space-y-4">
+                  <h3 className="text-lg font-semibold">Project preview</h3>
+                  {projectForm ? (
+                    <div>
+                      <p className="font-semibold">{projectForm.title}</p>
+                      <p className="text-sm text-muted-foreground">{projectForm.description}</p>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-2">
-                      {formatCurrency(invoice.total, invoice.currency)}
-                    </p>
-                  </button>
-                ))}
-                {!invoices.length && (
-                  <p className="text-sm text-muted-foreground">No invoices yet.</p>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">Choose a project to preview.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="blog">
+            <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+              <div className="space-y-6 rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl">
+                <div className="flex items-center justify-between">
+                  <h2 className="text-xl font-semibold">Blog Posts</h2>
+                  <Badge variant="secondary">Content</Badge>
+                </div>
+
+                <div className="grid gap-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground">Select post</p>
+                    <select
+                      className="w-full rounded-md border border-border/60 px-3 py-2"
+                      value={blogSlugAdmin ?? ""}
+                      onChange={(e) => setBlogSlugAdmin(e.target.value || null)}
+                    >
+                      <option value="">-- choose post --</option>
+                      {blogsData.map((p) => (
+                        <option key={p.slug} value={p.slug}>{p.title}</option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {blogForm && (
+                    <>
+                      <div>
+                        <p className="text-xs text-muted-foreground">Title</p>
+                        <Input value={blogForm.title || ""} onChange={(e) => setBlogForm({ ...blogForm, title: e.target.value })} />
+                      </div>
+
+                      <div className="grid gap-4 md:grid-cols-3">
+                        <label className="flex items-center gap-2">
+                          <input type="checkbox" checked={!!blogForm.titleStyle?.bold} onChange={(e) => setBlogForm({ ...blogForm, titleStyle: { ...blogForm.titleStyle, bold: e.target.checked } })} />
+                          <span className="text-sm">Bold</span>
+                        </label>
+                        <label className="flex items-center gap-2">
+                          <input type="checkbox" checked={!!blogForm.titleStyle?.italic} onChange={(e) => setBlogForm({ ...blogForm, titleStyle: { ...blogForm.titleStyle, italic: e.target.checked } })} />
+                          <span className="text-sm">Italic</span>
+                        </label>
+                        <label className="flex items-center gap-2">
+                          <input type="checkbox" checked={!!blogForm.titleStyle?.underline} onChange={(e) => setBlogForm({ ...blogForm, titleStyle: { ...blogForm.titleStyle, underline: e.target.checked } })} />
+                          <span className="text-sm">Underline</span>
+                        </label>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-muted-foreground">Excerpt</p>
+                        <Textarea value={blogForm.excerpt || ""} onChange={(e) => setBlogForm({ ...blogForm, excerpt: e.target.value })} />
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-muted-foreground">Content</p>
+                        <Textarea value={blogForm.content || ""} onChange={(e) => setBlogForm({ ...blogForm, content: e.target.value })} />
+                      </div>
+
+                      <div className="grid gap-4 md:grid-cols-2">
+                        <div>
+                          <p className="text-xs text-muted-foreground">Medium URL</p>
+                          <Input value={blogForm.mediumUrl || ""} onChange={(e) => setBlogForm({ ...blogForm, mediumUrl: e.target.value })} />
+                        </div>
+                        <div>
+                          <p className="text-xs text-muted-foreground">LinkedIn URL</p>
+                          <Input value={blogForm.linkedinUrl || ""} onChange={(e) => setBlogForm({ ...blogForm, linkedinUrl: e.target.value })} />
+                        </div>
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-muted-foreground">Published date</p>
+                        <Input type="date" value={blogForm.publishedAt || ""} onChange={(e) => setBlogForm({ ...blogForm, publishedAt: e.target.value })} />
+                      </div>
+
+                      <div>
+                        <p className="text-xs text-muted-foreground">Hero image</p>
+                        <Input type="file" accept="image/*" onChange={(e) => handleBlogImageSelect(e.target.files)} />
+                        <div className="mt-2 grid grid-cols-3 gap-2">
+                          {blogFiles.map((f, i) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <div key={i} className="relative">
+                              <img src={f.url} alt={f.name} className="h-28 w-full object-cover rounded" />
+                              <button onClick={() => handleRemoveBlogFile(f.path)} className="absolute top-1 right-1 rounded bg-red-600 text-white px-2 text-xs">Remove</button>
+                            </div>
+                          ))}
+                          {blogImageFile && (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={URL.createObjectURL(blogImageFile)} alt="new" className="h-28 w-full object-cover rounded" />
+                          )}
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <Button disabled={blogUploading} onClick={handleSaveBlog}>{blogUploading ? "Saving..." : "Save post"}</Button>
+                        <Button variant="outline" onClick={() => { if (blogSlugAdmin) loadBlogAdmin(blogSlugAdmin); }}>Reset</Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="rounded-3xl border border-border/60 bg-background/80 p-6 shadow-xl">
+                <h3 className="text-lg font-semibold">Preview</h3>
+                {blogForm ? (
+                  <div className="mt-4">
+                    <h2 className={`${blogForm.titleStyle?.bold ? "font-bold" : ""} ${blogForm.titleStyle?.italic ? "italic" : ""} ${blogForm.titleStyle?.underline ? "underline" : ""} text-xl`}>{blogForm.title}</h2>
+                    <p className="text-sm text-muted-foreground mt-2">{blogForm.excerpt}</p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-muted-foreground">Select a blog to preview.</p>
                 )}
               </div>
             </div>
-          </div>
-        </section>
+          </TabsContent>
+        </Tabs>
 
         {selectedInvoice && (
           <section

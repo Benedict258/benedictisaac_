@@ -18,7 +18,7 @@ type LogoCloudProps = React.ComponentProps<"div"> & {
   logos: Logo[];
 };
 
-export function LogoCloud({ logos }: LogoCloudProps) {
+export function LogoCloud({ logos = [] }: LogoCloudProps) {
   const { theme, resolvedTheme } = useTheme();
   const isDark = (theme ?? resolvedTheme) === "dark";
 

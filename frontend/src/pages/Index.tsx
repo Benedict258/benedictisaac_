@@ -1,10 +1,19 @@
 import { lazy, Suspense } from "react";
+import { Feature197 } from "@/components/ui/accordion-feature-section";
 import { CallToAction } from "@/components/ui/cta-3";
 import { ToolsMarquee } from "@/components/ui/integration-hero";
 import { Footer } from "@/components/ui/footer";
+import { DataHero } from "@/components/ui/data-hero";
+import { LogoCloud as CommunitiesLogoCloud } from "@/components/ui/logo-cloud-2";
+import { WorldMap } from "@/components/ui/world-map";
+import { Timeline } from "@/components/ui/timeline";
 import { Badge } from "@/components/ui/badge";
+import { LogoCloud as TechLogoCloud } from "@/components/ui/logo-cloud-4";
 import { Button } from "@/components/ui/button";
+import { AnimatedTestimonials } from "@/components/ui/animated-testimonials";
+import { Testimonials } from "@/components/ui/testimonials";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import projects from "@/data/projects";
 import type { WorldMapRoute } from "@/components/ui/world-map";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -29,118 +38,22 @@ const AnimatedGridPattern = lazy(() =>
     default: module.AnimatedGridPattern,
   })),
 );
-const Timeline = lazy(() =>
-  import("@/components/ui/timeline").then((module) => ({
-    default: module.Timeline,
-  })),
-);
-const PartnerLogoCloud = lazy(() =>
-  import("@/components/ui/logo-cloud-4").then((module) => ({
-    default: module.LogoCloud,
-  })),
-);
-const CommunitiesLogoCloud = lazy(() =>
-  import("@/components/ui/logo-cloud-2").then((module) => ({
-    default: module.LogoCloud,
-  })),
-);
-const WorldMap = lazy(() =>
-  import("@/components/ui/world-map").then((module) => ({
-    default: module.WorldMap,
-  })),
-);
-const DataHero = lazy(() =>
-  import("@/components/ui/data-hero").then((module) => ({
-    default: module.DataHero,
-  })),
-);
-const Feature197 = lazy(() =>
-  import("@/components/ui/accordion-feature-section").then((module) => ({
-    default: module.Feature197,
-  })),
-);
-const Testimonials = lazy(() =>
-  import("@/components/ui/testimonials").then((module) => ({
-    default: module.Testimonials,
-  })),
-);
-const AnimatedTestimonials = lazy(() =>
-  import("@/components/ui/animated-testimonials").then((module) => ({
-    default: module.AnimatedTestimonials,
-  })),
-);
 
 const Index = () => {
-  const projects = [
-    {
-      title: "Suirify",
-      description:
-        "Sovereign identity protocol on Sui that enables users to verify identity attributes without exposing sensitive personal data.",
-      tech: ["Sui Move", "TypeScript", "Zero-Knowledge Proofs", "Nautilus Key"],
-      github: "#",
-      live: "https://testnet.suirify.com/",
-      status: "Active",
-    },
-    {
-      title: "SuiSense (In Development)",
-      description:
-        "AI interpretation layer for Sui that translates raw transaction and smart contract execution data into clear, human-readable explanations.",
-      tech: ["Sui Blockchain", "Sui Move", "Python", "LLMs", "Execution Data"],
-      github: "#",
-      live: "#",
-      status: "In Development",
-    },
-    {
-      title: "HaloAI Agent",
-      description:
-        "AI-driven WhatsApp copilot for MSMEs enabling conversational order management, automated customer support, and CRM workflows across messaging platforms.",
-      tech: [
-        "FastAPI",
-        "Python",
-        "LLMs (Llama 3)",
-        "Twilio WhatsApp",
-        "PostgreSQL",
-      ],
-      github: "#",
-      live: "https://halo-agent.onrender.com/",
-      status: "Prototype",
-    },
-    {
-      title: "Tenax",
-      description:
-        "AI execution and accountability agent that converts goals into measurable daily actions through behavioral tracking and feedback loops.",
-      tech: [
-        "Python",
-        "LLMs (Llama 3, Gemini, OpenAI)",
-        "Opik",
-        "React",
-        "Supabase",
-      ],
-      github: "#",
-      live: "#",
-      status: "Prototype",
-    },
-    {
-      title: "Solar Charger Controller (Simulation)",
-      description:
-        "Simulation of a solar charge controller focused on efficient battery charging and power regulation using control logic principles.",
-      tech: ["MATLAB", "Simulink", "C++"],
-      github: "#",
-      live: "#",
-      status: "Simulation",
-    },
-    {
-      title: "Flux (In Development)",
-      description:
-        "Product launch operating system that helps startups and creators plan, schedule, and track rollouts from pre-launch to execution.",
-      tech: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS"],
-      github: "#",
-      live: "https://flux.base44.app/",
-      status: "Live",
-    },
-  ];
 
   const experience = [
+    {
+      role: "Front Desk",
+      period: "Mar 2026 - Present",
+      description:
+        "Managed front desk operations at NiHub, coordinating member check-ins, visitor engagement, and day-to-day administrative support within the innovation hub environment.",
+    },
+    {
+      role: "Technical Lead",
+      period: "Apr 2026 - Present",
+      description:
+        "Leading technical initiatives for the Blockchain Club at Federal University of Technology Minna. Driving blockchain education, organizing workshops, mentoring members on Web3 development, and coordinating hands-on projects across smart contracts and decentralized applications.",
+    },
     {
       role: "Frontend Engineer",
       company: "Talenxify (ATC Africa)",
@@ -270,6 +183,12 @@ const Index = () => {
 
   const certificateHighlights = [
     {
+      quote: "Issued Dec 2025 • Credential ID CN:0295",
+      name: "AI Agents and Agentic AI Systems Development",
+      designation: "Meta",
+      src: "/metaai.png",
+    },
+    {
       quote: "Issued Oct 2025",
       name: "SUI DEVELOPMENT WORKSHOP",
       designation: "Sui Nigeria",
@@ -292,12 +211,6 @@ const Index = () => {
       name: "CERTIFICATE OF SERVICE",
       designation: "Next-Gen Innovators",
       src: "/nextgen.png",
-    },
-    {
-      quote: "Issued Dec 2025 • Credential ID CN:0295",
-      name: "AI Agents and Agentic AI Systems Development",
-      designation: "Meta",
-      src: "/metaai.png",
     },
     {
       quote: "Issued Nov 2025 • Credential ID f2e5a82a-ff35-44f7-99d3-1dd1c70ed2dc",
@@ -351,6 +264,11 @@ const Index = () => {
               </a>
             </Button>
           )}
+          <Button asChild variant="outline" size="sm">
+            <a href={`/project/${project.slug}`}>
+              View <ArrowUpRight className="ml-1 h-4 w-4" />
+            </a>
+          </Button>
         </div>
       </div>
     ),
@@ -520,6 +438,15 @@ const Index = () => {
     },
   ];
 
+  const communityLogos = [
+    { src: "/gdg.png", darkSrc: "/darkgdg.png", alt: "GDG Minna", height: 28, mdHeight: 36 },
+    { src: "/3mtt.jfif", darkSrc: "/dark3mtt.png", alt: "3MTT", height: 28, mdHeight: 36 },
+    { src: "/encode.png", darkSrc: "/darkencode.png", alt: "Encode Club", height: 28, mdHeight: 36 },
+    { src: "/icp.webp", darkSrc: "/darkicp.png", alt: "ICP", height: 28, mdHeight: 36 },
+    { src: "/sui.png", darkSrc: "/suidark.png", alt: "Sui On Campus", height: 28, mdHeight: 36 },
+    { src: "/suioncampus.png", alt: "Sui On Campus Program", height: 28, mdHeight: 36 },
+  ];
+
   const faqItems = [
     {
       id: 1,
@@ -532,24 +459,21 @@ const Index = () => {
     {
       id: 2,
       title: "How do you approach building a project from idea to execution?",
-      image:
-        "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=1200&q=80",
+      image: "/lap.jpg",
       description:
         "I ground every build in the problem and constraints, then break the idea into testable components. Ship something usable early, validate assumptions, and keep iterating to balance correctness, learning, and momentum.",
     },
     {
       id: 3,
       title: "What technologies do you work with, and how do you choose them?",
-      image:
-        "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
+      image: "/stacks.png",
       description:
         "Stacks depend on the problem. I lean on proven tools for reliability but reach for new tech when it offers clear advantages. Maintainability, performance, and alignment with the goal always guide the choice.",
     },
     {
       id: 4,
       title: "What is it like to collaborate with you?",
-      image:
-        "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80",
+      image: "/work.jpg",
       description:
         "I'm adaptable—productive solo but energized by collaboration. Expect clear communication, shared ownership, and thoughtful contributions to design and build discussions while executing reliably.",
     },
@@ -605,6 +529,9 @@ const Index = () => {
                   Download Resume
                 </a>
               </Button>
+              <Button asChild size="sm" variant="outline">
+                <a href="/blog">Blog</a>
+              </Button>
               <Button asChild variant="outline" size="sm">
                 <a href="mailto:benedictisaac258@gmail.com">
                   <Mail className="mr-2 h-4 w-4" />
@@ -637,6 +564,22 @@ const Index = () => {
                 <a href="https://x.com/DevChronicles_" target="_blank" rel="noreferrer">
                   <Twitter className="mr-2 h-4 w-4" />
                   X
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <a href="https://discord.com/users/benedict258" target="_blank" rel="noreferrer">
+                  <span className="mr-2 flex h-4 w-4 items-center justify-center">
+                    <img src="/discord.svg" alt="Discord logo" className="h-4 w-4" />
+                  </span>
+                  Discord
+                </a>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <a href="https://t.me/Benedict258" target="_blank" rel="noreferrer">
+                  <span className="mr-2 flex h-4 w-4 items-center justify-center">
+                    <img src="/telegram.svg" alt="Telegram logo" className="h-4 w-4" />
+                  </span>
+                  Telegram
                 </a>
               </Button>
             </div>
@@ -769,7 +712,7 @@ const Index = () => {
               <div className="h-32 rounded-3xl border border-dashed border-border/60" />
             }
           >
-            <PartnerLogoCloud logos={logos} />
+            <TechLogoCloud logos={logos} />
           </Suspense>
         </div>
       </section>

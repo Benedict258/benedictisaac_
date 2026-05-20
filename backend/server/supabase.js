@@ -20,3 +20,4 @@ export const supabase = createClient(
 
 export const SIGNATURE_BUCKET = "signature";
 export const RECEIPTS_BUCKET = "reciepts";
+export const PROJECTS_BUCKET = "projects";
