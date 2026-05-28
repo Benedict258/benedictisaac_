@@ -44,12 +44,16 @@ const Index = () => {
   const experience = [
     {
       role: "Front Desk",
+      company: "NiHub",
+      location: "Minna, NG",
       period: "Mar 2026 - Present",
       description:
         "Managed front desk operations at NiHub, coordinating member check-ins, visitor engagement, and day-to-day administrative support within the innovation hub environment.",
     },
     {
       role: "Technical Lead",
+      company: "Blockchain Club Futminna",
+      location: "Minna, NG",
       period: "Apr 2026 - Present",
       description:
         "Leading technical initiatives for the Blockchain Club at Federal University of Technology Minna. Driving blockchain education, organizing workshops, mentoring members on Web3 development, and coordinating hands-on projects across smart contracts and decentralized applications.",
@@ -172,6 +176,8 @@ const Index = () => {
   ];
 
   const certifications = [
+    "Red Hat Certified Specialist in Python Programming",
+    "Red Hat Certified Specialist in OpenShift Administration",
     "Sui Nigeria Developers Workshop (Certificate)",
     "Certificate in Full-Stack Development, Frontend Masters",
     "Meta AI Developer Academy Graduate",
@@ -182,6 +188,18 @@ const Index = () => {
   ];
 
   const certificateHighlights = [
+    {
+      quote: "Issued May 2026",
+      name: "RED HAT CERTIFIED SPECIALIST IN PYTHON PROGRAMMING",
+      designation: "Red Hat",
+      src: "/redhatpython.png",
+    },
+    {
+      quote: "Issued May 2026",
+      name: "RED HAT CERTIFIED SPECIALIST IN OPENSHIFT ADMINISTRATION",
+      designation: "Red Hat",
+      src: "/redhatopenshift.png",
+    },
     {
       quote: "Issued Dec 2025 • Credential ID CN:0295",
       name: "AI Agents and Agentic AI Systems Development",
@@ -283,7 +301,9 @@ const Index = () => {
             {item.role}
           </h4>
           <p className="text-sm text-muted-foreground">
-            {item.company} - {item.location}
+            {item.company}
+            {item.company && item.location && " - "}
+            {item.location}
           </p>
         </div>
         <p className="text-sm text-muted-foreground max-w-2xl">

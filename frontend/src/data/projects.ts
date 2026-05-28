@@ -21,22 +21,86 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "arche",
+    title: "ARCHE",
+    description:
+      "Production-grade AI system demonstrating behavioral simulation and context-aware recommendation intelligence for predictive modeling and personalized reasoning.",
+    longDescription:
+      `ARCHE is a production-grade AI system that demonstrates behavioral simulation and context-aware recommendation intelligence. It solves the core hackathon challenge: given a user's behavioral history, predict their review ratings/text (Task A) and deliver personalized recommendations with reasoning (Task B).
+
+Product Overview
+- Cold-start problem solver: Personalized recommendations without deep history.
+- Behavioral prediction: Predicts how users will rate and review unseen items.
+- Context-aware: Factors in time-of-day, device, region, and session depth.
+- Privacy-first: SHA256 token hashing and context redaction.
+
+Key Components
+- Review Agent: Generates review text and ratings in the user's specific voice.
+- Simulation Agent: Builds behavioral snapshots from review history.
+- Recommendation Scoring: Ranks items and provides transparent rationales.
+- Live Search Integration: Serper + DuckDuckGo for real-time catalog expansion.
+- Memory Manager: SQLite persistence for behavioral signals.
+
+Technical Highlights
+- 100% test coverage (41/41 tests passing).
+- Groq (Llama-3.1-70b) + Anthropic Claude for low-latency, high-quality inference.
+- Structured instrumentation for latency and model tracking.
+- Secure, GDPR-ready architecture with PII stripping.`,
+    tech: [
+      "Python",
+      "FastAPI",
+      "LLMs (Groq, Claude)",
+      "SQLite",
+      "Serper API",
+      "Vector Embeddings",
+      "BERTScore / ROUGE",
+      "SHA256 Privacy Layer",
+    ],
+    github: "#",
+    live: "https://arche-one.vercel.app/",
+    status: "Live",
+    features: [
+      "Unified Behavioral Engine (Task A + Task B)",
+      "LLM-Driven Writing Style Extraction",
+      "Context-Aware Simulation (Time, Device, Region)",
+      "Live Web Search Discovery (Serper / DuckDuckGo)",
+      "Privacy-by-Design (SHA256 Hashing)",
+      "Production Instrumentation & Structured Logging",
+    ],
+    screenshots: [],
+  },
+  {
     slug: "suirify",
     title: "Suirify",
     description:
-      "Sovereign identity protocol on Sui that enables users to verify identity attributes without exposing sensitive personal data.",
-    tech: ["Sui Move", "TypeScript", "Zero-Knowledge Proofs", "Nautilus Key"],
+      "Privacy-first sovereign identity protocol on Sui enabling secure, reusable on-chain attestations for decentralized applications.",
+    longDescription:
+      `Suirify is a privacy-first sovereign identity protocol built on the Sui blockchain. It enables a "verify once, use everywhere" model with consent-first, on-chain attestation objects that let dApps gate features without storing sensitive personal data.
+
+Why Suirify?
+- Privacy-first: PII is processed in memory and immediately deleted; applications only read sanitized public claims.
+- Reusable credentials: One-time verification issues an on-chain attestation users can present across various dApps.
+- Compliance-friendly: Auditable attestations enable compliant DeFi, KYC gating, and age checks.
+- Emerging Market Focus: Initially focused on Nigeria (NIN integration) with plans to scale globally.
+
+How it Works
+Suirify bridges real-world identity with Web3 by allowing users to verify their National Identification Number (NIN) privately. Once verified, a non-transferable "digital badge" is issued on-chain. dApps can then verify this badge via the Suirify SDK to ensure users are real and unique without ever seeing their underlying government ID data.`,
+    tech: ["Sui Move", "TypeScript", "Zero-Knowledge Proofs", "Nautilus Key", "Sui SDK", "NIN API"],
     github: "#",
     live: "https://testnet.suirify.com/",
     status: "Active",
-    screenshots: [],
-    tags: [],
-    readme: "",
-    videoUrl: "",
-    docsUrl: "",
-    changelog: [],
-    publishedDate: "",
-    license: "",
+    screenshots: ["/suilogo.png", "/SUIRIFY.png"],
+    features: [
+      "On-Chain Attestation Objects",
+      "Consent-First Data Sharing",
+      "PII Memory Sanitization",
+      "Nigerian NIN Integration",
+      "Sybil Attack Prevention",
+      "Reusable Identity Credentials"
+    ],
+    team: ["Benedict Isaac", "Team Suirify"],
+    tags: ["Privacy", "Identity", "Sui", "Web3"],
+    publishedDate: "2024",
   },
   {
     slug: "clauselens",
@@ -67,7 +131,7 @@ export const projects: Project[] = [
       "Secure audit history",
     ],
     team: ["Benedict Isaac", "Amanda Adewumi"],
-    screenshots: [],
+    screenshots: ["/ClauseLens.png", "/ClauseLens1.png", "/ClauseLens2.png", "/ClauseLens3.png"],
   },
   {
     slug: "suisense",
@@ -84,22 +148,30 @@ export const projects: Project[] = [
     slug: "haloai",
     title: "HaloAI Agent",
     description:
-      "AI-driven WhatsApp copilot for MSMEs enabling conversational order management, automated customer support, and CRM workflows across messaging platforms.",
-    tech: ["FastAPI", "Python", "LLMs (Llama 3)", "Twilio WhatsApp", "PostgreSQL"],
+      "AI-driven WhatsApp copilot and pocket-sized CRM for MSMEs enabling conversational order management and automated customer support.",
+    longDescription:
+      `HaloAgent is your pocket-sized CRM and AI assistant built for vendors and MSMEs: take orders, send updates, collect feedback, and grow repeat sales, all from the chat your customers already use.
+
+Key Benefits
+- Works where your customers are: WhatsApp-first, plus a full web app.
+- Turn chats into reliable orders, automated updates, and loyalty without extra tech headaches.
+- Smart suggestions and simple reports that help you sell more and stress less.
+- Trusted by local vendors across Nigeria.
+
+How it Works
+Works instantly with your WhatsApp number or from our web app. The same agent, same history, and double the reach. HaloAgent helps market vendors, bakers, tailors, and small shops act like the big players with fast replies, fewer mistakes, and happier customers. No complicated setup—just connect your number, upload your menu, and let the agent do the heavy lifting.`,
+    tech: ["FastAPI", "Python", "LLMs (Llama 3)", "Twilio WhatsApp", "PostgreSQL", "React"],
     github: "#",
     live: "https://halo-agent.onrender.com/",
     status: "Prototype",
-    screenshots: [],
-  },
-  {
-    slug: "tenax",
-    title: "Tenax",
-    description:
-      "AI execution and accountability agent that converts goals into measurable daily actions through behavioral tracking and feedback loops.",
-    tech: ["Python", "LLMs (Llama 3, Gemini, OpenAI)", "Opik", "React", "Supabase"],
-    github: "#",
-    live: "#",
-    status: "Prototype",
+    features: [
+      "Inventory & Menu Management",
+      "Automated WhatsApp Order Tracking",
+      "One-tap Reordering for Customers",
+      "Multilingual Message Support",
+      "Conversational CRM Workflows",
+      "Unified Web & Chat History"
+    ],
     screenshots: [],
   },
   {
@@ -115,13 +187,27 @@ export const projects: Project[] = [
   },
   {
     slug: "flux",
-    title: "Flux (In Development)",
+    title: "Flux",
     description:
-      "Product launch operating system that helps startups and creators plan, schedule, and track rollouts from pre-launch to execution.",
-    tech: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS"],
+      "AI-driven Product-to-Market Launch OS for startups and creators to discover markets, generate creatives, and track rollouts.",
+    longDescription:
+      `Flux is a comprehensive Product-to-Market Launch Operating System designed for the right market, right message, and right time. It puts AI-driven market intelligence at your fingertips, allowing startups and creators to plan, schedule, and track rollouts from pre-launch to execution.
+
+Whether you're validating a new idea or iterating on a live product, Flux provides the intelligent workspace needed to navigate the complexities of product-market fit and growth. It combines strategic planning, creative execution, and deep analytics into a single, battle-tested platform.`,
+    tech: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS", "LLMs (OpenAI, Gemini)", "PostgreSQL"],
     github: "#",
     live: "https://flux.base44.app/",
     status: "Live",
+    features: [
+      "Market & Product Fit stress testing",
+      "AI-Assisted Planning & Readiness (Checklists, Sprints)",
+      "Multi-channel Creative & Messaging Generation",
+      "KPI Analytics & Demand Forecasting",
+      "Interactive Market Explorer & Growth Heatmaps",
+      "Battle-tested GTM Playbooks & Frameworks",
+      "Risk Simulation & 'What-if' Scenario Planning",
+      "AI-Generated Business Model Canvas (BMC) Builder"
+    ],
     screenshots: [],
   },
   {
@@ -150,7 +236,7 @@ export const projects: Project[] = [
       "Watch provider lookups (TMDB)",
       "Personal library and recommendations",
     ],
-    screenshots: [],
+    screenshots: ["/Cight.png", "/Cight1.png", "/Cight3.png"],
   },
 ];
 

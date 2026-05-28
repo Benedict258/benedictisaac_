@@ -66,10 +66,22 @@ const ProjectView = () => {
 
       <div className="mt-8 grid gap-8 lg:grid-cols-3">
         <div className="lg:col-span-2 space-y-6">
+          {project.screenshots && project.screenshots.length > 0 && (
+            <div>
+              <h3 className="text-lg font-semibold">Gallery</h3>
+              <div className="mt-3 grid gap-3 grid-cols-1 md:grid-cols-2">
+                {project.screenshots.map((src, i) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={i} src={src} alt={`${project.title} gallery ${i + 1}`} className="rounded-md border" />
+                ))}
+              </div>
+            </div>
+          )}
+
           {project.longDescription && (
             <div>
               <h3 className="text-lg font-semibold">About</h3>
-              <p className="text-muted-foreground mt-2">{project.longDescription}</p>
+              <p className="text-muted-foreground mt-2 whitespace-pre-wrap">{project.longDescription}</p>
             </div>
           )}
 
@@ -88,18 +100,6 @@ const ProjectView = () => {
                   <li key={i}>{f}</li>
                 ))}
               </ul>
-            </div>
-          )}
-
-          {project.screenshots && project.screenshots.length > 0 && (
-            <div>
-              <h3 className="text-lg font-semibold">Screenshots</h3>
-              <div className="mt-3 grid gap-3 grid-cols-1 md:grid-cols-2">
-                {project.screenshots.map((src, i) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img key={i} src={src} alt={`${project.title} screenshot ${i + 1}`} className="rounded-md border" />
-                ))}
-              </div>
             </div>
           )}
 
