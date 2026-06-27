@@ -46,10 +46,7 @@ const requiredEnv = [
   "SESSION_SECRET",
   "SUPABASE_URL",
   "SUPABASE_SERVICE_ROLE_KEY",
-  "SES_FROM_EMAIL",
-  "AWS_REGION",
-  "AWS_ACCESS_KEY_ID",
-  "AWS_SECRET_ACCESS_KEY",
+  "EMAIL_FROM",
 ];
 
 requiredEnv.forEach((key) => {
@@ -59,7 +56,9 @@ requiredEnv.forEach((key) => {
 });
 
 const ADMIN_NOTIFY_EMAIL =
-  process.env.ADMIN_NOTIFY_EMAIL || process.env.SES_FROM_EMAIL;
+  process.env.ADMIN_NOTIFY_EMAIL ||
+  process.env.EMAIL_FROM ||
+  process.env.SES_FROM_EMAIL;
 const EMAIL_ADMIN_ONLY = process.env.EMAIL_ADMIN_ONLY === "true";
 
 const ensureStatus = (value) => {
@@ -507,17 +506,21 @@ app.post("/api/admin/invoices", requireAdmin, async (req, res) => {
       payload.public_base_url || process.env.PUBLIC_BASE_URL || "";
     const invoiceUrl = `${baseUrl}/invoice/${publicId}`;
     if (!EMAIL_ADMIN_ONLY) {
-      await sendInvoiceCreatedEmail({
-        to: payload.client_email,
-        invoiceId,
-        clientName: payload.client_name,
-        amount: formatCurrency(total, payload.currency),
-        dueDate: payload.due_date,
-        instructions:
-          payload.payment_instructions?.reference ||
-          "See invoice for payment instructions.",
-        invoiceUrl,
-      });
+      try {
+        await sendInvoiceCreatedEmail({
+          to: payload.client_email,
+          invoiceId,
+          clientName: payload.client_name,
+          amount: formatCurrency(total, payload.currency),
+          dueDate: payload.due_date,
+          instructions:
+            payload.payment_instructions?.reference ||
+            "See invoice for payment instructions.",
+          invoiceUrl,
+        });
+      } catch (emailError) {
+        console.warn("Invoice creation email failed:", emailError.message);
+      }
     }
 
     res.json({ invoice, publicUrl: invoiceUrl });

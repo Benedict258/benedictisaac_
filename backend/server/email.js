@@ -1,8 +1,6 @@
-import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { Resend } from "resend";
 
 const EMAIL_ENABLED = process.env.EMAIL_ENABLED !== "false";
-const EMAIL_PROVIDER = (process.env.EMAIL_PROVIDER || "ses").toLowerCase();
 
 const from = process.env.EMAIL_FROM || process.env.SES_FROM_EMAIL;
 
@@ -14,28 +12,16 @@ const ensureEnv = (keys) => {
   });
 };
 
-let ses = null;
 let resend = null;
 
 if (EMAIL_ENABLED) {
-  if (EMAIL_PROVIDER === "resend") {
-    ensureEnv(["RESEND_API_KEY", "SES_FROM_EMAIL"]);
-    resend = new Resend(process.env.RESEND_API_KEY);
-  } else {
-    ensureEnv([
-      "AWS_REGION",
-      "AWS_ACCESS_KEY_ID",
-      "AWS_SECRET_ACCESS_KEY",
-      "SES_FROM_EMAIL",
-    ]);
-    ses = new SESClient({
-      region: process.env.AWS_REGION,
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-      },
-    });
+  ensureEnv(["RESEND_API_KEY"]);
+  if (!from) {
+    throw new Error(
+      "Missing required environment variable: EMAIL_FROM (or SES_FROM_EMAIL)"
+    );
   }
+  resend = new Resend(process.env.RESEND_API_KEY);
 }
 
 const brandColor = process.env.EMAIL_BRAND_COLOR || "#d6f86b";
@@ -69,33 +55,23 @@ const sendEmail = async ({ to, subject, html, text }) => {
     return;
   }
 
-  if (EMAIL_PROVIDER === "resend") {
-    await resend.emails.send({
-      from,
-      to,
-      subject,
-      html,
-      text,
-    });
-    return;
-  }
-
-  const command = new SendEmailCommand({
-    Source: from,
-    Destination: { ToAddresses: [to] },
-    Message: {
-      Subject: { Data: subject, Charset: "UTF-8" },
-      Body: {
-        Html: { Data: html, Charset: "UTF-8" },
-        Text: { Data: text, Charset: "UTF-8" },
-      },
-    },
+  await resend.emails.send({
+    from,
+    to,
+    subject,
+    html,
+    text,
   });
-
-  await ses.send(command);
 };
 
-export const buildInvoiceCreatedEmail = ({ invoiceId, clientName, amount, dueDate, instructions, invoiceUrl }) => ({
+export const buildInvoiceCreatedEmail = ({
+  invoiceId,
+  clientName,
+  amount,
+  dueDate,
+  instructions,
+  invoiceUrl,
+}) => ({
   subject: `Invoice #${invoiceId} from Benedict Isaac`,
   html: wrapEmail({
     title: `Invoice #${invoiceId}`,
@@ -125,7 +101,10 @@ View invoice: ${invoiceUrl}
 For questions, reply to this email.`,
 });
 
-export const buildPaymentSubmittedClientEmail = ({ invoiceId, clientName }) => ({
+export const buildPaymentSubmittedClientEmail = ({
+  invoiceId,
+  clientName,
+}) => ({
   subject: `Payment Received – Pending Approval (Invoice #${invoiceId})`,
   html: wrapEmail({
     title: `Payment received for Invoice #${invoiceId}`,
@@ -142,7 +121,12 @@ No action is required at this time.
 If you need support, reply to this email.`,
 });
 
-export const buildPaymentSubmittedAdminEmail = ({ invoiceId, clientName, amount, adminUrl }) => ({
+export const buildPaymentSubmittedAdminEmail = ({
+  invoiceId,
+  clientName,
+  amount,
+  adminUrl,
+}) => ({
   subject: `Payment Submitted for Invoice #${invoiceId}`,
   html: wrapEmail({
     title: `Payment submitted for Invoice #${invoiceId}`,
@@ -178,7 +162,11 @@ Your payment has been successfully verified and approved.
 Thank you for your business.`,
 });
 
-export const buildPaymentRejectedEmail = ({ invoiceId, clientName, message }) => ({
+export const buildPaymentRejectedEmail = ({
+  invoiceId,
+  clientName,
+  message,
+}) => ({
   subject: `Payment Issue – Invoice #${invoiceId}`,
   html: wrapEmail({
     title: `Payment issue for Invoice #${invoiceId}`,

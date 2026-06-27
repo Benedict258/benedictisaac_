@@ -37,14 +37,16 @@ const verify = (token, secret) => {
   return payload;
 };
 
+const isProduction = process.env.NODE_ENV === "production";
+
 export const issueSessionCookie = (res, secret) => {
   const exp = Date.now() + SESSION_TTL_DAYS * 24 * 60 * 60 * 1000;
   const token = sign({ sub: "admin", exp }, secret);
 
   res.cookie(SESSION_COOKIE, token, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
     maxAge: SESSION_TTL_DAYS * 24 * 60 * 60 * 1000,
   });
 };
@@ -52,8 +54,8 @@ export const issueSessionCookie = (res, secret) => {
 export const clearSessionCookie = (res) => {
   res.clearCookie(SESSION_COOKIE, {
     httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
   });
 };
 
