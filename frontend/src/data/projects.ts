@@ -21,55 +21,6 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "arche",
-    title: "ARCHE",
-    description:
-      "Production-grade AI system demonstrating behavioral simulation and context-aware recommendation intelligence for predictive modeling and personalized reasoning.",
-    longDescription:
-      `ARCHE is a production-grade AI system that demonstrates behavioral simulation and context-aware recommendation intelligence. It solves the core hackathon challenge: given a user's behavioral history, predict their review ratings/text (Task A) and deliver personalized recommendations with reasoning (Task B).
-
-Product Overview
-- Cold-start problem solver: Personalized recommendations without deep history.
-- Behavioral prediction: Predicts how users will rate and review unseen items.
-- Context-aware: Factors in time-of-day, device, region, and session depth.
-- Privacy-first: SHA256 token hashing and context redaction.
-
-Key Components
-- Review Agent: Generates review text and ratings in the user's specific voice.
-- Simulation Agent: Builds behavioral snapshots from review history.
-- Recommendation Scoring: Ranks items and provides transparent rationales.
-- Live Search Integration: Serper + DuckDuckGo for real-time catalog expansion.
-- Memory Manager: SQLite persistence for behavioral signals.
-
-Technical Highlights
-- 100% test coverage (41/41 tests passing).
-- Groq (Llama-3.1-70b) + Anthropic Claude for low-latency, high-quality inference.
-- Structured instrumentation for latency and model tracking.
-- Secure, GDPR-ready architecture with PII stripping.`,
-    tech: [
-      "Python",
-      "FastAPI",
-      "LLMs (Groq, Claude)",
-      "SQLite",
-      "Serper API",
-      "Vector Embeddings",
-      "BERTScore / ROUGE",
-      "SHA256 Privacy Layer",
-    ],
-    github: "#",
-    live: "https://arche-one.vercel.app/",
-    status: "Live",
-    features: [
-      "Unified Behavioral Engine (Task A + Task B)",
-      "LLM-Driven Writing Style Extraction",
-      "Context-Aware Simulation (Time, Device, Region)",
-      "Live Web Search Discovery (Serper / DuckDuckGo)",
-      "Privacy-by-Design (SHA256 Hashing)",
-      "Production Instrumentation & Structured Logging",
-    ],
-    screenshots: [],
-  },
-  {
     slug: "suirify",
     title: "Suirify",
     description:
@@ -103,8 +54,8 @@ Suirify bridges real-world identity with Web3 by allowing users to verify their 
     publishedDate: "2024",
   },
   {
-    slug: "clauselens",
-    title: "ClauseLens",
+    slug: "safroi",
+    title: "Safroi",
     description:
       "ClauseLens is an AI-powered legal intelligence platform that deconstructs complex Terms & Privacy policies into clear summaries and risk scores.",
     longDescription:
@@ -120,7 +71,7 @@ Suirify bridges real-world identity with Web3 by allowing users to verify their 
       "Lucide React",
     ],
     github: "#",
-    live: "https://clauselens.suirify.com/",
+    live: "https://safroi.vercel.app/",
     status: "Live",
     features: [
       "Multi-source analysis (URL, text, file)",
@@ -132,17 +83,6 @@ Suirify bridges real-world identity with Web3 by allowing users to verify their 
     ],
     team: ["Benedict Isaac", "Amanda Adewumi"],
     screenshots: ["/ClauseLens.png", "/ClauseLens1.png", "/ClauseLens2.png", "/ClauseLens3.png"],
-  },
-  {
-    slug: "suisense",
-    title: "SuiSense (In Development)",
-    description:
-      "AI interpretation layer for Sui that translates raw transaction and smart contract execution data into clear, human-readable explanations.",
-    tech: ["Sui Blockchain", "Sui Move", "Python", "LLMs", "Execution Data"],
-    github: "#",
-    live: "#",
-    status: "In Development",
-    screenshots: [],
   },
   {
     slug: "haloai",
@@ -186,17 +126,17 @@ Works instantly with your WhatsApp number or from our web app. The same agent, s
     screenshots: [],
   },
   {
-    slug: "flux",
-    title: "Flux",
+    slug: "tenaxai",
+    title: "Tenaxai",
     description:
       "AI-driven Product-to-Market Launch OS for startups and creators to discover markets, generate creatives, and track rollouts.",
     longDescription:
-      `Flux is a comprehensive Product-to-Market Launch Operating System designed for the right market, right message, and right time. It puts AI-driven market intelligence at your fingertips, allowing startups and creators to plan, schedule, and track rollouts from pre-launch to execution.
+      `Tenaxai is a comprehensive Product-to-Market Launch Operating System designed for the right market, right message, and right time. It puts AI-driven market intelligence at your fingertips, allowing startups and creators to plan, schedule, and track rollouts from pre-launch to execution.
 
-Whether you're validating a new idea or iterating on a live product, Flux provides the intelligent workspace needed to navigate the complexities of product-market fit and growth. It combines strategic planning, creative execution, and deep analytics into a single, battle-tested platform.`,
+Whether you're validating a new idea or iterating on a live product, Tenaxai provides the intelligent workspace needed to navigate the complexities of product-market fit and growth. It combines strategic planning, creative execution, and deep analytics into a single, battle-tested platform.`,
     tech: ["Next.js", "TypeScript", "Node.js", "Tailwind CSS", "LLMs (OpenAI, Gemini)", "PostgreSQL"],
     github: "#",
-    live: "https://flux.base44.app/",
+    live: "https://tenaxai.tech/",
     status: "Live",
     features: [
       "Market & Product Fit stress testing",
