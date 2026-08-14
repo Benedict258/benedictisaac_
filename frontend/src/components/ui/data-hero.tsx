@@ -57,7 +57,7 @@ export function DataHero() {
               Benedict Isaac
             </h1>
               <p className="mt-5 text-[1.35rem] leading-relaxed text-slate-600 dark:text-slate-200">
-                Full Stack Developer | AI Engineer | Innovative Builder | Blockchain & AI Explorer | Agentic AI Builder
+                Full-Stack Developer & Agentic AI Engineer
             </p>
           </div>
             <div className="flex flex-wrap items-center justify-center gap-4 text-base md:justify-start">

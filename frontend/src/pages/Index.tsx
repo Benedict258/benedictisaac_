@@ -156,6 +156,8 @@ const Index = () => {
         "Blockchain Integration",
         "Execution Agents",
         "Mechatronics Software",
+        "Computer Vision",
+        "Edge AI Deployment",
       ],
     },
     {
@@ -179,6 +181,8 @@ const Index = () => {
         "IoT Systems & Automation",
         "Embedded Programming (C/C++)",
         "Performance Optimization",
+        "Control Systems Logic",
+        "Proteus",
       ],
     },
   ];
@@ -565,12 +569,13 @@ const Index = () => {
               Building scalable systems with engineering rigor.
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed">
-              I am a full-stack and AI developer with a Mechatronics engineering
-              foundation, shipping production-ready systems across web, AI, and
-              blockchain environments. From Sui Move protocols to React/Next.js,
-              Node.js, and Python platforms, I integrate APIs, optimize
-              performance, and deploy intelligent workflows that keep teams
-              moving fast with trustworthy software.
+              I'm a full-stack and agentic AI developer with a Mechatronics engineering
+              foundation, shipping production-ready systems across web, AI, blockchain,
+              and embedded environments. From Sui Move protocols to React/Next.js
+              and Python platforms, to edge-native computer vision and agentic
+              architectures in robotics, I integrate APIs, optimize performance,
+              and deploy intelligent workflows that keep teams moving fast with
+              trustworthy software.
             </p>
             <div className="flex flex-wrap gap-3">
               <Button asChild size="sm">
@@ -647,13 +652,7 @@ const Index = () => {
                 </p>
               </div>
             </div>
-            <div className="mt-6 grid grid-cols-2 gap-4">
-              <div className="rounded-xl border px-4 py-3">
-                <p className="text-2xl font-semibold">8+</p>
-                <p className="text-xs text-muted-foreground">
-                  Tools mastered
-                </p>
-              </div>
+            <div className="mt-6 grid grid-cols-3 gap-4">
               <div className="rounded-xl border px-4 py-3">
                 <p className="text-2xl font-semibold">20+</p>
                 <p className="text-xs text-muted-foreground">
@@ -665,8 +664,8 @@ const Index = () => {
                 <p className="text-xs text-muted-foreground">Teams</p>
               </div>
               <div className="rounded-xl border px-4 py-3">
-                <p className="text-2xl font-semibold">100%</p>
-                <p className="text-xs text-muted-foreground">Focus</p>
+                <p className="text-2xl font-semibold">6+</p>
+                <p className="text-xs text-muted-foreground">Certifications Earned</p>
               </div>
             </div>
           </div>
