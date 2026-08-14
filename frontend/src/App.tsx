@@ -12,6 +12,7 @@ import Admin from "./pages/Admin";
 import Dashboard from "./pages/Dashboard";
 import InvoicePublic from "./pages/InvoicePublic";
 import ProjectView from "./pages/ProjectView";
+import CertView from "./pages/CertView";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/admin" element={<Admin />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/project/:slug" element={<ProjectView />} />
+              <Route path="/certifications/:slug" element={<CertView />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/invoice/:publicId" element={<InvoicePublic />} />

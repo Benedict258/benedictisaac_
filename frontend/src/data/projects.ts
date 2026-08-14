@@ -178,6 +178,70 @@ Whether you're validating a new idea or iterating on a live product, Tenaxai pro
     ],
     screenshots: ["/Cight.png", "/Cight1.png", "/Cight3.png"],
   },
+  {
+    slug: "ess",
+    title: "ESS",
+    description:
+      "Edge-native persistent recognition and security monitoring system engineered to run on constrained hardware with an integrated lightweight LLM reasoning layer and live gesture-based control.",
+    longDescription:
+      `ESS (Edge-Native Persistent Recognition & Security Monitoring System) is a computer vision system designed for real-time recognition and security monitoring on constrained hardware — no dedicated GPU required.
+
+Key Capabilities
+- Runs entirely on edge devices with no cloud dependency for core inference
+- Integrated lightweight LLM reasoning layer for contextual decision-making
+- Live gesture-based control for hands-free interaction
+- Optimized for low-power, resource-constrained environments
+
+How it Works
+ESS combines lightweight computer vision models with a local LLM reasoning layer to perform real-time scene understanding and security monitoring. The system processes video feeds locally, detects objects and anomalies, and uses gesture recognition to allow operators to interact with the system without physical input devices. All processing happens on-device, ensuring privacy and low latency.`,
+    tech: ["Computer Vision", "Edge AI", "Python", "LLM (via Groq)", "Gesture Recognition"],
+    github: "#",
+    live: "#",
+    status: "In Development",
+    features: [
+      "Real-time object detection and recognition on edge hardware",
+      "Lightweight LLM reasoning layer for contextual analysis",
+      "Live gesture-based control interface",
+      "No dedicated GPU required",
+      "Privacy-first local processing",
+      "Low-latency security monitoring",
+    ],
+    screenshots: [],
+    tags: ["Edge AI", "Computer Vision", "Security", "Python"],
+    publishedDate: "2026",
+  },
+  {
+    slug: "agentic-architectures-research",
+    title: "Research: Agentic Architectures in Robotics & Engineering Systems",
+    description:
+      "Ongoing research into applying agentic AI structures to robotics and engineering systems, with ECAPs as the applied hardware product — a plug-and-play edge AI concept built on a layered agentic intelligence stack.",
+    longDescription:
+      `This is an active research initiative exploring how agentic AI architectures can be applied to robotics and physical engineering systems.
+
+ECAPs (Edge Computing Agentic Processors)
+The applied output of this research is the ECAP concept — a plug-and-play edge AI hardware module built on a layered agentic intelligence stack. ECAPs are designed to bring autonomous decision-making capabilities to robotic and engineering systems without relying on cloud infrastructure.
+
+Research Areas
+- Multi-agent coordination in physical systems
+- Edge-native agentic inference pipelines
+- Hardware-software co-design for autonomous robotics
+- Layered intelligence stacks for real-time engineering control
+
+Status: This research is in its early stages. The work is exploratory and ongoing.`,
+    tech: ["Agentic AI", "Robotics", "Edge Computing", "Hardware Prototyping"],
+    github: "#",
+    live: "#",
+    status: "Active Research",
+    features: [
+      "Layered agentic intelligence stack for edge hardware",
+      "Multi-agent coordination frameworks for robotics",
+      "Cloud-independent autonomous decision-making",
+      "Hardware-software co-design methodology",
+    ],
+    screenshots: [],
+    tags: ["Agentic AI", "Robotics", "Edge Computing", "Research"],
+    publishedDate: "2026",
+  },
 ];
 
 export default projects;

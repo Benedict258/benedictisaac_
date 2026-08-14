@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 
@@ -8,6 +9,7 @@ type Testimonial = {
   name: string;
   designation: string;
   src: string;
+  slug?: string;
 };
 
 export const AnimatedTestimonials = ({
@@ -81,13 +83,25 @@ export const AnimatedTestimonials = ({
                   }}
                   className="absolute inset-0 origin-bottom"
                 >
-                  <img
-                    src={testimonial.src}
-                    alt={testimonial.name}
-                    draggable={false}
-                    loading="lazy"
-                    className="max-h-[420px] w-auto rounded-3xl object-contain object-center mx-auto"
-                  />
+                  {testimonial.slug ? (
+                    <Link to={`/certifications/${testimonial.slug}`}>
+                      <img
+                        src={testimonial.src}
+                        alt={testimonial.name}
+                        draggable={false}
+                        loading="lazy"
+                        className="max-h-[420px] w-auto rounded-3xl object-contain object-center mx-auto cursor-pointer hover:opacity-80 transition-opacity"
+                      />
+                    </Link>
+                  ) : (
+                    <img
+                      src={testimonial.src}
+                      alt={testimonial.name}
+                      draggable={false}
+                      loading="lazy"
+                      className="max-h-[420px] w-auto rounded-3xl object-contain object-center mx-auto"
+                    />
+                  )}
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -114,7 +128,16 @@ export const AnimatedTestimonials = ({
             }}
           >
             <h3 className="text-2xl font-bold text-foreground">
-              {testimonials[active].name}
+              {testimonials[active].slug ? (
+                <Link
+                  to={`/certifications/${testimonials[active].slug}`}
+                  className="hover:underline"
+                >
+                  {testimonials[active].name}
+                </Link>
+              ) : (
+                testimonials[active].name
+              )}
             </h3>
             <p className="text-sm text-muted-foreground">
               {testimonials[active].designation}

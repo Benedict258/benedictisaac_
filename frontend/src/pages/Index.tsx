@@ -43,6 +43,14 @@ const Index = () => {
 
   const experience = [
     {
+      role: "Millennium Fellow",
+      company: "United Nations Academic Impact & Millennium Campus Network (MCN)",
+      location: "Minna, NG",
+      period: "Aug 2026 - Present",
+      description:
+        "Selected as a Millennium Fellow — a competitive, semester-long global leadership program for undergraduates presented by the United Nations Academic Impact and the Millennium Campus Network, spanning 300+ campuses worldwide. Advancing the UN Sustainable Development Goals through campus-based cohort leadership training and student-led social impact action.",
+    },
+    {
       role: "Front Desk",
       company: "NiHub",
       location: "Minna, NG",
@@ -193,48 +201,70 @@ const Index = () => {
       name: "RED HAT CERTIFIED SPECIALIST IN PYTHON PROGRAMMING",
       designation: "Red Hat",
       src: "/redhatpython.png",
+      slug: "red-hat-python",
     },
     {
       quote: "Issued May 2026",
       name: "RED HAT CERTIFIED SPECIALIST IN OPENSHIFT ADMINISTRATION",
       designation: "Red Hat",
       src: "/redhatopenshift.png",
+      slug: "red-hat-openshift",
     },
     {
       quote: "Issued Dec 2025 • Credential ID CN:0295",
       name: "AI Agents and Agentic AI Systems Development",
-      designation: "Meta",
+      designation: "Meta (via RAIN — Robotics and Artificial Intelligence Nigeria)",
       src: "/metaai.png",
+      slug: "meta-ai-academy",
     },
     {
       quote: "Issued Oct 2025",
       name: "SUI DEVELOPMENT WORKSHOP",
       designation: "Sui Nigeria",
       src: "/suiminna.png",
+      slug: "sui-development-workshop",
     },
     {
       quote: "Issued Nov 2025",
       name: "DEVFEST",
       designation: "GDG Minna",
       src: "/devfest.png",
+      slug: "devfest-gdg-minna",
     },
     {
       quote: "Issued Aug 2025",
       name: "MATLAB Onramp",
       designation: "MathWorks",
       src: "/matlabonramp.png",
+      slug: "matlab-onramp",
     },
     {
       quote: "Issued Aug 2025",
       name: "CERTIFICATE OF SERVICE",
       designation: "Next-Gen Innovators",
       src: "/nextgen.png",
+      slug: "next-gen-innovators-service",
     },
     {
       quote: "Issued Nov 2025 • Credential ID f2e5a82a-ff35-44f7-99d3-1dd1c70ed2dc",
       name: "Full-Stack Development (MERN Stack)",
       designation: "Power Learn Project",
       src: "/plpcert.png",
+      slug: "full-stack-mern",
+    },
+    {
+      quote: "Issued Jan 2026",
+      name: "3MTT DeepTech Computer Vision Program",
+      designation: "3MTT",
+      src: "/3mtt-cv.png",
+      slug: "3mtt-deeptech-computer-vision",
+    },
+    {
+      quote: "Issued June 2026",
+      name: "5-Day AI Agents: Intensive Vibe Coding Course",
+      designation: "Google & Kaggle",
+      src: "/google-kaggle-aiagent.png",
+      slug: "kaggle-google-ai-agents-vibecoding",
     },
   ];
 
