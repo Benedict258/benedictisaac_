@@ -50,7 +50,7 @@ export function ProjectsPreview() {
               {earlier.map((project) => (
                 <li key={project.slug} className="rounded-xl border p-4">
                   <h3 className="text-lg font-semibold">
-                    <Link to={`/project/${project.slug}`} className="hover:underline">
+                    <Link to={`/project/${project.slug}`} className="inline-flex min-h-11 items-center hover:underline">
                       {project.title}
                     </Link>
                   </h3>

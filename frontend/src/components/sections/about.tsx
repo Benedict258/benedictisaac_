@@ -101,14 +101,14 @@ export function AboutSection() {
             </Avatar>
             <div>
               <p className="text-xl font-semibold">{site.name}</p>
-              <p className="text-sm text-muted-foreground">{site.location}</p>
+              <p className="text-base text-muted-foreground">{site.location}</p>
             </div>
           </div>
           <dl className="mt-6 grid grid-cols-3 gap-3">
             {stats.map((stat) => (
               <div key={stat.label} className="rounded-xl border px-3 py-3">
                 <dd className="text-2xl font-semibold">{stat.value}</dd>
-                <dt className="text-sm text-muted-foreground">{stat.label}</dt>
+                <dt className="text-base text-muted-foreground">{stat.label}</dt>
               </div>
             ))}
           </dl>

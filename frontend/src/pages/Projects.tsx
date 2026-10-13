@@ -60,6 +60,7 @@ const ProjectsPage = () => {
           Showing {visible.length} {visible.length === 1 ? "project" : "projects"}
         </p>
 
+        <h2 className="sr-only">Project list</h2>
         <div className="grid gap-6 md:grid-cols-2">
           {main.map((project) => (
             <ProjectCard key={project.slug} project={project} />

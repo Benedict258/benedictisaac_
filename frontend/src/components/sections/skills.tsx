@@ -76,7 +76,7 @@ export function SkillsSection() {
                   {group.skills.map((skill) => (
                     <li
                       key={skill.name}
-                      className="rounded-full border border-border bg-background/60 px-3 py-1 text-sm font-medium text-foreground/90"
+                      className="rounded-full border border-border bg-background/60 px-3 py-1 text-base font-medium text-foreground/90"
                     >
                       {skill.name}
                     </li>

@@ -20,11 +20,11 @@ export function ProjectCard({ project }: { project: Project }) {
         ))}
       </div>
       <h3 className="mt-4 text-xl font-semibold">
-        <Link to={`/project/${project.slug}`} className="hover:underline">
+        <Link to={`/project/${project.slug}`} className="inline-flex min-h-11 items-center hover:underline">
           {project.title}
         </Link>
       </h3>
-      {project.subtitle && <p className="mt-1 text-sm text-muted-foreground">{project.subtitle}</p>}
+      {project.subtitle && <p className="text-base text-muted-foreground">{project.subtitle}</p>}
       <p className="mt-3 text-base leading-relaxed text-muted-foreground">{project.description}</p>
       {project.impact && (
         <p className="mt-3 text-base leading-relaxed">
