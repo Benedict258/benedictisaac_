@@ -80,7 +80,7 @@ const Feature197 = ({ features = defaultFeatures }: Feature197Props) => {
                     }}
                     className="cursor-pointer py-5 !no-underline transition"
                   >
-                    <h6
+                    <h3
                       className={`text-xl font-semibold ${
                         tab.id === activeTabId
                           ? "text-foreground"
@@ -88,7 +88,7 @@ const Feature197 = ({ features = defaultFeatures }: Feature197Props) => {
                       }`}
                     >
                       {tab.title}
-                    </h6>
+                    </h3>
                   </AccordionTrigger>
                   <AccordionContent>
                     <p className="mt-3 text-muted-foreground">
@@ -109,7 +109,8 @@ const Feature197 = ({ features = defaultFeatures }: Feature197Props) => {
           <div className="relative m-auto hidden w-1/2 overflow-hidden rounded-xl bg-muted md:block">
             <img
               src={activeImage}
-              alt="Feature preview"
+              alt="Photo illustrating the selected answer"
+              loading="lazy"
               className="aspect-[4/3] rounded-md object-cover pl-4"
             />
           </div>

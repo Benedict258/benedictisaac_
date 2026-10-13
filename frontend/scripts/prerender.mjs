@@ -113,6 +113,8 @@ const main = async () => {
       await page.waitForSelector("main h1", { timeout: 20000 });
       // Let effects (document title, meta tags) and entry animations settle.
       await new Promise((r) => setTimeout(r, 1500));
+      // Heavy decorative content (the world map is a large inline image) is left to the client.
+      await page.evaluate(() => document.querySelectorAll("[data-no-prerender]").forEach((el) => el.replaceChildren()));
       const html = await page.content();
       const links = await page.$$eval("a[href]", (as) => as.map((a) => a.getAttribute("href")));
       await page.close();

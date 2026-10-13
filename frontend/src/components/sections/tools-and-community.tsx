@@ -58,7 +58,7 @@ export function ToolsAndCommunity() {
             </div>
           </div>
           <Suspense fallback={<div className="h-[320px] rounded-3xl border border-dashed border-border/60" />}>
-            <div role="img" aria-label="World map with connection lines from Minna, Nigeria">
+            <div role="img" aria-label="World map with connection lines from Minna, Nigeria" data-no-prerender>
               <WorldMap dots={worldMapRoutes} lineColor="hsl(var(--primary))" className="shadow-xl" />
             </div>
           </Suspense>

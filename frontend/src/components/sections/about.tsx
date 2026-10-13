@@ -28,9 +28,8 @@ const iconFor = (icon: SocialLink["icon"]) => {
         <img
           src={`/${icon}.${icon === "medium" ? "png" : "svg"}`}
           alt=""
-          width={16}
           height={16}
-          className="mr-2 h-4 w-4"
+          className="mr-2 h-4 w-auto"
         />
       );
   }

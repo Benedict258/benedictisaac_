@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Mail, Phone } from "lucide-react";
 import { SiteLayout } from "@/components/layout/site-layout";
 import { Seo, defaultTitle } from "@/components/seo";
+import { LazyOnView } from "@/components/lazy-on-view";
 import { AboutSection } from "@/components/sections/about";
 import { SkillsSection } from "@/components/sections/skills";
 import { ProjectsPreview } from "@/components/sections/projects-preview";
@@ -33,9 +34,11 @@ const Index = () => (
     <EducationSection />
     <CertificatesSection />
 
-    <Suspense fallback={<div className="min-h-[600px]" />}>
-      <ToolsAndCommunity />
-    </Suspense>
+    <LazyOnView>
+      <Suspense fallback={<div className="min-h-[600px]" />}>
+        <ToolsAndCommunity />
+      </Suspense>
+    </LazyOnView>
 
     <section id="contact" className="py-20 sm:py-24">
       <div className="container space-y-10">

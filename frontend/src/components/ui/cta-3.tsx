@@ -37,7 +37,7 @@ export function CallToAction() {
       </div>
 
       <div className="flex items-center justify-center gap-2">
-        <Button asChild>
+        <Button asChild className="min-h-11">
           <Link to="/pricing" className="inline-flex items-center">
             Get Started <ArrowRightIcon className="size-4 ml-1" />
           </Link>
