@@ -54,7 +54,7 @@ export const AnimatedTestimonials = ({
             <AnimatePresence>
               {testimonials.map((testimonial, index) => (
                 <motion.div
-                  key={testimonial.src}
+                  key={testimonial.slug ?? testimonial.name}
                   initial={{
                     opacity: 0,
                     scale: 0.9,
@@ -83,11 +83,24 @@ export const AnimatedTestimonials = ({
                   }}
                   className="absolute inset-0 origin-bottom"
                 >
-                  {testimonial.slug ? (
-                    <Link to={`/certifications/${testimonial.slug}`}>
+                  {!testimonial.src ? (
+                    <Link
+                      to={`/certifications/${testimonial.slug}`}
+                      tabIndex={isActive(index) ? 0 : -1}
+                      className="mx-auto flex h-[300px] w-full max-w-sm flex-col justify-center rounded-3xl border bg-background p-6 text-center hover:bg-accent"
+                    >
+                      <span className="text-xl font-semibold">{testimonial.name}</span>
+                      <span className="mt-2 text-base text-muted-foreground">{testimonial.designation}</span>
+                    </Link>
+                  ) : testimonial.slug ? (
+                    <Link
+                      to={`/certifications/${testimonial.slug}`}
+                      tabIndex={isActive(index) ? 0 : -1}
+                      aria-label={`${testimonial.name}, view certificate details`}
+                    >
                       <img
                         src={testimonial.src}
-                        alt={testimonial.name}
+                        alt={`Certificate: ${testimonial.name}`}
                         draggable={false}
                         loading="lazy"
                         className="max-h-[420px] w-auto rounded-3xl object-contain object-center mx-auto cursor-pointer hover:opacity-80 transition-opacity"
@@ -171,14 +184,14 @@ export const AnimatedTestimonials = ({
           <div className="flex gap-4 pt-12 md:pt-0">
             <button
               onClick={handlePrev}
-              className="h-7 w-7 rounded-full bg-secondary flex items-center justify-center group/button"
+              className="h-11 w-11 rounded-full bg-secondary flex items-center justify-center group/button"
               aria-label="Previous certificate"
             >
               <ArrowLeft className="h-5 w-5 text-foreground group-hover/button:rotate-12 transition-transform duration-300" />
             </button>
             <button
               onClick={handleNext}
-              className="h-7 w-7 rounded-full bg-secondary flex items-center justify-center group/button"
+              className="h-11 w-11 rounded-full bg-secondary flex items-center justify-center group/button"
               aria-label="Next certificate"
             >
               <ArrowRight className="h-5 w-5 text-foreground group-hover/button:-rotate-12 transition-transform duration-300" />

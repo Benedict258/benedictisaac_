@@ -1,10 +1,10 @@
 import { useParams, Link } from "react-router-dom";
-import blogs from "@/data/blogs";
+import { publishedBlogs } from "@/data/blogs";
 import { Button } from "@/components/ui/button";
 
 const BlogPost = () => {
   const { slug } = useParams();
-  const post = blogs.find((b) => b.slug === slug);
+  const post = publishedBlogs.find((b) => b.slug === slug);
   if (!post) return <div className="min-h-screen container py-16">Post not found.</div>;
 
   return (

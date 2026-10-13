@@ -26,8 +26,9 @@ function FloatingPaths({ position }: { position: number }) {
         className="h-full w-full text-slate-950 dark:text-white"
         viewBox="0 0 696 316"
         fill="none"
+        aria-hidden="true"
+        focusable="false"
       >
-        <title>Background Paths</title>
         {paths.map((path) => (
           <motion.path
             key={path.id}

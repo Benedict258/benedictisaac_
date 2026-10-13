@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import blogs from "@/data/blogs";
+import { publishedBlogs } from "@/data/blogs";
 import { Button } from "@/components/ui/button";
 
 const Blog = () => {
@@ -7,8 +7,9 @@ const Blog = () => {
     <div className="min-h-screen bg-background text-foreground py-16">
       <div className="container">
         <h1 className="text-3xl font-bold mb-6">Blog</h1>
+        {publishedBlogs.length === 0 && <p className="text-muted-foreground">No posts yet.</p>}
         <div className="grid gap-6 md:grid-cols-2">
-          {blogs.map((b) => (
+          {publishedBlogs.map((b) => (
             <article key={b.slug} className="rounded-2xl border border-border/60 bg-background/80 p-4 shadow">
               {b.image && (
                 // eslint-disable-next-line @next/next/no-img-element
