@@ -90,7 +90,7 @@ export const projects: Project[] = [
       "Tailwind CSS",
       "Motion",
     ],
-    github: "#", // TODO: repo link
+    github: "https://github.com/Benedict258/Safroi",
     live: "https://safroi.vercel.app/",
     docker: "https://hub.docker.com/u/benedict258",
     status: "Live",
@@ -123,8 +123,8 @@ export const projects: Project[] = [
     impact:
       "Originated the persistent build-memory technique and built it into a working layer as portable agent memory on Walrus.",
     tech: ["Sui", "Walrus"], // TODO: rest of the stack (language, framework)
-    github: "#", // TODO: repo link
-    live: "#", // TODO: live link
+    github: "https://github.com/Benedict258/Buiry",
+    live: "#", // no live link
     status: "Being rebuilt",
     screenshots: [], // TODO: screenshots
     categories: ["AI", "Blockchain", "Software"],
@@ -168,21 +168,6 @@ Suirify bridges real-world identity with Web3 by allowing users to verify their 
     rank: { software: 4 },
   },
   {
-    slug: "arche",
-    title: "Arche",
-    subtitle: "Behavioral Simulation & Intelligent Recommendation Engine",
-    description:
-      "Architected a production-grade multi-LLM orchestration system to simulate user personas, predict text-review registers, and manage context-aware history snapshots instrumented with structured logging, latency tracking, and real-time web search integration.",
-    impact:
-      "Achieved a 100% test pass rate (41/41) and full scenario validation (20/20), with zero-PII storage via transparent token hashing and context redaction.",
-    tech: ["Python", "Groq (Llama)", "SQLite", "Serper API", "DuckDuckGo API", "SHA256 Hashing", "Pytest"],
-    github: "#", // TODO: repo link
-    live: "#", // TODO: live link
-    screenshots: [], // TODO: screenshots
-    categories: ["AI", "Software"],
-    rank: { software: 5 },
-  },
-  {
     slug: "esn-prism",
     title: "ESN-PRISM",
     subtitle: "Edge-Native Recognition & Security Monitoring Intelligence",
@@ -192,7 +177,7 @@ Suirify bridges real-world identity with Web3 by allowing users to verify their 
       "Built an edge-native computer vision system that lets users query a live surveillance feed conversationally instead of reviewing footage by hand, pairing real-time recognition with a lightweight Llama reasoning layer and gesture-based control, engineered to run on a standard laptop with no dedicated GPU.",
     impact: "Build complete and in testing; runs live on a Core i5 with no GPU.",
     tech: ["Python", "OpenCV", "Computer Vision", "Meta Llama (via Groq)", "Gesture Recognition"],
-    github: "#",
+    github: "https://github.com/Benedict258/ESN-PRISM",
     live: "#",
     status: "In Testing",
     features: [
@@ -222,7 +207,7 @@ Suirify bridges real-world identity with Web3 by allowing users to verify their 
     description:
       "Personal workspace PWA for layered daily and weekly task planning with persistent check-off.",
     tech: ["Vite", "MongoDB Atlas", "PWA"],
-    github: "#", // TODO: repo link
+    github: "https://github.com/Benedict258/WinterArc",
     live: "https://workspace.benedictisaac.dev",
     status: "Live",
     screenshots: [], // TODO: screenshots

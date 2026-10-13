@@ -23,7 +23,7 @@ const ProjectsPage = () => {
     <SiteLayout>
       <Seo
         title="Projects | Benedict Isaac"
-        description="Projects by Benedict Isaac across web, AI, blockchain and mechatronics: OpenAtlas, Safroi, Buiry, Suirify, Arche, ESN-PRISM, WinterArc, ECAPs and more."
+        description="Projects by Benedict Isaac across web, AI, blockchain and mechatronics: OpenAtlas, Safroi, Buiry, Suirify, ESN-PRISM, WinterArc, ECAPs and more."
         path="/projects"
       />
       <div className="container space-y-10 py-16">
