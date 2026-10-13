@@ -38,7 +38,7 @@ How it Works
 Suirify bridges real-world identity with Web3 by allowing users to verify their National Identification Number (NIN) privately. Once verified, a non-transferable "digital badge" is issued on-chain. dApps can then verify this badge via the Suirify SDK to ensure users are real and unique without ever seeing their underlying government ID data.`,
     tech: ["Sui Move", "TypeScript", "Zero-Knowledge Proofs", "Nautilus Key", "Sui SDK", "NIN API"],
     github: "#",
-    live: "https://testnet.suirify.com/",
+    live: "https://suirify.onrender.com",
     status: "Active",
     screenshots: ["/suilogo.png", "/SUIRIFY.png"],
     features: [
@@ -57,9 +57,9 @@ Suirify bridges real-world identity with Web3 by allowing users to verify their 
     slug: "safroi",
     title: "Safroi",
     description:
-      "ClauseLens is an AI-powered legal intelligence platform that deconstructs complex Terms & Privacy policies into clear summaries and risk scores.",
+      "Safroi is an AI-powered legal intelligence platform that deconstructs complex Terms & Privacy policies into clear summaries and risk scores.",
     longDescription:
-      "ClauseLens is a cutting-edge digital guardian built by TeamSuiaah to help users take control of their privacy and digital footprint. It analyzes Terms of Service and Privacy Policies, produces risk scores, categorized red flags, translations, and maintains an audit history.",
+      "Safroi is a cutting-edge digital guardian built by TeamSuiaah to help users take control of their privacy and digital footprint. It analyzes Terms of Service and Privacy Policies, produces risk scores, categorized red flags, translations, and maintains an audit history.",
     tech: [
       "React",
       "Vite",
