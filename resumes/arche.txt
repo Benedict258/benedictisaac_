@@ -1,0 +1,4 @@
+Arche | Behavioral Simulation & Intelligent Recommendation Engine
+Architected a production-grade multi-LLM orchestration system to simulate user personas, predict text-review registers, and manage context-aware history snapshots instrumented with structured logging, latency tracking, and real-time web search integration.
+Tech Stack: Python, Groq (Llama), SQLite, Serper API, DuckDuckGo API, SHA256 Hashing, Pytest
+Key Impact: Achieved a 100% test pass rate (41/41) and full scenario validation (20/20), with zero-PII storage via transparent token hashing and context redaction.
