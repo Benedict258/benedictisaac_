@@ -99,6 +99,10 @@ export const imageSizes: Record<string, { w: number; h: number }> = {
   "/icp.webp": {
     "w": 638,
     "h": 277
+  },
+  "/universal-ai.webp": {
+    "w": 1144,
+    "h": 886
   }
 };
 

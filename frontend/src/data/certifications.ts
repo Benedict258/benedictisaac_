@@ -19,14 +19,6 @@ export type Certification = {
 // TODO: images, credential IDs and descriptions for the entries marked below.
 export const certifications: Certification[] = [
   {
-    slug: "ai-backend-engineering",
-    title: "AI Backend Engineering",
-    issuer: "Mastering Backend",
-    date: "June 2026",
-    group: "primary",
-    // TODO: credential ID, image, description
-  },
-  {
     slug: "kaggle-google-ai-agents-vibecoding",
     title: "5-Day Agentic AI Vibe Coding",
     issuer: "Google/ Kaggle",
@@ -41,17 +33,20 @@ export const certifications: Certification[] = [
     slug: "mit-intro-universal-ai",
     title: "Introduction to Universal AI",
     issuer: "MIT",
-    date: "June 2026",
+    date: "Aug 2026", // certificate says Aug 27, 2026; resume says June 2026
+    image: "/universal-ai.webp",
+    credentialId: "fe8ac712-fe8e-4053-943f-997377c8fe54",
     group: "primary",
-    // TODO: credential ID, image, description
+    // TODO: description
   },
   {
     slug: "red-hat-openshift-ai",
     title: "Introduction to Red Hat OpenShift AI (AI262F)",
     issuer: "Red Hat",
     date: "May 2026",
+    image: "/redhatopenshift.webp",
     group: "primary",
-    // TODO: credential ID, image, description
+    // TODO: credential ID, description
   },
   {
     slug: "red-hat-python",
@@ -101,20 +96,10 @@ export const certifications: Certification[] = [
     title: "MATLAB & Simulink Certified",
     issuer: "MathWorks",
     group: "primary",
-    // TODO: date, credential ID, image, description
+    // TODO: date, credential ID, certificate image, description
   },
 
   // ---- Other certificates (already on the site; not on the resumes) ----
-  {
-    slug: "red-hat-openshift",
-    title: "Red Hat Certified Specialist in OpenShift Administration",
-    issuer: "Red Hat",
-    date: "May 2026",
-    image: "/redhatopenshift.webp",
-    group: "other",
-    description:
-      "Certification covering administration of containerized applications on Red Hat OpenShift — cluster management, networking, storage, and deploying and scaling workloads in a Kubernetes-based environment.",
-  },
   {
     slug: "sui-development-workshop",
     title: "Sui Development Workshop",
