@@ -12,7 +12,10 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '1rem',
+				sm: '2rem'
+			},
 			screens: {
 				'2xl': '1400px'
 			}
@@ -30,7 +33,8 @@ export default {
 				foreground: 'hsl(var(--foreground))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					foreground: 'hsl(var(--primary-foreground))',
+					text: 'hsl(var(--primary-text))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',

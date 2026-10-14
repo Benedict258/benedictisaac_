@@ -29,6 +29,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Vite temp config artifacts
+*.timestamp-*.mjs
+
 # Editor and OS
 .vscode/*
 !.vscode/extensions.json

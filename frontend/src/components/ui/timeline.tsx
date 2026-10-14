@@ -12,12 +12,15 @@ interface TimelineProps {
   data: TimelineEntry[];
   title?: string;
   subtitle?: string;
+  /** Heading level of the timeline title. Entry dates are plain text, so the content supplies the level below it. */
+  titleAs?: "h2" | "h3";
 }
 
 export const Timeline = ({
   data,
   title = "Timeline",
   subtitle = "A snapshot of key milestones and outcomes.",
+  titleAs: TitleTag = "h2",
 }: TimelineProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -76,10 +79,10 @@ export const Timeline = ({
       ref={containerRef}
     >
       <div className="max-w-7xl mx-auto py-20 px-4 md:px-8 lg:px-10">
-        <h2 className="text-lg md:text-4xl mb-4 text-black dark:text-white max-w-4xl">
+        <TitleTag className="text-2xl md:text-4xl mb-4 text-black dark:text-white max-w-4xl">
           {title}
-        </h2>
-        <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-2xl">
+        </TitleTag>
+        <p className="text-neutral-700 dark:text-neutral-300 text-base max-w-2xl">
           {subtitle}
         </p>
       </div>
@@ -98,29 +101,29 @@ export const Timeline = ({
               <div className="h-10 absolute left-3 md:left-3 w-10 rounded-full bg-white dark:bg-black flex items-center justify-center">
                 <div className="h-4 w-4 rounded-full bg-neutral-200 dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 p-2" />
               </div>
-              <h3
+              <p
                 className={cn(
                   "hidden md:block text-xl md:pl-20 md:text-5xl font-bold transition-colors duration-300",
                   activeIndex === index
                     ? "text-neutral-900 dark:text-white"
-                    : "text-neutral-400 dark:text-neutral-500",
+                    : "text-neutral-600 dark:text-neutral-400",
                 )}
               >
                 {item.title}
-              </h3>
+              </p>
             </div>
 
             <div className="relative pl-20 pr-4 md:pl-4 w-full">
-              <h3
+              <p
                 className={cn(
                   "md:hidden block text-2xl mb-4 text-left font-bold transition-colors duration-300",
                   activeIndex === index
                     ? "text-neutral-900 dark:text-white"
-                    : "text-neutral-500 dark:text-neutral-500",
+                    : "text-neutral-600 dark:text-neutral-400",
                 )}
               >
                 {item.title}
-              </h3>
+              </p>
               {item.content}{" "}
             </div>
           </div>

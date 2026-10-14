@@ -8,6 +8,8 @@ export type BlogEntry = {
   mediumUrl?: string;
   linkedinUrl?: string;
   publishedAt?: string;
+  /** Posts stay hidden until this is true. The current entries are placeholders. */
+  published?: boolean;
 };
 
 const blogs: BlogEntry[] = [
@@ -36,5 +38,8 @@ const blogs: BlogEntry[] = [
     publishedAt: "2025-09-12",
   },
 ];
+
+/** Only real, published posts are shown on the site. */
+export const publishedBlogs = blogs.filter((b) => b.published);
 
 export default blogs;
