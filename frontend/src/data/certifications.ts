@@ -35,9 +35,10 @@ export const certifications: Certification[] = [
     issuer: "MIT",
     date: "Aug 2026", // certificate says Aug 27, 2026; resume says June 2026
     image: "/universal-ai.webp",
-    credentialId: "fe8ac712-fe8e-4053-943f-997377c8fe54",
+    credentialId: "", // TODO
     group: "primary",
-    // TODO: description
+    description:
+      "Program from MIT Open Learning on the foundations of artificial intelligence, covering what modern AI systems can and cannot do and how they apply across industries and decisions.",
   },
   {
     slug: "red-hat-openshift-ai",
@@ -45,8 +46,10 @@ export const certifications: Certification[] = [
     issuer: "Red Hat",
     date: "May 2026",
     image: "/redhatopenshift.webp",
+    credentialId: "", // TODO
     group: "primary",
-    // TODO: credential ID, description
+    description:
+      "40-hour Red Hat course (AI262F, Ver. 2.13) introducing Red Hat OpenShift AI, the platform for developing, training, serving and managing AI/ML workloads on OpenShift.",
   },
   {
     slug: "red-hat-python",
